@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<array>
+		<string>ping</string>
+		<string>sendMSG(pong)</string>
+		<string>No</string>
+	</array>
+	<array>
+		<string>hi</string>
+		<string>sendMSG(hi %1%)</string>
+		<string>No</string>
+	</array>
+	<array>
+		<string>shutdown</string>
+		<string>disconnectIRC(don&apos;t forget to feed the goldfish)</string>
+		<string>Yes</string>
+	</array>
+	<array>
+		<string>meep</string>
+		<string>while(%var%&lt;20|sendMSG(meep)|%var%++)</string>
+		<string>Yes</string>
+	</array>
+</array>
+</plist>
