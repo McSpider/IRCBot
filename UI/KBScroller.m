@@ -6,7 +6,6 @@
 //  All code is provided under the New BSD license.
 //
 
-
 #import "KBScroller.h"
 
 @implementation KBScroller

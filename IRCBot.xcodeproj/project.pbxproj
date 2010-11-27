@@ -82,6 +82,7 @@
 		AE0B2B50129E11AF001C789C /* Cancel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Cancel.png; path = Images/Cancel.png; sourceTree = "<group>"; };
 		AE0B2B62129E12EA001C789C /* NSError.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = NSError.png; path = Images/NSError.png; sourceTree = "<group>"; };
 		AE2A3B1D124182F5004B42CB /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
+		AE45B16212A083E4008DD726 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		AE5C7E57129B82560080F146 /* KBScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBScroller.h; path = UI/KBScroller.h; sourceTree = "<group>"; };
 		AE5C7E58129B82560080F146 /* KBScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBScroller.m; path = UI/KBScroller.m; sourceTree = "<group>"; };
 		AE5C7E59129B82560080F146 /* KBScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBScrollView.h; path = UI/KBScrollView.h; sourceTree = "<group>"; };
@@ -223,6 +224,7 @@
 				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
 				AEAD73651240169D0028D5A3 /* Actions.plist */,
 				AE2A3B1D124182F5004B42CB /* Credits.html */,
+				AE45B16212A083E4008DD726 /* README.md */,
 				AE8EBE7D12A0571F00CA3FCE /* License.rtf */,
 				AE8EBE7F12A0587800CA3FCE /* Notes */,
 			);
