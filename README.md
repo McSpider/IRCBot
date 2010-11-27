@@ -1,7 +1,7 @@
 Objective C IRCBot
 ==================
 
-A IRC Bot written mainly in Objective C.  
+An IRC Bot written mainly in Objective C.  
 Still needs lots of changes to make it function but I'm getting there.  
 
 
