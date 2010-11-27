@@ -24,7 +24,6 @@
 
 -(void)parseServerOutput:(NSString *)input;
 -(NSString*)getMessageType:(NSString*)input;
--(BOOL)getAuthForHostmask:(NSString *)hostmask;
 
 BOOL Debugging;
 // IRC connection stuff
@@ -37,6 +36,7 @@ NSMutableArray* connectionData;
 AsyncSocket *ircSocket;
 float timeout;
 @end
+
 
 @implementation MainController
 
@@ -159,13 +159,13 @@ float timeout;
 #pragma mark -
 #pragma mark Application Delegate Messages
 
-// allocate all the necessary classes
 -(void)awakeFromNib
 {
 	connectionData = [[NSMutableArray alloc] init];
 	[self refreshConnectionData];
 	Debugging = NO;
 }
+
 -(void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
 	if (!(ircSocket = [[AsyncSocket alloc] initWithDelegate:self]))
@@ -237,7 +237,7 @@ float timeout;
 
 -(void)authUser:(NSString *)aUsername pass:(NSString *)aPassword nick:(NSString *)aNick realName:(NSString *)aName
 {
-	// Authenticate user
+	// Create auth messages
 	[self logMessage:@"IRCBot - Authenticating User" type:1];
 	NSString *userMessage, *passMessage, *nickMessage, *nickServMessage;
 	
@@ -306,9 +306,9 @@ float timeout;
 		NSArray *messageData;
 		messageData = [[input arrayOfCaptureComponentsMatchedByRegex:@":([^!]++)!~(\\S++)\\s++(\\S++)\\s++:?+(\\S++)\\s*+(?:[:+-]++(.*+))?(.*?)$"] objectAtIndex:0];
 
-		// Parse message and check for my functions, TODO
+		// Parse message and check for IRCBot functions, TODO
 		if ([[messageData objectAtIndex:5] isMatchedByRegex:@"^hi.*$"]){
-			if ([self getAuthForHostmask:[messageData objectAtIndex:2]])
+			if ([hostmasks getAuthForHostmask:[messageData objectAtIndex:2]])
 				[self sendMessage:[NSString stringWithFormat:@"Hello %@",[messageData objectAtIndex:1]] To:ircRoom logAs:3];
 			else
 				[self sendMessage:[NSString stringWithFormat:@"UnAuthed Hostmask :P hi %@",[messageData objectAtIndex:1]] To:[messageData objectAtIndex:4] logAs:3];
@@ -371,18 +371,6 @@ float timeout;
 	else if ([input isMatchedByRegex:@"^PING.*?$"])
 		return @"IRC_PING";
 	return @"IRC_TYPE_NIL";
-}
-
--(BOOL)getAuthForHostmask:(NSString *)hostmask
-{
-	int index;
-	for (index = 0; index < [hostmasks.hostmaskArray count]; index++){
-		NSArray *hostmaskData = [hostmasks.hostmaskArray objectAtIndex:index];
-		if ([[hostmaskData objectAtIndex:0] isEqualToString:hostmask] && [hostmaskData objectAtIndex:1]){
-			return YES;
-		}
-	}
-	return NO;
 }
 
 
@@ -561,7 +549,7 @@ float timeout;
 -(void)onSocket:(AsyncSocket *)sock willDisconnectWithError:(NSError *)error
 {
 	// Log disconnect error
-	[self logMessage:[NSString stringWithFormat:@"IRCBot - Socket disconnected with error: %@", error] type:1];
+	[self logMessage:[NSString stringWithFormat:@"IRCBot - Socket will disconnect with error: %@", error] type:1];
 }
 
 // Socket write timed out
@@ -589,7 +577,6 @@ float timeout;
 	[connectionData release];
 	[super dealloc]; 
 }
-
 
 
 @end

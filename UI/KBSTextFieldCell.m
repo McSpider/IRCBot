@@ -13,7 +13,8 @@ static NSImage *leftCap, *centerFill, *rightCap, *leftCapD, *centerFillD, *right
 @implementation KBSTextFieldCell
 
 
-+(void)initialize{
++(void)initialize
+{
 	if([KBSTextFieldCell class] == [self class])
 	{
 		NSBundle *bundle = [NSBundle bundleForClass:[KBSTextFieldCell class]];
@@ -27,38 +28,16 @@ static NSImage *leftCap, *centerFill, *rightCap, *leftCapD, *centerFillD, *right
 	}
 }
 
-//
 -(id)initWithCoder:(NSCoder *)decoder
 {
 	if ((self = [super initWithCoder:decoder])){
-		[self initialization];
+		[self setSendsActionOnEndEditing:NO];
 	}
 	return self;
 }
 
--(void)awakeFromNib{
-	[self initialization];
-}
-
--(void)dealloc
-{	
-	[leftCap release];
-	[rightCap release];
-	[centerFill release];
-	[leftCapD release];
-	[rightCapD release];
-	[centerFillD release];
-	[super dealloc];
-}
-
--(void)initialization{
-	[self setSendsActionOnEndEditing:NO];
-}
-//
-
 -(void)drawWithFrame:(NSRect)frame inView:(NSView *)view
 {
-	// draw frame
 	//[super drawWithFrame:NSInsetRect(frame, 0, 0) inView:view];
 	
 	NSGraphicsContext *ctx = [NSGraphicsContext currentContext];
@@ -89,21 +68,34 @@ static NSImage *leftCap, *centerFill, *rightCap, *leftCapD, *centerFillD, *right
 }
 
 
--(void)drawInteriorWithFrame:(NSRect)rect inView:(NSView*)controlView {
+-(void)drawInteriorWithFrame:(NSRect)rect inView:(NSView*)controlView
+{
 	[super drawInteriorWithFrame:NSOffsetRect(rect, 2, 0) inView:controlView];
 }
 
--(void)editWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject event:(NSEvent *)theEvent {
+-(void)editWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject event:(NSEvent *)theEvent
+{
 	[super editWithFrame: NSOffsetRect(aRect, 2, 0) inView: controlView editor:textObj delegate:anObject event: theEvent];
 }
 
--(void)selectWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject start:(NSInteger)selStart length:(NSInteger)selLength {
+-(void)selectWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject start:(NSInteger)selStart length:(NSInteger)selLength
+{
 	[super selectWithFrame: NSOffsetRect(aRect, 2, 0) inView: controlView editor:textObj delegate:anObject start:selStart length:selLength];
 }
 
-
 -(BOOL)drawsBackground{
 	return NO;
+}
+
+-(void)dealloc
+{	
+	[leftCap release];
+	[rightCap release];
+	[centerFill release];
+	[leftCapD release];
+	[rightCapD release];
+	[centerFillD release];
+	[super dealloc];
 }
 
 @end

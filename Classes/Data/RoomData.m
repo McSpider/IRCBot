@@ -8,9 +8,9 @@
 
 #import "RoomData.h"
 
-
 @implementation RoomData
 @synthesize roomArray;
+
 
 - (id)init{
 	if ((self = [super init])) {
@@ -69,10 +69,10 @@
 	return NO;
 }
 
+
 #pragma mark -
 #pragma mark delegate messages
 
-// delegate messages //
 -(int)numberOfRowsInTableView:(NSTableView *)tableView{
 	return [self.roomArray count];
 }

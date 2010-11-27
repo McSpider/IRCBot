@@ -25,13 +25,12 @@
 
 @property (nonatomic,assign) NSMutableArray *hostmaskArray;
 
-	
--(void)addHostmask:(NSString *)host block:(BOOL)block;
-
 -(IBAction)addNewHostmask:(id)sender;
 -(IBAction)removeSelectedHostmask:(id)sender;
--(void)clearData;
--(void)reloadData;
 
+-(void)addHostmask:(NSString *)host block:(BOOL)block;
+-(void)clearData;
+
+-(BOOL)getAuthForHostmask:(NSString *)hostmask;
 
 @end

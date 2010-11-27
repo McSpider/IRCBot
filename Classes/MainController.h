@@ -8,7 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 #import "AsyncSocket.h"
-
 #import "RegexKitLite.h"
 
 #import "RoomData.h"

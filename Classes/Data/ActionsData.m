@@ -8,9 +8,9 @@
 
 #import "ActionsData.h"
 
-
 @implementation ActionsData
 @synthesize actionsArray;
+
 
 - (id)init{
 	if ((self = [super init])) {		
@@ -26,7 +26,8 @@
 	return self;
 }
 
--(void)addAction:(NSString *)action name:(NSString *)name restricted:(BOOL)restricted{	
+-(void)addAction:(NSString *)action name:(NSString *)name restricted:(BOOL)restricted
+{	
 	NSString *auth;
 	if (restricted) auth = @"Yes";
 	else auth = @"No";
@@ -36,7 +37,8 @@
 	[actionsView reloadData];
 }
 
--(IBAction)addNewAction:(id)sender{
+-(IBAction)addNewAction:(id)sender
+{
 	// Check if a action by that name already exists
 	BOOL exists = NO;
 	int i;
@@ -56,7 +58,8 @@
 	}
 }
 
--(IBAction)removeSelectedAction:(id)sender{
+-(IBAction)removeSelectedAction:(id)sender
+{
 	[self.actionsArray removeObjectAtIndex:[actionsView selectedRow]];
 	[actionsView reloadData];
 }
@@ -65,7 +68,6 @@
 #pragma mark -
 #pragma mark delegate messages
 
-// delegate messages //
 - (int)numberOfRowsInTableView:(NSTableView *)tableView
 {
 	return [self.actionsArray count];

@@ -10,7 +10,7 @@
 
 @implementation KBScroller
 
-- (id)initWithFrame:(NSRect)frameRect;
+-(id)initWithFrame:(NSRect)frameRect
 {
 	if ((self = [super initWithFrame:frameRect])){
 		[self setArrowsPosition:NSScrollerArrowsNone];
@@ -18,7 +18,7 @@
 	return self;
 }
 
-- (id)initWithCoder:(NSCoder *)decoder;
+-(id)initWithCoder:(NSCoder *)decoder
 {
 	if ((self = [super initWithCoder:decoder])){
 		[self setArrowsPosition:NSScrollerArrowsNone];	
@@ -36,7 +36,7 @@
 	return 12.0f;
 }
 
-- (void)drawRect:(NSRect)aRect;
+-(void)drawRect:(NSRect)aRect
 {
 	
 	[[NSColor colorWithCalibratedRed:0.90 green:0.90 blue:0.90 alpha:1.00] set];
@@ -61,7 +61,6 @@
 		[bz addClip];
 		[[NSColor colorWithCalibratedRed:0.70 green:0.70 blue:0.70 alpha:1.00] set];
 		NSRectFill(knobRect);
-		
 		
 	}
 }

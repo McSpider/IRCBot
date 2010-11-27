@@ -11,34 +11,15 @@
 
 @implementation KBTextField
 
-//-(void)awakeFromNib{
-//	[self setFrame:NSMakeRect([self frame].origin.x, [self frame].origin.y-1, [self frame].size.width, [self frame].size.height+1)];
-//}
 
--(id)initWithCoder:(NSCoder *)decoder{
-	if ((self = [super initWithCoder:decoder])){
-
-	}
-	return self;
+-(void)drawRect:(NSRect)rect{
+	/*NSRect tempRect = NSInsetRect(rect, 2, 0);
+	[super drawRect:NSOffsetRect(tempRect, 2, 0)];*/
+	[super	drawRect:rect];
 }
-
--(id)initWithFrame:(NSRect)frame{
-	if ((self = [super initWithFrame:frame])){
-
-	}
-	return self;
-}
-
-
 
 -(void)dealloc{	
 	[super dealloc];
-}
-
--(void)drawRect:(NSRect)rect{
-	//NSRect tempRect = NSInsetRect(rect, 2, 0);
-	//[super drawRect:NSOffsetRect(tempRect, 2, 0)];	
-	[super	drawRect:rect];
 }
 
 @end

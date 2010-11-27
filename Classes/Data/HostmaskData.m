@@ -8,11 +8,12 @@
 
 #import "HostmaskData.h"
 
-
 @implementation HostmaskData
 @synthesize hostmaskArray;
 
-- (id)init{
+
+- (id)init
+{
 	if ((self = [super init])) {
 		NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
 		
@@ -22,7 +23,8 @@
 	return self;
 }
 
--(void)addHostmask:(NSString *)host block:(BOOL)block{
+-(void)addHostmask:(NSString *)host block:(BOOL)block
+{
 		NSString *auth;
 		if (block) auth = @"Yes";
 		else auth = @"No";
@@ -32,7 +34,8 @@
 		[hostmaskView reloadData];
 }
 
--(IBAction)addNewHostmask:(id)sender{
+-(IBAction)addNewHostmask:(id)sender
+{
 	// Check if this hostmask exists
 	BOOL exists = NO;
 	int i;
@@ -52,25 +55,34 @@
 	}
 }
 
--(IBAction)removeSelectedHostmask:(id)sender{
+-(IBAction)removeSelectedHostmask:(id)sender
+{
 	[self.hostmaskArray removeObjectAtIndex:[hostmaskView selectedRow]];
 	[hostmaskView reloadData];
 }
 
--(void)clearData{
+-(void)clearData
+{
 	[self.hostmaskArray setArray:[NSArray array]];
 	[hostmaskView reloadData];
 }
 
--(void)reloadData{
-	[hostmaskView reloadData];
+-(BOOL)getAuthForHostmask:(NSString *)hostmask
+{
+	int index;
+	for (index = 0; index < [self.hostmaskArray count]; index++){
+		NSArray *tempArray = [self.hostmaskArray objectAtIndex:index];
+		if ([[tempArray objectAtIndex:0] isEqualToString:hostmask] && [tempArray objectAtIndex:1]){
+			return YES;
+		}
+	}
+	return NO;
 }
 
 
 #pragma mark -
 #pragma mark delegate messages
 
-// delegate messages //
 - (int)numberOfRowsInTableView:(NSTableView *)tableView
 {
 	return [self.hostmaskArray count];

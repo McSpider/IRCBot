@@ -1,8 +1,9 @@
 Objective C IRCBot
 ==================
 
-A IRC Bot written completely in Objective C.
-Still needs lots of changes to make it function but I'm getting there.
+A IRC Bot written completely in Objective C.  
+Still needs lots of changes to make it function but I'm getting there.  
+
 
 ###Uses:
 [AsyncSocket](http://code.google.com/p/cocoaasyncsocket/), to connect to the irc server.  

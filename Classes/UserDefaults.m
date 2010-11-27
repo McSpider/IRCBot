@@ -11,13 +11,22 @@
 @implementation UserDefaults
 
 
-
 #pragma mark -
 #pragma mark Initialization
 
-// Awake from nib
--(void)awakeFromNib{
-	//NSLog(@"IRCBot - Application Awake from Nib\n");
+-(void)awakeFromNib
+{	
+	//Checks to see app support folder exits if not create it.
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	NSString *folder = @"~/Library/Application Support/IRCBot/";
+	NSString *actions = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/contents/resources/Actions.plist"];
+	
+	folder = [folder stringByExpandingTildeInPath];
+	if ([fileManager fileExistsAtPath: folder] == NO)
+		[fileManager createDirectoryAtPath: folder attributes: nil];
+	if ([fileManager isReadableFileAtPath:folder] && ![fileManager fileExistsAtPath:[NSString stringWithFormat:@"%@/Actions.plist",folder]])
+		[[NSFileManager defaultManager] copyPath:actions toPath:[NSString stringWithFormat:@"%@/Actions.plist",folder] handler:nil];
+	
 	
 	// Hide the resize indicators on the windows
 	[mainWindow setShowsResizeIndicator:NO]; [prefWindow setShowsResizeIndicator:NO]; [prefWindow center];
@@ -33,13 +42,12 @@
 		[[NSApplication sharedApplication] runModalSession:session];
 	}else{
 		[mainWindow makeKeyAndOrderFront:self];
+		[prefs setPane:0];
 		
-		// Get password for username, stored in keychain
+		// Get username
 		NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
 		NSString *savedUsername = [standardUserDefaults objectForKey:@"username"];
-		
 		[usernameField setStringValue:savedUsername];
-		[prefs setPane:0];
 		
 		// Check where the password is stored
 		if (![standardUserDefaults boolForKey:@"pass_in_plist"]){
@@ -60,8 +68,8 @@
 }
 
 // Save all the initial setup data to the .plist
--(IBAction)finishInitialSetup:(id)sender{
-	
+-(IBAction)finishInitialSetup:(id)sender
+{	
 	NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
 	if (standardUserDefaults) {
 		[standardUserDefaults setObject:[uName stringValue] forKey:@"username"];
@@ -97,10 +105,9 @@
 	[animation release];	
 }
 
-
 //Reset app and show setup window 
--(IBAction)resetApplication:(id)sender{
-	
+-(IBAction)resetApplication:(id)sender
+{	
 	// Ask user if he's sure
 	int answer = NSRunAlertPanel(@"Are you sure you want to reset IRCBot?",@"This will remove all your settings.", @"Cancel",@"Reset", nil);
 	if(answer != NSAlertDefaultReturn){
@@ -125,6 +132,13 @@
 		// Clear hostmask data
 		[usersData clearData];
 		
+		// Reset actions .plist
+		NSString *actions = [@"~/Library/Application Support/IRCBot/Actions.plist" stringByExpandingTildeInPath];
+		NSString *defaultActions = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/contents/resources/Actions.plist"];		
+		[[NSFileManager defaultManager] removeFileAtPath:actions handler:nil];
+		[[NSFileManager defaultManager] copyPath:defaultActions toPath:actions handler:nil];
+
+		
 		// Start modal session and open setupwindow.
 		session = [NSApp beginModalSessionForWindow:startWindow];
 		[[NSApplication sharedApplication] runModalSession:session];
@@ -145,7 +159,8 @@
 }
 
 // Check the setup bool in the .plist
--(BOOL)firstStart{
+-(BOOL)firstStart
+{
 	NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
 	if (standardUserDefaults)
 		return [standardUserDefaults boolForKey:@"setup"];
@@ -153,19 +168,16 @@
 }
 
 
-
 #pragma mark -
 #pragma mark Preferences
 
-// IBAction invoked on pressing the OK button in the preferences
--(IBAction)savePreferences:(id)sender{
+-(IBAction)savePreferences:(id)sender
+{
 	NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];	
 	[standardUserDefaults setObject:[usersData hostmaskArray] forKey:@"hostmasks"];		
 	
-	//NSString *actions = @"~/Library/Application Support/IRCBot/Functions.plist";
-	NSString *actions = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/contents/resources/Actions.plist"];
+	NSString *actions = @"~/Library/Application Support/IRCBot/Actions.plist";
 	[ircActions.actionsArray writeToFile:[actions stringByExpandingTildeInPath] atomically:YES];	
-
 	
 	// Save the password to the appropriate location
 	if (![passwordInPlistCheck state]){
@@ -189,21 +201,16 @@
 	}
 	
 	[standardUserDefaults setObject:[usernameField stringValue] forKey:@"username"];	
-	// Close the preferences window
-	//[prefWindow orderOut:self];
 }
 
--(BOOL)windowShouldClose:(NSWindow *)sender{	
+-(BOOL)windowShouldClose:(NSWindow *)sender
+{
+	// If window closed is the prefrences window then save the prefs
 	if (sender == prefWindow){
 		[self savePreferences:nil];
-		//NSLog(@"Saving Prefrences");
 		return YES;
 	}
 	return YES;
-}
-
--(void)dealloc{
-	[super dealloc];
 }
 
 @end
