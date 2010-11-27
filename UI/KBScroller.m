@@ -26,11 +26,13 @@
 	return self;
 }
 
-+(CGFloat)scrollerWidth{
++(CGFloat)scrollerWidth
+{
 	return 12.0f;
 }
 
-+(CGFloat)scrollerWidthForControlSize:(NSControlSize)controlSize {
++(CGFloat)scrollerWidthForControlSize:(NSControlSize)controlSize
+{
 	return 12.0f;
 }
 
