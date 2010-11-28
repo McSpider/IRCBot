@@ -15,13 +15,18 @@
 - (id)init{
 	if ((self = [super init])) {		
 		self.actionsArray = [[NSMutableArray alloc] init];
+		NSString *folder = @"~/Library/Application Support/IRCBot/";
 		NSString *actions = @"~/Library/Application Support/IRCBot/Actions.plist";
 		NSString *defaultActions = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/contents/resources/Actions.plist"];
 		
 		// If actions file exits in support folder load it, otherwise load the default file
-		if ([[NSFileManager defaultManager] fileExistsAtPath: actions])
-			[self.actionsArray addObjectsFromArray:[NSArray arrayWithContentsOfFile:[actions stringByExpandingTildeInPath]]];	
-		else [self.actionsArray addObjectsFromArray:[NSArray arrayWithContentsOfFile:[defaultActions stringByExpandingTildeInPath]]];	
+		NSFileManager *fileManager = [NSFileManager defaultManager];
+		if (![fileManager fileExistsAtPath: actions]){
+			if ([fileManager fileExistsAtPath: folder] == NO)
+				[fileManager createDirectoryAtPath: folder attributes: nil];
+			[fileManager copyPath:defaultActions toPath:[NSString stringWithFormat:@"%@/Actions.plist",folder] handler:nil];
+		}
+		[self.actionsArray addObjectsFromArray:[NSArray arrayWithContentsOfFile:[actions stringByExpandingTildeInPath]]];	
 	}
 	return self;
 }

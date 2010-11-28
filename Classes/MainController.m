@@ -55,7 +55,6 @@ float timeout;
 	}else{
 		[connectionButton setEnabled:NO];
 		[self disconnectFromIRC:@"Bye, don't forget to feed the goldfish."];
-		[rooms disconnectAllRooms];
 	}
 }
 
@@ -307,14 +306,35 @@ float timeout;
 		// Split the message into its components 0:raw 1:Username 2:Hostmask 3:Type 4:Room 5:Message 6:Empty
 		NSArray *messageData;
 		messageData = [[input arrayOfCaptureComponentsMatchedByRegex:@":([^!]++)!~(\\S++)\\s++(\\S++)\\s++:?+(\\S++)\\s*+(?:[:+-]++(.*+))?(.*?)$"] objectAtIndex:0];
-
-		// Parse message and check for IRCBot functions, TODO
-		if ([[messageData objectAtIndex:5] isMatchedByRegex:@"^hi.*$"]){
-			if ([hostmasks getAuthForHostmask:[messageData objectAtIndex:2]])
-				[self sendMessage:[NSString stringWithFormat:@"Hello %@",[messageData objectAtIndex:1]] To:ircRoom logAs:3];
-			else
-				[self sendMessage:[NSString stringWithFormat:@"UnAuthed Hostmask :P hi %@",[messageData objectAtIndex:1]] To:[messageData objectAtIndex:4] logAs:3];
+		
+		// Get triggers
+		NSArray *triggers = [[triggerField stringValue] componentsSeparatedByString:@"|"];
+		
+		// Hardcoded actions
+		int index;
+		for (index = 0; index < [triggers count]; index++){
+			NSString *trigger = [triggers objectAtIndex:index];
+			BOOL auth = [hostmasks getAuthForHostmask:[messageData objectAtIndex:2]]; 
+			if ([[messageData objectAtIndex:5] isMatchedByRegex:[NSString stringWithFormat:@"^%@shutdown.*$",trigger]]){
+				if (auth){
+					[self sendMessage:[NSString stringWithFormat:@"Shutting down as ordered by: %@",[messageData objectAtIndex:1]] To:[messageData objectAtIndex:4] logAs:3];
+					[self disconnectFromIRC:@"Bye, don't forget to feed the goldfish."];
+				}else
+					[self sendMessage:@"UnAuthed Hostmask!" To:[messageData objectAtIndex:4] logAs:3];
+			}
+			if ([[messageData objectAtIndex:5] isMatchedByRegex:[NSString stringWithFormat:@"^%@auth.*$",trigger]]){
+				if (auth){
+					[self sendMessage:@"Op authority :)" To:[messageData objectAtIndex:4] logAs:3];
+				}else
+					[self sendMessage:@"No authority :(" To:[messageData objectAtIndex:4] logAs:3];
+			}
+			if ([[messageData objectAtIndex:5] isMatchedByRegex:[NSString stringWithFormat:@"^%@hi.*$",trigger]]){
+					[self sendMessage:[NSString stringWithFormat:@"Hello %@",[messageData objectAtIndex:1]] To:ircRoom logAs:3];
+			}
 		}
+		
+		// Userdefined actions
+		
 	}
 	
 	if ([type isEqualToString:@"IRC_KICK_NOTICE"]){
@@ -392,12 +412,6 @@ float timeout;
 	NSError *error = nil;
 	if (![ircSocket connectToHost:server onPort:port withTimeout:timeout error:&error]){
 		[self logMessage:[NSString stringWithFormat:@"Error Connecting to IRC: %@", error] type:1];
-		return;
-	}
-	// Accept connection and report any errors that occured
-	error = nil;
-	if (![ircSocket acceptOnPort:port error:&error]){
-		[self logMessage:[NSString stringWithFormat:@"Error Accepting Connection: %@", error] type:1];
 		return;
 	}
 	[activityIndicator startAnimation:self];
@@ -542,6 +556,7 @@ float timeout;
 	[activityIndicator stopAnimation:self];
 	[serverAddress setEnabled:YES];
 	[serverPort setEnabled:YES];
+	[rooms disconnectAllRooms];
 	[connectionButton setEnabled:YES];
 	[connectionButton setTitle:@"Connect"];
 }

@@ -23,12 +23,10 @@
 
 -(void)awakeFromNib
 {
-	if ([rememberConnectedRooms state]){
 		NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];		
 		[self.roomArray addObjectsFromArray:[standardUserDefaults objectForKey:@"rooms"]];
 		[self disconnectAllRooms];
 		[roomView reloadData];
-	}	
 }
 
 -(void)saveRooms

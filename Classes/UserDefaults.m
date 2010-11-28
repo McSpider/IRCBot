@@ -25,7 +25,7 @@
 	if ([fileManager fileExistsAtPath: folder] == NO)
 		[fileManager createDirectoryAtPath: folder attributes: nil];
 	if ([fileManager isReadableFileAtPath:folder] && ![fileManager fileExistsAtPath:[NSString stringWithFormat:@"%@/Actions.plist",folder]])
-		[[NSFileManager defaultManager] copyPath:actions toPath:[NSString stringWithFormat:@"%@/Actions.plist",folder] handler:nil];
+		[fileManager copyPath:actions toPath:[NSString stringWithFormat:@"%@/Actions.plist",folder] handler:nil];
 	
 	
 	// Hide the resize indicators on the windows

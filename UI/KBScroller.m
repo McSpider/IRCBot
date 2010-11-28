@@ -38,12 +38,12 @@
 
 -(void)drawRect:(NSRect)aRect
 {
-	// This works although Xcode complains
+	// Get the containing ScrollViews background color and fill the rect
+	// This works although Xcode complains, Fixable?
 	[[[self superview] backgroundColor] set];
 	NSRectFill([self bounds]);
 	
 	if ([self knobProportion] > 0.0){
-		
 		NSRect knobRect;
 		NSRect slotRect = [self rectForPart:NSScrollerKnobSlot];			
 
@@ -61,7 +61,6 @@
 		[bz addClip];
 		[[NSColor colorWithCalibratedRed:0.70 green:0.70 blue:0.70 alpha:1.00] set];
 		NSRectFill(knobRect);
-		
 	}
 }
 

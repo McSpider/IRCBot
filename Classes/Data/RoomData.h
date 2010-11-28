@@ -14,7 +14,6 @@
 	int roomIndex;
 	NSMutableArray *roomArray;
 	IBOutlet NSTableView *roomView;
-	IBOutlet NSButton *rememberConnectedRooms;
 }
 
 @property (nonatomic,assign) NSMutableArray *roomArray;

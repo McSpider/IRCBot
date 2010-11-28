@@ -16,7 +16,7 @@
 
 
 @interface MainController : NSObject {
-		
+	
 	IBOutlet NSWindow *mainWindow;
 	
 	IBOutlet NSTextField *commandField;
