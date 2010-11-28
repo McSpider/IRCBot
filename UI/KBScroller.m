@@ -38,8 +38,8 @@
 
 -(void)drawRect:(NSRect)aRect
 {
-	
-	[[NSColor colorWithCalibratedRed:0.94 green:0.94 blue:0.94 alpha:1.00] set];
+	// This works although Xcode complains
+	[[[self superview] backgroundColor] set];
 	NSRectFill([self bounds]);
 	
 	if ([self knobProportion] > 0.0){
