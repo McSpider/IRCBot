@@ -39,7 +39,7 @@
 -(void)drawRect:(NSRect)aRect
 {
 	
-	[[NSColor colorWithCalibratedRed:0.90 green:0.90 blue:0.90 alpha:1.00] set];
+	[[NSColor colorWithCalibratedRed:0.94 green:0.94 blue:0.94 alpha:1.00] set];
 	NSRectFill([self bounds]);
 	
 	if ([self knobProportion] > 0.0){
