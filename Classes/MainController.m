@@ -55,6 +55,7 @@ float timeout;
 	}else{
 		[connectionButton setEnabled:NO];
 		[self disconnectFromIRC:@"Bye, don't forget to feed the goldfish."];
+		[rooms disconnectAllRooms];
 	}
 }
 
@@ -181,9 +182,10 @@ float timeout;
 	if ([ircSocket isConnected]){
 		int answer = NSRunAlertPanel(@"You are still conected to a server.",@"Would you like to dissconect from the server before quiting?",
 																 @"Quit",@"Yes", nil);
-		if(answer != NSAlertDefaultReturn)
+		if(answer != NSAlertDefaultReturn){
 			//[self disconnectFromIRC:@"Bye, don't forget to feed the goldfish."];
 			return NSTerminateCancel;
+		}
 	}
 	// If he is, quit application
 	return NSTerminateNow;
@@ -221,7 +223,7 @@ float timeout;
 		[self logMessage:@"IRCBot - Joining Room" type:1];
 		NSString* joinMessage = [NSString stringWithFormat:@"JOIN %@ \r\n", aRoom];
 		[self sendRawString:joinMessage logAs:2];
-		[rooms addRoom:aRoom];
+		[rooms joinRoom:aRoom];
 	}
 }
 
@@ -231,7 +233,7 @@ float timeout;
 		[self logMessage:@"IRCBot - Parting Room" type:1];
 		NSString* partMessage = [NSString stringWithFormat:@"PART %@ \r\n", aRoom];
 		[self sendRawString:partMessage logAs:2];
-		[rooms removeRoom:aRoom];
+		[rooms disconnectRoom:aRoom];
 	}
 }
 
@@ -322,7 +324,7 @@ float timeout;
 			NSString *room = [[tempArray objectAtIndex:1] substringWithRange:NSMakeRange(0,tempRange.location-1)];
 			NSString *reason = [[tempArray objectAtIndex:1] substringFromIndex:tempRange.location+tempRange.length+2];
 			[self logMessage:[NSString stringWithFormat:@"IRCBot - You have just been kicked from:%@ reason:%@",room,reason] type:1];
-			[rooms setRoom:room status:@"Warning"];
+			[rooms setStatus:@"Warning" forRoom:room];
 		}
 	}
 	
@@ -542,7 +544,6 @@ float timeout;
 	[serverPort setEnabled:YES];
 	[connectionButton setEnabled:YES];
 	[connectionButton setTitle:@"Connect"];
-	[rooms removeAllRooms];
 }
 
 // Socket will discconect with error
