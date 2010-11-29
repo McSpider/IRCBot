@@ -161,6 +161,7 @@ float timeout;
 
 -(void)awakeFromNib
 {
+	[rooms addRoom:[serverRoom stringValue] withStatus:@"None"];
 	connectionData = [[NSMutableArray alloc] init];
 	[self refreshConnectionData];
 	Debugging = NO;
@@ -294,8 +295,10 @@ float timeout;
 	NSString *type = [self getMessageType:input];
 	
 	// Log raw message string
-	if (Debugging) [self logMessage:[NSString stringWithFormat:@"<%@> %@",type,input] type:0];
-	else [self logMessage:[NSString stringWithFormat:@"%@",input] type:0];
+	if (Debugging)
+		[self logMessage:[NSString stringWithFormat:@"<%@> %@",type,input] type:0];
+	else
+		[self logMessage:[NSString stringWithFormat:@"%@",input] type:0];
 	
 	
 	if ([type isEqualToString:@"IRC_QUERY_MSG"]){
@@ -320,13 +323,13 @@ float timeout;
 					[self sendMessage:[NSString stringWithFormat:@"Shutting down as ordered by: %@",[messageData objectAtIndex:1]] To:[messageData objectAtIndex:4] logAs:3];
 					[self disconnectFromIRC:@"Bye, don't forget to feed the goldfish."];
 				}else
-					[self sendMessage:@"UnAuthed Hostmask!" To:[messageData objectAtIndex:4] logAs:3];
+					[self sendMessage:[NSString stringWithFormat:@"%@, you do not have permission to execute that command.",[messageData objectAtIndex:1]] To:[messageData objectAtIndex:4] logAs:3];
 			}
 			if ([[messageData objectAtIndex:5] isMatchedByRegex:[NSString stringWithFormat:@"^%@auth.*$",trigger]]){
 				if (auth){
-					[self sendMessage:@"Op authority :)" To:[messageData objectAtIndex:4] logAs:3];
+					[self sendMessage:@"You can use all IRCBot actions." To:[messageData objectAtIndex:4] logAs:3];
 				}else
-					[self sendMessage:@"No authority :(" To:[messageData objectAtIndex:4] logAs:3];
+					[self sendMessage:@"You can only use IRCBot actions that aren't restricted." To:[messageData objectAtIndex:4] logAs:3];
 			}
 			if ([[messageData objectAtIndex:5] isMatchedByRegex:[NSString stringWithFormat:@"^%@hi.*$",trigger]]){
 					[self sendMessage:[NSString stringWithFormat:@"Hello %@",[messageData objectAtIndex:1]] To:ircRoom logAs:3];

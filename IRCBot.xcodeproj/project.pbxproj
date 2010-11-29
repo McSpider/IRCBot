@@ -13,7 +13,6 @@
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		AE0012A312415E4F0049FD63 /* BWToolkitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE0012A212415E4F0049FD63 /* BWToolkitFramework.framework */; };
 		AE0012BB12415E6E0049FD63 /* BWToolkitFramework.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = AE0012A212415E4F0049FD63 /* BWToolkitFramework.framework */; };
-		AE0B2970129DC230001C789C /* Alert.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0B296F129DC230001C789C /* Alert.png */; };
 		AE0B2B51129E11AF001C789C /* Cancel.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0B2B50129E11AF001C789C /* Cancel.png */; };
 		AE2A3B1E124182F5004B42CB /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = AE2A3B1D124182F5004B42CB /* Credits.html */; };
 		AE5C7E5B129B82560080F146 /* KBScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = AE5C7E58129B82560080F146 /* KBScroller.m */; };
@@ -33,9 +32,7 @@
 		AE6F6C8F126245C000FCAFCB /* HostmaskData.m in Sources */ = {isa = PBXBuildFile; fileRef = AE6F6C8D126245C000FCAFCB /* HostmaskData.m */; };
 		AE6F6D7D12625AA200FCAFCB /* PrefController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE6F6D7C12625AA200FCAFCB /* PrefController.m */; };
 		AE6F6F4012627FB800FCAFCB /* div.png in Resources */ = {isa = PBXBuildFile; fileRef = AE6F6F3F12627FB800FCAFCB /* div.png */; };
-		AE6F70A01262B8BD00FCAFCB /* Room.png in Resources */ = {isa = PBXBuildFile; fileRef = AE6F709E1262B8BD00FCAFCB /* Room.png */; };
 		AE6F71BB1262CF3400FCAFCB /* RoomData.m in Sources */ = {isa = PBXBuildFile; fileRef = AE6F71BA1262CF3400FCAFCB /* RoomData.m */; };
-		AE6F74121264134200FCAFCB /* Empty.png in Resources */ = {isa = PBXBuildFile; fileRef = AE6F74101264134200FCAFCB /* Empty.png */; };
 		AE8EBE7E12A0571F00CA3FCE /* License.rtf in Resources */ = {isa = PBXBuildFile; fileRef = AE8EBE7D12A0571F00CA3FCE /* License.rtf */; };
 		AEAD7281124002C80028D5A3 /* MainController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAD727E124002C80028D5A3 /* MainController.m */; };
 		AEAD7282124002C80028D5A3 /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAD7280124002C80028D5A3 /* UserDefaults.m */; };
@@ -50,6 +47,9 @@
 		AEE5E0AE12408D7A002D2767 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEE5E0AD12408D7A002D2767 /* Carbon.framework */; };
 		AEE5E0C112408F27002D2767 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEE5E0C012408F27002D2767 /* Security.framework */; };
 		AEF6F79312A1903B00A95FA8 /* Code.png in Resources */ = {isa = PBXBuildFile; fileRef = AEF6F79212A1903B00A95FA8 /* Code.png */; };
+		AEF6FCFB12A32DF300A95FA8 /* Status_Alert.png in Resources */ = {isa = PBXBuildFile; fileRef = AEF6FCF812A32DF300A95FA8 /* Status_Alert.png */; };
+		AEF6FCFC12A32DF300A95FA8 /* Status_None.png in Resources */ = {isa = PBXBuildFile; fileRef = AEF6FCF912A32DF300A95FA8 /* Status_None.png */; };
+		AEF6FCFD12A32DF300A95FA8 /* Status_Room.png in Resources */ = {isa = PBXBuildFile; fileRef = AEF6FCFA12A32DF300A95FA8 /* Status_Room.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -78,7 +78,6 @@
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* IRCBot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IRCBot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE0012A212415E4F0049FD63 /* BWToolkitFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BWToolkitFramework.framework; path = Includes/BWToolkitFramework.framework; sourceTree = "<group>"; };
-		AE0B296F129DC230001C789C /* Alert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Alert.png; path = Images/Alert.png; sourceTree = "<group>"; };
 		AE0B2B50129E11AF001C789C /* Cancel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Cancel.png; path = Images/Cancel.png; sourceTree = "<group>"; };
 		AE2A3B1D124182F5004B42CB /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
 		AE45B16212A083E4008DD726 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
@@ -105,10 +104,8 @@
 		AE6F6D7B12625AA200FCAFCB /* PrefController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PrefController.h; path = Classes/PrefController.h; sourceTree = "<group>"; };
 		AE6F6D7C12625AA200FCAFCB /* PrefController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PrefController.m; path = Classes/PrefController.m; sourceTree = "<group>"; };
 		AE6F6F3F12627FB800FCAFCB /* div.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = div.png; path = Images/div.png; sourceTree = "<group>"; };
-		AE6F709E1262B8BD00FCAFCB /* Room.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Room.png; path = Images/Room.png; sourceTree = "<group>"; };
 		AE6F71B91262CF3400FCAFCB /* RoomData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RoomData.h; path = Classes/Data/RoomData.h; sourceTree = "<group>"; };
 		AE6F71BA1262CF3400FCAFCB /* RoomData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RoomData.m; path = Classes/Data/RoomData.m; sourceTree = "<group>"; };
-		AE6F74101264134200FCAFCB /* Empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Empty.png; path = Images/Empty.png; sourceTree = "<group>"; };
 		AE8EBE7D12A0571F00CA3FCE /* License.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = License.rtf; sourceTree = "<group>"; };
 		AE8EBE8012A0587800CA3FCE /* Notes.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Notes.rtf; sourceTree = "<group>"; };
 		AE8EBE8112A0587800CA3FCE /* ServerOutput.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = ServerOutput.rtf; sourceTree = "<group>"; };
@@ -132,6 +129,11 @@
 		AEE5E0AD12408D7A002D2767 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		AEE5E0C012408F27002D2767 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		AEF6F79212A1903B00A95FA8 /* Code.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Code.png; path = Images/Code.png; sourceTree = "<group>"; };
+		AEF6FCF812A32DF300A95FA8 /* Status_Alert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Status_Alert.png; path = Images/Status_Alert.png; sourceTree = "<group>"; };
+		AEF6FCF912A32DF300A95FA8 /* Status_None.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Status_None.png; path = Images/Status_None.png; sourceTree = "<group>"; };
+		AEF6FCFA12A32DF300A95FA8 /* Status_Room.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Status_Room.png; path = Images/Status_Room.png; sourceTree = "<group>"; };
+		AEF6FDB112A354AA00A95FA8 /* IRCConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRCConnection.h; sourceTree = "<group>"; };
+		AEF6FDB212A354AA00A95FA8 /* IRCConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRCConnection.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +156,8 @@
 			children = (
 				AEAD727D124002C80028D5A3 /* MainController.h */,
 				AEAD727E124002C80028D5A3 /* MainController.m */,
+				AEF6FDB112A354AA00A95FA8 /* IRCConnection.h */,
+				AEF6FDB212A354AA00A95FA8 /* IRCConnection.m */,
 				AEAD727F124002C80028D5A3 /* UserDefaults.h */,
 				AEAD7280124002C80028D5A3 /* UserDefaults.m */,
 				AE6F6BF212623DEE00FCAFCB /* Data */,
@@ -245,9 +249,9 @@
 			isa = PBXGroup;
 			children = (
 				AE5C7E74129B83660080F146 /* Safari TextField */,
-				AE6F74101264134200FCAFCB /* Empty.png */,
-				AE6F709E1262B8BD00FCAFCB /* Room.png */,
-				AE0B296F129DC230001C789C /* Alert.png */,
+				AEF6FCF812A32DF300A95FA8 /* Status_Alert.png */,
+				AEF6FCF912A32DF300A95FA8 /* Status_None.png */,
+				AEF6FCFA12A32DF300A95FA8 /* Status_Room.png */,
 				AE6F6F3F12627FB800FCAFCB /* div.png */,
 				AE6F6B8212615BFF00FCAFCB /* User.png */,
 				AE6F6B3A12614EDB00FCAFCB /* Preferences.png */,
@@ -381,18 +385,18 @@
 				AE6F6B8312615BFF00FCAFCB /* User.png in Resources */,
 				AE6F6B981261662100FCAFCB /* Scripts.png in Resources */,
 				AE6F6F4012627FB800FCAFCB /* div.png in Resources */,
-				AE6F70A01262B8BD00FCAFCB /* Room.png in Resources */,
-				AE6F74121264134200FCAFCB /* Empty.png in Resources */,
 				AE5C7E7B129B83660080F146 /* KBSTextFieldCF.png in Resources */,
 				AE5C7E7C129B83660080F146 /* KBSTextFieldCF_disabled.png in Resources */,
 				AE5C7E7D129B83660080F146 /* KBSTextFieldLC.png in Resources */,
 				AE5C7E7E129B83660080F146 /* KBSTextFieldLC_disabled.png in Resources */,
 				AE5C7E7F129B83660080F146 /* KBSTextFieldRC.png in Resources */,
 				AE5C7E80129B83660080F146 /* KBSTextFieldRC_disabled.png in Resources */,
-				AE0B2970129DC230001C789C /* Alert.png in Resources */,
 				AE0B2B51129E11AF001C789C /* Cancel.png in Resources */,
 				AE8EBE7E12A0571F00CA3FCE /* License.rtf in Resources */,
 				AEF6F79312A1903B00A95FA8 /* Code.png in Resources */,
+				AEF6FCFB12A32DF300A95FA8 /* Status_Alert.png in Resources */,
+				AEF6FCFC12A32DF300A95FA8 /* Status_None.png in Resources */,
+				AEF6FCFD12A32DF300A95FA8 /* Status_Room.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

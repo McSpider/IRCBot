@@ -45,7 +45,7 @@
 			exists = YES;
 		}
 	}
-	// If not add it otherwise show a alert message
+	// If not add it, otherwise show a alert message
 	if (!exists){	
 		[self addHostmask:[newHostmaskField stringValue] block:[newHostmaskCheck state]];
 		[sheetErrorMessage setStringValue:@" "];
@@ -72,7 +72,6 @@
 	int index;
 	for (index = 0; index < [self.hostmaskArray count]; index++){
 		NSArray *tempArray = [self.hostmaskArray objectAtIndex:index];
-		NSLog(@"tempArray: %@",tempArray);
 		if ([[tempArray objectAtIndex:0] isEqualToString:hostmask] && ([[tempArray objectAtIndex:1] intValue] == 0)){
 			return YES;
 		}

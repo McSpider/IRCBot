@@ -14,7 +14,7 @@
 	IBOutlet NSView *generalView;
 	IBOutlet NSView *hostmasksView;
 	IBOutlet NSView *actionsView;	
-	IBOutlet NSView *joinView;	
+	IBOutlet NSView *roomsView;	
 	IBOutlet NSView *contentView;
 	IBOutlet NSWindow *window;
 	

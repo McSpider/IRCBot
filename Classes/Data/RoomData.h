@@ -14,20 +14,21 @@
 	int roomIndex;
 	NSMutableArray *roomArray;
 	IBOutlet NSTableView *roomView;
+	IBOutlet NSButton *removeRoomButton;
 }
 
 @property (nonatomic,assign) NSMutableArray *roomArray;
 
+-(IBAction)removeSelectedRoom:(id)sender;
 
 -(void)joinRoom:(NSString *)room;
 -(void)disconnectRoom:(NSString *)room;
 -(void)disconnectAllRooms;
 
--(void)saveRooms;
-
 -(int)indexOfRoom:(NSString *)room;
 -(NSString *)roomAtIndex:(int)index;
 
+-(void)addRoom:(NSString *)room withStatus:(NSString *)status;
 -(void)setStatus:(NSString *)status forRoom:(NSString *)room;
 -(BOOL)connectedToRoom:(NSString *)room;
 

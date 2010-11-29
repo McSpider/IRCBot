@@ -21,18 +21,10 @@
 	return self;
 }
 
--(void)awakeFromNib
+-(IBAction)removeSelectedRoom:(id)sender
 {
-		NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];		
-		[self.roomArray addObjectsFromArray:[standardUserDefaults objectForKey:@"rooms"]];
-		[self disconnectAllRooms];
-		[roomView reloadData];
-}
-
--(void)saveRooms
-{
-	NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-	[standardUserDefaults setObject:self.roomArray forKey:@"rooms"];
+	[self.roomArray removeObjectAtIndex:[roomView selectedRow]];
+	[roomView reloadData];
 }
 
 -(void)joinRoom:(NSString *)room
@@ -43,8 +35,16 @@
 	else
 		[self setStatus:@"Normal" forRoom:room];
 	[roomView reloadData];
-	[self saveRooms];
 }
+
+-(void)addRoom:(NSString *)room withStatus:(NSString *)status
+{
+	int index = [self indexOfRoom:room];
+	if (index == -1)
+		[self.roomArray addObject:[NSMutableArray arrayWithObjects:room,status,nil]];
+	[roomView reloadData];
+}
+
 
 -(void)removeRoom:(NSString *)room
 {
@@ -121,17 +121,26 @@
 	NSArray *tempArray = [self.roomArray objectAtIndex:row];
 	if ([[column identifier] intValue] == 0){
 		if ([[tempArray objectAtIndex:1] isEqualToString:@"None"])
-			return [NSImage imageNamed:@"Empty.png"];
+			return [NSImage imageNamed:@"Status_None.png"];
 		else if ([[tempArray objectAtIndex:1] isEqualToString:@"Normal"])
-			return [NSImage imageNamed:@"Room.png"];
+			return [NSImage imageNamed:@"Status_Room.png"];
 		else if ([[tempArray objectAtIndex:1] isEqualToString:@"Warning"])
-			return [NSImage imageNamed:@"Alert.png"];
+			return [NSImage imageNamed:@"Status_Alert.png"];
 		else
-			return [NSImage imageNamed:@"Empty.png"];
+			return [NSImage imageNamed:@"Status_None.png"];
 	}else if ([[column identifier] intValue] == 1){
 		return [tempArray objectAtIndex:0];
 	}
 	return @"#null";
+}
+
+-(void)tableViewSelectionDidChange:(NSNotification *)notification{
+	if ([roomView selectedRow] == -1 || [roomView selectedRow] == 0)
+		[removeRoomButton setEnabled:NO];
+	else
+		[removeRoomButton setEnabled:YES];
+	
+	roomIndex = [roomView selectedRow];	
 }
 
 -(BOOL)selectionShouldChangeInTableView:(NSTableView *)tableView

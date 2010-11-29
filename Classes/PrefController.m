@@ -32,6 +32,10 @@
 			[window setTitle:@"Actions"];
 			view = actionsView;
 			break;
+		case 4:
+			[window setTitle:@"Auto Join"];
+			view = roomsView;
+			break;
 		default:
 			[window setTitle:@"Account"];
 			view = accountView;
@@ -73,6 +77,10 @@
 		case 3:
 			[window setTitle:@"Actions"];
 			view = actionsView;
+			break;
+		case 4:
+			[window setTitle:@"Auto Join"];
+			view = roomsView;
 			break;
 		default:
 			[window setTitle:@"Account"];
