@@ -10,6 +10,7 @@
 #import "EMKeychainItem.h"
 #import "HostmaskData.h"
 #import "ActionsData.h"
+#import "AutojoinData.h"
 #import "PrefController.h"
 
 @interface UserDefaults : NSObject {
@@ -32,6 +33,7 @@
 
 	IBOutlet HostmaskData *usersData;
 	IBOutlet ActionsData *ircActions;
+	IBOutlet AutojoinData *ircAutojoin;
 	
 	NSModalSession session;
 }

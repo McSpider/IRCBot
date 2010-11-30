@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+#import "IRCRoom.h"
 
 @interface RoomData : NSObject {
 	
@@ -21,15 +21,16 @@
 
 -(IBAction)removeSelectedRoom:(id)sender;
 
--(void)joinRoom:(NSString *)room;
+-(void)addRoom:(NSString *)room;
+-(void)removeRoom:(NSString *)room;
+-(void)setStatus:(NSString *)status forRoom:(NSString *)room;
+-(void)connectRoom:(NSString *)room;
 -(void)disconnectRoom:(NSString *)room;
 -(void)disconnectAllRooms;
 
+-(BOOL)connectedToRoom:(NSString *)room;
 -(int)indexOfRoom:(NSString *)room;
 -(NSString *)roomAtIndex:(int)index;
 
--(void)addRoom:(NSString *)room withStatus:(NSString *)status;
--(void)setStatus:(NSString *)status forRoom:(NSString *)room;
--(BOOL)connectedToRoom:(NSString *)room;
 
 @end

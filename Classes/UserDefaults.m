@@ -131,6 +131,7 @@
 		
 		// Clear hostmask data
 		[usersData clearData];
+		[ircAutojoin clearData];
 		
 		// Reset actions .plist
 		NSString *actions = [@"~/Library/Application Support/IRCBot/Actions.plist" stringByExpandingTildeInPath];
@@ -174,7 +175,8 @@
 -(IBAction)savePreferences:(id)sender
 {
 	NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];	
-	[standardUserDefaults setObject:[usersData hostmaskArray] forKey:@"hostmasks"];		
+	[standardUserDefaults setObject:[usersData hostmaskArray] forKey:@"hostmasks"];
+	[standardUserDefaults setObject:[ircAutojoin autojoinArray] forKey:@"autojoin"];
 	
 	NSString *actions = @"~/Library/Application Support/IRCBot/Actions.plist";
 	[ircActions.actionsArray writeToFile:[actions stringByExpandingTildeInPath] atomically:YES];	

@@ -9,32 +9,24 @@
 #import "MainController.h"
 
 @interface MainController (InternalMethods)
-// Default connection messages
--(void)pingAlive:(NSString *)server;
--(void)joinRoom:(NSString *)aRoom;
--(void)partRoom:(NSString *)aRoom;
--(void)authUser:(NSString *)aUsername pass:(NSString *)aPassword nick:(NSString *)aNick realName:(NSString *)aName;
+
+// Messaging
+- (void)pingAlive:(NSString *)server;
+- (void)authUser:(NSString *)aUsername pass:(NSString *)aPassword nick:(NSString *)aNick realName:(NSString *)aName;
+- (void)joinRoom:(NSString *)aRoom;
+- (void)partRoom:(NSString *)aRoom;
 
 // Log message to text view
--(void)logMessage:(NSString *)message type:(int)type;
-
-// Connect and disconnect from IRC server functions
--(void)connectToIRC:(NSString *)server port:(int)port;
--(void)disconnectFromIRC:(NSString *)message;
-
--(void)parseServerOutput:(NSString *)input;
--(NSString*)getMessageType:(NSString*)input;
+- (void)logMessage:(NSString *)message type:(int)type;
+- (void)refreshConnectionData;
+- (void)parseServerOutput:(NSString *)input type:(NSString *)type;
+- (NSString *)escapeString:(NSString *)string;
 
 BOOL Debugging;
-// IRC connection stuff
-NSString* ircServer;
-int ircPort;
-NSString* ircRoom;
 NSMutableArray* connectionData;
 
 // IRC connection
-AsyncSocket *ircSocket;
-float timeout;
+IRCConnection *ircConnection;
 @end
 
 
@@ -46,21 +38,22 @@ float timeout;
 // Connect to or disconnect IRC connection
 -(IBAction)ircConnection:(id)sender
 {
-	if (![ircSocket isConnected]){
+	[activityIndicator startAnimation:self];
+	if (![ircConnection isConnected]){
 		[self refreshConnectionData];
 		[connectionButton setEnabled:NO];
 		[serverAddress setEnabled:NO];
 		[serverPort setEnabled:NO];
-		[self connectToIRC:ircServer port:ircPort];
+		[ircConnection connectToIRC:[serverAddress stringValue] port:[serverPort	intValue]];
 	}else{
 		[connectionButton setEnabled:NO];
-		[self disconnectFromIRC:@"Bye, don't forget to feed the goldfish."];
+		[ircConnection disconnectFromIRC:@"Bye, don't forget to feed the goldfish."];
 	}
 }
 
 -(IBAction)parseCommand:(id)sender
 {
-	if ([ircSocket isConnected]){
+	if ([ircConnection isConnected]){
 		NSString *commandString = [commandField stringValue];
 		NSArray *commandArray = [commandString componentsSeparatedByString:@" "];
 		if ([commandString isMatchedByRegex:@"^/join\\s.*$"]){
@@ -76,7 +69,7 @@ float timeout;
 				for (i = 2; i < [commandArray count]; i++){
 					tempString = [tempString stringByAppendingString:[NSString stringWithFormat:@" %@",[commandArray objectAtIndex:i]]];
 				}
-				[self sendMessage:tempString To:[commandArray objectAtIndex:1] logAs:2];
+				[ircConnection sendMessage:tempString To:[commandArray objectAtIndex:1] logAs:2];
 			}
 		}else if ([commandString isMatchedByRegex:@"^/me\\s.*\\s.*$"]){
 			if ([rooms.roomArray containsObject:[commandArray objectAtIndex:1]]){
@@ -85,7 +78,7 @@ float timeout;
 				for (i = 2; i < [commandArray count]; i++){
 					tempString = [tempString stringByAppendingString:[NSString stringWithFormat:@" %@",[commandArray objectAtIndex:i]]];
 				}
-				[self sendAction:tempString To:[commandArray objectAtIndex:1] logAs:2];
+				[ircConnection sendAction:tempString To:[commandArray objectAtIndex:1] logAs:2];
 			}
 		}else if ([commandString isMatchedByRegex:@"^/notice\\s.*\\s.*$"]){
 			if ([rooms.roomArray containsObject:[commandArray objectAtIndex:1]]){
@@ -94,7 +87,7 @@ float timeout;
 				for (i = 2; i < [commandArray count]; i++){
 					tempString = [tempString stringByAppendingString:[NSString stringWithFormat:@" %@",[commandArray objectAtIndex:i]]];
 				}
-				[self sendNotice:tempString To:[commandArray objectAtIndex:1] logAs:2];
+				[ircConnection sendNotice:tempString To:[commandArray objectAtIndex:1] logAs:2];
 			}
 		}else if ([commandString isMatchedByRegex:@"^/help(\\s.*$|$)"]){
 			[self logMessage:@"Valid commands are:\n› /join <room>\n› /part <room>\n› /msg <room> <msg>\n› /me <room> <msg>\n› /notice <room> <msg>" type:4];
@@ -161,7 +154,7 @@ float timeout;
 
 -(void)awakeFromNib
 {
-	[rooms addRoom:[serverRoom stringValue] withStatus:@"None"];
+	[rooms addRoom:[serverRoom stringValue]];
 	connectionData = [[NSMutableArray alloc] init];
 	[self refreshConnectionData];
 	Debugging = NO;
@@ -169,17 +162,15 @@ float timeout;
 
 -(void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-	if (!(ircSocket = [[AsyncSocket alloc] initWithDelegate:self]))
-		[self logMessage:@"IRCBot - Socket Allocation Error" type:1];
-	// Advanced options - enable the socket to contine operations even during modal dialogs, and menu browsing
-	[ircSocket setRunLoopModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
+	if (!(ircConnection = [[IRCConnection alloc] initWithDelegate:self]))
+		[self logMessage:@"IRCBot - IRCConnection Allocation Error" type:1];
 }
 
 // Application should quit but server is still connected
 -(NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
 {
 	// If socket is still conected ask user if he's sure
-	if ([ircSocket isConnected]){
+	if ([ircConnection isConnected]){
 		int answer = NSRunAlertPanel(@"You are still conected to a server.",@"Would you like to dissconect from the server before quiting?",
 																 @"Quit",@"Yes", nil);
 		if(answer != NSAlertDefaultReturn){
@@ -214,7 +205,7 @@ float timeout;
 -(void)pingAlive:(NSString *)server
 {
 	NSString* replyMessage = [NSString stringWithFormat:@"PONG %@\r\n",server];
-	[self sendRawString:replyMessage logAs:2];
+	[ircConnection sendRawString:replyMessage logAs:2];
 }
 
 -(void)joinRoom:(NSString *)aRoom
@@ -222,8 +213,8 @@ float timeout;
 	if ([aRoom hasPrefix:@"#"]){
 		[self logMessage:@"IRCBot - Joining Room" type:1];
 		NSString* joinMessage = [NSString stringWithFormat:@"JOIN %@ \r\n", aRoom];
-		[self sendRawString:joinMessage logAs:2];
-		[rooms joinRoom:aRoom];
+		[ircConnection sendRawString:joinMessage logAs:2];
+		[rooms connectRoom:aRoom];
 	}
 }
 
@@ -232,7 +223,7 @@ float timeout;
 	if ([aRoom hasPrefix:@"#"]){
 		[self logMessage:@"IRCBot - Parting Room" type:1];
 		NSString* partMessage = [NSString stringWithFormat:@"PART %@ \r\n", aRoom];
-		[self sendRawString:partMessage logAs:2];
+		[ircConnection sendRawString:partMessage logAs:2];
 		[rooms disconnectRoom:aRoom];
 	}
 }
@@ -249,50 +240,14 @@ float timeout;
 	nickServMessage = [NSString stringWithFormat:@"identify %@",aPassword];
 	
 	// Send authentication messages
-	[self sendRawString:userMessage logAs:2];
-	[self sendRawString:nickMessage logAs:2];
-	[self sendRawString:passMessage logAs:2];
-	[self sendMessage:nickServMessage To:@"NickServ" logAs:2];
+	[ircConnection sendRawString:userMessage logAs:2];
+	[ircConnection sendRawString:nickMessage logAs:2];
+	[ircConnection sendRawString:passMessage logAs:2];
+	[ircConnection sendMessage:nickServMessage To:@"NickServ" logAs:2];
 }
 
-
-#pragma mark -
-#pragma mark IRC Messaging
-
--(void)sendMessage:(NSString *)message To:(NSString *)recipient logAs:(int)type
-{
-	if (recipient == nil || [recipient isEqualToString:@"NONE"])
-		recipient = ircRoom;
-	NSString* msg = [NSString stringWithFormat:@"PRIVMSG %@ :%@\r\n", recipient, message];
-	if ([message length] >= 1) [self sendRawString:msg logAs:type];
-}
-
--(void)sendNotice:(NSString *)message To:(NSString *)recipient logAs:(int)type
-{
-	if (recipient == nil || [recipient isEqualToString:@"NONE"])
-		recipient = ircRoom;
-	NSString* msg = [NSString stringWithFormat:@"NOTICE %@ :%@\r\n", recipient, message];
-	if ([message length] >= 1) [self sendRawString:msg logAs:type];
-}
-
--(void)sendAction:(NSString *)message To:(NSString *)recipient logAs:(int)type
-{
-	if (recipient == nil || [recipient isEqualToString:@"NONE"])
-		recipient = ircRoom;
-	NSString* msg = [NSString stringWithFormat:@"PRIVMSG %@ :%cACTION %@%c\r\n", recipient, 1, message, 1];
-	if ([message length] >= 1) [self sendRawString:msg logAs:type];
-}
-
--(void)sendRawString:(NSString *)string logAs:(int)type
-{
-	NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
-	if ([string length] >= 1) [ircSocket writeData:data withTimeout:timeout tag:0];
-	[self logMessage:[NSString stringWithFormat:@"%@", string] type:type];
-}
-
--(void)parseServerOutput:(NSString *)input
+-(void)parseServerOutput:(NSString *)input type:(NSString *)type
 {	
-	NSString *type = [self getMessageType:input];
 	
 	// Log raw message string
 	if (Debugging)
@@ -317,26 +272,31 @@ float timeout;
 		int index;
 		for (index = 0; index < [triggers count]; index++){
 			NSString *trigger = [triggers objectAtIndex:index];
+			// Escape all regex characters, not working properly
+			trigger = [self escapeString:trigger];
+			
 			BOOL auth = [hostmasks getAuthForHostmask:[messageData objectAtIndex:2]]; 
 			if ([[messageData objectAtIndex:5] isMatchedByRegex:[NSString stringWithFormat:@"^%@shutdown.*$",trigger]]){
 				if (auth){
-					[self sendMessage:[NSString stringWithFormat:@"Shutting down as ordered by: %@",[messageData objectAtIndex:1]] To:[messageData objectAtIndex:4] logAs:3];
-					[self disconnectFromIRC:@"Bye, don't forget to feed the goldfish."];
+					[ircConnection sendMessage:[NSString stringWithFormat:@"Shutting down as ordered by: %@",[messageData objectAtIndex:1]] To:[messageData objectAtIndex:4] logAs:3];
+					[ircConnection disconnectFromIRC:@"Bye, don't forget to feed the goldfish."];
 				}else
-					[self sendMessage:[NSString stringWithFormat:@"%@, you do not have permission to execute that command.",[messageData objectAtIndex:1]] To:[messageData objectAtIndex:4] logAs:3];
+					[ircConnection sendMessage:[NSString stringWithFormat:@"%@, you do not have permission to execute that command.",[messageData objectAtIndex:1]] To:[messageData objectAtIndex:4] logAs:3];
 			}
 			if ([[messageData objectAtIndex:5] isMatchedByRegex:[NSString stringWithFormat:@"^%@auth.*$",trigger]]){
 				if (auth){
-					[self sendMessage:@"You can use all IRCBot actions." To:[messageData objectAtIndex:4] logAs:3];
+					[ircConnection sendMessage:@"You can use all IRCBot actions." To:[messageData objectAtIndex:4] logAs:3];
 				}else
-					[self sendMessage:@"You can only use IRCBot actions that aren't restricted." To:[messageData objectAtIndex:4] logAs:3];
+					[ircConnection sendMessage:@"You can only use IRCBot actions that aren't restricted." To:[messageData objectAtIndex:4] logAs:3];
 			}
+			NSLog(@"%@",[NSString stringWithFormat:@"^%@hi.*$",trigger]);
 			if ([[messageData objectAtIndex:5] isMatchedByRegex:[NSString stringWithFormat:@"^%@hi.*$",trigger]]){
-					[self sendMessage:[NSString stringWithFormat:@"Hello %@",[messageData objectAtIndex:1]] To:ircRoom logAs:3];
+				[ircConnection sendMessage:[NSString stringWithFormat:@"Hello %@",[messageData objectAtIndex:1]] To:[messageData objectAtIndex:4] logAs:3];
 			}
 		}
 		
 		// Userdefined actions
+		
 		
 	}
 	
@@ -359,98 +319,47 @@ float timeout;
 	
 }
 
--(NSString*)getMessageType:(NSString*)input
-{	
-	if ([input isMatchedByRegex:@"^:[^ ]+? [0-9]{3} .+$"])
-		return @"IRC_STATUS_MSG";
-	
-	// Add the ascii character 1 to the regex using %c
-	if ([input isMatchedByRegex:[NSString stringWithFormat:@"^:.*? PRIVMSG .* :%cACTION .*%c$",1,1]])
-		return @"IRC_ACTION_MSG";
-	else if ([input isMatchedByRegex:[NSString stringWithFormat:@"^:.*? PRIVMSG .* :%c.*%c$",1,1]])
-		return @"IRC_CTCP_REQUEST";
-	else if ([input isMatchedByRegex:[NSString stringWithFormat:@"^:.*? NOTICE .* :%c.*%c$",1,1]])
-		return @"IRC_CTCP_REPLY";
-	else if ([input isMatchedByRegex:@"^:.*? PRIVMSG (&|#|\\+|!).* :.*$"])
-		return @"IRC_CHANNEL_MSG";
-	else if ([input isMatchedByRegex:@"^:.*? PRIVMSG .*:.*$"])
-		return @"IRC_QUERY_MSG";
-	else if ([input isMatchedByRegex:@"^:.*? NOTICE .* :.*$"])
-		return @"IRC_NOTICE_MSG";
-	else if ([input isMatchedByRegex:@"^:.*? INVITE .* .*$"])
-		return @"IRC_INVITE_NOTICE";
-	else if ([input isMatchedByRegex:@"^:.*? JOIN .*$"])
-		return @"IRC_JOIN_NOTICE";
-	else if ([input isMatchedByRegex:@"^:.*? TOPIC .* :.*$"])
-		return @"IRC_TOPICCHANGE_NOTICE";
-	else if ([input isMatchedByRegex:@"^:.*? NICK .*$"])
-		return @"IRC_NICKCHANGE_NOTICE";
-	else if ([input isMatchedByRegex:@"^:.*? KICK .* .*$"]) //maybe: "^:.*?@.*? KICK .* .*$"
-		return @"IRC_KICK_NOTICE";
-	else if ([input isMatchedByRegex:@"^:.*? PART .*$"])
-		return @"IRC_PART_NOTICE";
-	else if ([input isMatchedByRegex:@"^:.*? MODE .* .*$"])
-		return @"IRC_MODECHANGE_NOTICE";
-	else if ([input isMatchedByRegex:@"^:.*? QUIT :.*$"])
-		return @"IRC_QUIT_NOTICE";
-	else if ([input isMatchedByRegex:@"^PING.*?$"])
-		return @"IRC_PING";
-	return @"IRC_TYPE_NIL";
-}
-
-
-#pragma mark -
-#pragma mark IRC Connection
-
-// Connect and disconnect from IRC server functions //
--(void)connectToIRC:(NSString *)server port:(int)port
+-(NSString *)escapeString:(NSString *)string
 {
-	[self logMessage:@"IRCBot - Connecting To IRC" type:1];
-	
-	// Check port validity
-	if (port < 0 || port > 65535)
-		port = 6667;
-	
-	// Connect to host and report any errors that occured
-	NSError *error = nil;
-	if (![ircSocket connectToHost:server onPort:port withTimeout:timeout error:&error]){
-		[self logMessage:[NSString stringWithFormat:@"Error Connecting to IRC: %@", error] type:1];
-		return;
-	}
-	[activityIndicator startAnimation:self];
+	NSMutableString *returnString = [NSMutableString stringWithString:string];
+	[returnString replaceOccurrencesOfString:@"^" withString:@"\\^" options:NSLiteralSearch range:NSMakeRange(0, [returnString length])];
+	[returnString replaceOccurrencesOfString:@"$" withString:@"\\$" options:NSLiteralSearch range:NSMakeRange(0, [returnString length])];
+	[returnString replaceOccurrencesOfString:@"(" withString:@"\\(" options:NSLiteralSearch range:NSMakeRange(0, [returnString length])];
+	[returnString replaceOccurrencesOfString:@")" withString:@"\\)" options:NSLiteralSearch range:NSMakeRange(0, [returnString length])];
+	[returnString replaceOccurrencesOfString:@"<" withString:@"\\<" options:NSLiteralSearch range:NSMakeRange(0, [returnString length])];
+	[returnString replaceOccurrencesOfString:@"[" withString:@"\\[" options:NSLiteralSearch range:NSMakeRange(0, [returnString length])];
+	[returnString replaceOccurrencesOfString:@"{" withString:@"\\{" options:NSLiteralSearch range:NSMakeRange(0, [returnString length])];
+	[returnString replaceOccurrencesOfString:@"\\" withString:@"\\\\" options:NSLiteralSearch range:NSMakeRange(0, [returnString length])];
+	[returnString replaceOccurrencesOfString:@"|" withString:@"\\|" options:NSLiteralSearch range:NSMakeRange(0, [returnString length])];
+	[returnString replaceOccurrencesOfString:@">" withString:@"\\>" options:NSLiteralSearch range:NSMakeRange(0, [returnString length])];
+	[returnString replaceOccurrencesOfString:@"." withString:@"\\." options:NSLiteralSearch range:NSMakeRange(0, [returnString length])];
+	[returnString replaceOccurrencesOfString:@"*" withString:@"\\*" options:NSLiteralSearch range:NSMakeRange(0, [returnString length])];
+	[returnString replaceOccurrencesOfString:@"+" withString:@"\\+" options:NSLiteralSearch range:NSMakeRange(0, [returnString length])];
+	[returnString replaceOccurrencesOfString:@"?" withString:@"\\?" options:NSLiteralSearch range:NSMakeRange(0, [returnString length])];
+	return returnString;
 }
 
--(void)disconnectFromIRC:(NSString *)message
-{
-	[self logMessage:@"IRCBot - Closing Connection to IRC" type:1];
-	NSString* quitMSG = [NSString stringWithFormat:@"QUIT :%@ \r\n",message];
-	[self sendRawString:quitMSG logAs:2];
-	
-	// Start activity indicator and dissconect socket after reading and writing
-	[activityIndicator startAnimation:self];
-	if ([ircSocket isConnected]) 
-		[ircSocket disconnectAfterReadingAndWriting];
-}
-
-// Load conection data from the textfields
 -(void)refreshConnectionData
 {
 	// Get connection data
-	ircServer = [serverAddress stringValue];
-	ircPort = [serverPort intValue];
-	ircRoom = [serverRoom stringValue];
+	NSString *ircServer = [serverAddress stringValue];
+	int ircPort = [serverPort intValue];
+	NSString *ircRoom = [serverRoom stringValue];
 	
 	// Get authentication data
 	NSString *username = [usernameField stringValue];
 	NSString *password = [passwordField stringValue];	
 	NSString *nickname = [nicknameField stringValue];
 	NSString *realname = [realnameField stringValue];
-
-	// Get connection timeout and convert to ms
-	timeout = [[connectionTimeout titleOfSelectedItem] floatValue]*60;
 	
-	NSArray *tempArray = [NSArray arrayWithObjects:username,password,nickname,realname,ircServer,[NSNumber numberWithInteger:ircPort],ircRoom,nil];
+	// Get connection timeout and convert to ms
+	int timeout = [[connectionTimeout titleOfSelectedItem] floatValue]*60;
+	
+	
+	// ConnectionData: username:0 password:1 nickname:2 realname:3 ircServer:4 ircPort:5 ircRoom:6 timeout:7
+	NSArray *tempArray = [NSArray arrayWithObjects:username,password,nickname,realname,ircServer,[NSNumber numberWithInteger:ircPort],ircRoom,[NSNumber numberWithInteger:timeout],nil];
 	[connectionData setArray:tempArray];
+	[ircConnection setConnectionData:tempArray];
 }
 
 // Log message to text view
@@ -515,46 +424,36 @@ float timeout;
 #pragma mark -
 #pragma mark Socket Delegate Messages
 
-// Socket did read data
-- (void)onSocket:(AsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
+- (void)didReadData:(NSString *)msg	ofType:(NSString *)type
 {
-	// Retrive that data and convert to a UTF8String | NSUTF8StringEncoding | NSNonLossyASCIIStringEncoding
-	NSData *strData = [data subdataWithRange:NSMakeRange(0, [data length] - 2)];
-	NSString *msg = [[[NSString alloc] initWithData:strData encoding:NSNonLossyASCIIStringEncoding] autorelease];
-	
-	// If the data is valid start parsing it
-	if (msg){
-		[self parseServerOutput:msg];
-	}else{
-		NSLog(@"%@",msg);
-		[self logMessage:@"Error converting received data into ASCII String" type:1];
-	}
-	// Start new read operation if socket is still conected
-	if ([ircSocket isConnected])
-		[ircSocket readDataToData:[AsyncSocket CRLFData] withTimeout:-1 tag:0];
+	[self parseServerOutput:msg type:type];
 }
 
-// Socket did connect to host
--(void)onSocket:(AsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port
-{	
+- (void)didConnectToHost:(NSString *)host port:(UInt16)port
+{
 	// Stop activity indicator and enable and disable all relevant controls
 	[activityIndicator stopAnimation:self];
 	[connectionButton setEnabled:YES];
 	[connectionButton setTitle:@"Disconect"];
-	
-	// Start reading data
-	[ircSocket readDataToData:[AsyncSocket CRLFData] withTimeout:-1 tag:0];	
-	
-	// Authenticate user and join default room
+		
+	// Authenticate user and join the default room
 	[self authUser:[connectionData objectAtIndex:0] pass:[connectionData objectAtIndex:1] nick:[connectionData objectAtIndex:2] realName:[connectionData objectAtIndex:3]];
-	[self joinRoom:ircRoom];
+	[self joinRoom:[connectionData objectAtIndex:6]];
+	
+	// Join rooms in the autojoin list
+	int index;
+	for (index = 0; index < [autoJoin.autojoinArray count]; index++){
+		NSArray *tempArray = [autoJoin.autojoinArray objectAtIndex:index];
+		if ([[tempArray objectAtIndex:1] intValue] != 0)
+			[self joinRoom:[tempArray objectAtIndex:0]];
+	}
+	
 }
 
-// Socket did disconnect
--(void)onSocketDidDisconnect:(AsyncSocket *)sock
+- (void)didDissconect
 {
 	[self logMessage:@"IRCBot - Socket disconnected" type:1];
-
+	
 	// Stop activity indicator and disable and enable all relevant controls
 	[activityIndicator stopAnimation:self];
 	[serverAddress setEnabled:YES];
@@ -564,27 +463,6 @@ float timeout;
 	[connectionButton setTitle:@"Connect"];
 }
 
-// Socket will discconect with error
--(void)onSocket:(AsyncSocket *)sock willDisconnectWithError:(NSError *)error
-{
-	// Log disconnect error
-	[self logMessage:[NSString stringWithFormat:@"IRCBot - Socket will disconnect with error: %@", error] type:1];
-}
-
-// Socket write timed out
-- (NSTimeInterval)onSocket:(AsyncSocket *)sock shouldTimeoutWriteWithTag:(long)tag elapsed:(NSTimeInterval)elapsed bytesDone:(CFIndex)length
-{
-	[self logMessage:@"IRCBot - Socket write timed out" type:1];
-	return -1;
-}
-
-// Socket read timed out
-- (NSTimeInterval)onSocket:(AsyncSocket *)sock shouldTimeoutReadWithTag:(long)tag elapsed:(NSTimeInterval)elapsed bytesDone:(CFIndex)length
-{
-	[self logMessage:@"IRCBot - Socket read timed out" type:1];
-	return -1;
-}
-
 
 #pragma mark -
 #pragma mark Dealloc Memory
@@ -592,7 +470,7 @@ float timeout;
 // deallocate used memory
 -(void)dealloc
 {
-	[ircSocket release];
+	[ircConnection release];
 	[connectionData release];
 	[super dealloc]; 
 }

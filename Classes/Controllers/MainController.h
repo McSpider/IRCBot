@@ -7,12 +7,12 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "AsyncSocket.h"
-#import "RegexKitLite.h"
+#import	"IRCConnection.h"
 
 #import "RoomData.h"
 #import "HostmaskData.h"
 #import	"ActionsData.h"
+#import	"AutojoinData.h"
 
 
 @interface MainController : NSObject {
@@ -40,21 +40,14 @@
 	IBOutlet RoomData *rooms;
 	IBOutlet HostmaskData *hostmasks;
 	IBOutlet ActionsData *actions;	
+	IBOutlet AutojoinData *autoJoin;	
 }
 
 // Connect to or disconnect IRC connection
--(IBAction)ircConnection:(id)sender;
--(IBAction)parseCommand:(id)sender;
--(IBAction)saveLog:(id)sender;
--(IBAction)clearLog:(id)sender;
--(IBAction)toggleDebug:(id)sender;
-
--(void)refreshConnectionData;
-
--(void)sendMessage:(NSString *)message To:(NSString *)recipient logAs:(int)type;
--(void)sendNotice:(NSString *)message To:(NSString *)recipient logAs:(int)type;
--(void)sendAction:(NSString *)message To:(NSString *)recipient logAs:(int)type;
--(void)sendRawString:(NSString *)string logAs:(int)type;
-
+- (IBAction)ircConnection:(id)sender;
+- (IBAction)parseCommand:(id)sender;
+- (IBAction)saveLog:(id)sender;
+- (IBAction)clearLog:(id)sender;
+- (IBAction)toggleDebug:(id)sender;
 
 @end

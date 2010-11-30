@@ -27,24 +27,16 @@
 	[roomView reloadData];
 }
 
--(void)joinRoom:(NSString *)room
+-(void)addRoom:(NSString *)room
 {
 	int index = [self indexOfRoom:room];
-	if (index == -1)
-		[self.roomArray addObject:[NSMutableArray arrayWithObjects:room,@"Normal",nil]];
-	else
-		[self setStatus:@"Normal" forRoom:room];
+	if (index == -1){
+		IRCRoom *tempRoom = [[IRCRoom alloc] init];
+		tempRoom.name = room;
+		[self.roomArray addObject:tempRoom];
+	}
 	[roomView reloadData];
 }
-
--(void)addRoom:(NSString *)room withStatus:(NSString *)status
-{
-	int index = [self indexOfRoom:room];
-	if (index == -1)
-		[self.roomArray addObject:[NSMutableArray arrayWithObjects:room,status,nil]];
-	[roomView reloadData];
-}
-
 
 -(void)removeRoom:(NSString *)room
 {
@@ -54,6 +46,28 @@
 		[roomView reloadData];
 	}
 }
+
+-(void)setStatus:(NSString *)status forRoom:(NSString *)room
+{
+	int index;
+	if ((index = [self indexOfRoom:room]) != -1){
+		IRCRoom *tempRoom = [self.roomArray objectAtIndex:index];
+		tempRoom.status = status;
+		[roomView reloadData];
+	}
+}
+
+-(void)connectRoom:(NSString *)room
+{
+	int index = [self indexOfRoom:room];
+	if (index == -1){
+		[self addRoom:room];
+		[self setStatus:@"Normal" forRoom:room];
+	}else
+		[self setStatus:@"Normal" forRoom:room];
+	[roomView reloadData];
+}
+
 
 -(void)disconnectRoom:(NSString *)room
 {
@@ -68,21 +82,28 @@
 	}
 }
 
--(void)setStatus:(NSString *)status forRoom:(NSString *)room
+
+#pragma mark -
+#pragma mark Data messages
+
+-(BOOL)connectedToRoom:(NSString *)room
 {
 	int index;
 	if ((index = [self indexOfRoom:room]) != -1){
-		[[self.roomArray objectAtIndex:index] replaceObjectAtIndex:1 withObject:status];
-		[roomView reloadData];
+		IRCRoom *tempRoom = [self.roomArray objectAtIndex:index];
+		if (![tempRoom.status isEqualToString:@"None"]){
+			return YES;
+		}
 	}
+	return NO;
 }
 
 -(int)indexOfRoom:(NSString *)room
 {
 	int index;
 	for (index = 0; index < [self.roomArray count]; index++){
-		NSArray *tempArray = [self.roomArray objectAtIndex:index];
-		if ([[tempArray objectAtIndex:0] isEqualToString:room]){
+		IRCRoom *tempRoom = [self.roomArray objectAtIndex:index];
+		if ([tempRoom.name isEqualToString:room]){
 			return index;
 		}
 	}
@@ -91,20 +112,8 @@
 
 -(NSString *)roomAtIndex:(int)index
 {
-		NSArray *tempArray = [self.roomArray objectAtIndex:index];
-		return [tempArray objectAtIndex:0];
-}
-
--(BOOL)connectedToRoom:(NSString *)room
-{
-	int index;
-	if ((index = [self indexOfRoom:room]) != -1){
-		NSArray *tempArray = [self.roomArray objectAtIndex:index];
-		if ([[tempArray objectAtIndex:1] isEqualToString:@"Normal"]){
-			return YES;
-		}
-	}
-	return NO;
+	IRCRoom *tempRoom = [self.roomArray objectAtIndex:index];
+	return tempRoom.name;
 }
 
 
@@ -118,18 +127,18 @@
 
 -(id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)column row:(int)row
 {	
-	NSArray *tempArray = [self.roomArray objectAtIndex:row];
+	IRCRoom *tempRoom = [self.roomArray objectAtIndex:row];
 	if ([[column identifier] intValue] == 0){
-		if ([[tempArray objectAtIndex:1] isEqualToString:@"None"])
+		if ([tempRoom.status isEqualToString:@"None"])
 			return [NSImage imageNamed:@"Status_None.png"];
-		else if ([[tempArray objectAtIndex:1] isEqualToString:@"Normal"])
+		else if ([tempRoom.status isEqualToString:@"Normal"])
 			return [NSImage imageNamed:@"Status_Room.png"];
-		else if ([[tempArray objectAtIndex:1] isEqualToString:@"Warning"])
+		else if ([tempRoom.status isEqualToString:@"Warning"])
 			return [NSImage imageNamed:@"Status_Alert.png"];
 		else
 			return [NSImage imageNamed:@"Status_None.png"];
 	}else if ([[column identifier] intValue] == 1){
-		return [tempArray objectAtIndex:0];
+		return tempRoom.name;
 	}
 	return @"#null";
 }

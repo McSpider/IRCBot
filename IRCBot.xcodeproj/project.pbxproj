@@ -30,11 +30,9 @@
 		AE6F6B981261662100FCAFCB /* Scripts.png in Resources */ = {isa = PBXBuildFile; fileRef = AE6F6B971261662100FCAFCB /* Scripts.png */; };
 		AE6F6C8E126245C000FCAFCB /* ActionsData.m in Sources */ = {isa = PBXBuildFile; fileRef = AE6F6C8B126245C000FCAFCB /* ActionsData.m */; };
 		AE6F6C8F126245C000FCAFCB /* HostmaskData.m in Sources */ = {isa = PBXBuildFile; fileRef = AE6F6C8D126245C000FCAFCB /* HostmaskData.m */; };
-		AE6F6D7D12625AA200FCAFCB /* PrefController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE6F6D7C12625AA200FCAFCB /* PrefController.m */; };
 		AE6F6F4012627FB800FCAFCB /* div.png in Resources */ = {isa = PBXBuildFile; fileRef = AE6F6F3F12627FB800FCAFCB /* div.png */; };
 		AE6F71BB1262CF3400FCAFCB /* RoomData.m in Sources */ = {isa = PBXBuildFile; fileRef = AE6F71BA1262CF3400FCAFCB /* RoomData.m */; };
 		AE8EBE7E12A0571F00CA3FCE /* License.rtf in Resources */ = {isa = PBXBuildFile; fileRef = AE8EBE7D12A0571F00CA3FCE /* License.rtf */; };
-		AEAD7281124002C80028D5A3 /* MainController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAD727E124002C80028D5A3 /* MainController.m */; };
 		AEAD7282124002C80028D5A3 /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAD7280124002C80028D5A3 /* UserDefaults.m */; };
 		AEAD7286124002D20028D5A3 /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAD7285124002D20028D5A3 /* AsyncSocket.m */; };
 		AEAD728A124002F20028D5A3 /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = AEAD7288124002F20028D5A3 /* AppIcon.icns */; };
@@ -46,10 +44,15 @@
 		AEE5E0A512408C08002D2767 /* EMKeychainItem.m in Sources */ = {isa = PBXBuildFile; fileRef = AEE5E0A412408C08002D2767 /* EMKeychainItem.m */; };
 		AEE5E0AE12408D7A002D2767 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEE5E0AD12408D7A002D2767 /* Carbon.framework */; };
 		AEE5E0C112408F27002D2767 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEE5E0C012408F27002D2767 /* Security.framework */; };
+		AEF6005712A4783E00A95FA8 /* AutojoinData.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF6005612A4783E00A95FA8 /* AutojoinData.m */; };
 		AEF6F79312A1903B00A95FA8 /* Code.png in Resources */ = {isa = PBXBuildFile; fileRef = AEF6F79212A1903B00A95FA8 /* Code.png */; };
 		AEF6FCFB12A32DF300A95FA8 /* Status_Alert.png in Resources */ = {isa = PBXBuildFile; fileRef = AEF6FCF812A32DF300A95FA8 /* Status_Alert.png */; };
 		AEF6FCFC12A32DF300A95FA8 /* Status_None.png in Resources */ = {isa = PBXBuildFile; fileRef = AEF6FCF912A32DF300A95FA8 /* Status_None.png */; };
 		AEF6FCFD12A32DF300A95FA8 /* Status_Room.png in Resources */ = {isa = PBXBuildFile; fileRef = AEF6FCFA12A32DF300A95FA8 /* Status_Room.png */; };
+		AEF6FEFB12A4657400A95FA8 /* IRCConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF6FEFA12A4657400A95FA8 /* IRCConnection.m */; };
+		AEF6FF0012A4657C00A95FA8 /* MainController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF6FEFD12A4657C00A95FA8 /* MainController.m */; };
+		AEF6FF0112A4657C00A95FA8 /* PrefController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF6FEFF12A4657C00A95FA8 /* PrefController.m */; };
+		AEF6FF0D12A4661600A95FA8 /* IRCRoom.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF6FF0C12A4661600A95FA8 /* IRCRoom.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -101,16 +104,12 @@
 		AE6F6C8B126245C000FCAFCB /* ActionsData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActionsData.m; path = Classes/Data/ActionsData.m; sourceTree = "<group>"; };
 		AE6F6C8C126245C000FCAFCB /* HostmaskData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HostmaskData.h; path = Classes/Data/HostmaskData.h; sourceTree = "<group>"; };
 		AE6F6C8D126245C000FCAFCB /* HostmaskData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HostmaskData.m; path = Classes/Data/HostmaskData.m; sourceTree = "<group>"; };
-		AE6F6D7B12625AA200FCAFCB /* PrefController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PrefController.h; path = Classes/PrefController.h; sourceTree = "<group>"; };
-		AE6F6D7C12625AA200FCAFCB /* PrefController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PrefController.m; path = Classes/PrefController.m; sourceTree = "<group>"; };
 		AE6F6F3F12627FB800FCAFCB /* div.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = div.png; path = Images/div.png; sourceTree = "<group>"; };
 		AE6F71B91262CF3400FCAFCB /* RoomData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RoomData.h; path = Classes/Data/RoomData.h; sourceTree = "<group>"; };
 		AE6F71BA1262CF3400FCAFCB /* RoomData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RoomData.m; path = Classes/Data/RoomData.m; sourceTree = "<group>"; };
 		AE8EBE7D12A0571F00CA3FCE /* License.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = License.rtf; sourceTree = "<group>"; };
 		AE8EBE8012A0587800CA3FCE /* Notes.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Notes.rtf; sourceTree = "<group>"; };
 		AE8EBE8112A0587800CA3FCE /* ServerOutput.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = ServerOutput.rtf; sourceTree = "<group>"; };
-		AEAD727D124002C80028D5A3 /* MainController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainController.h; path = Classes/MainController.h; sourceTree = "<group>"; };
-		AEAD727E124002C80028D5A3 /* MainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainController.m; path = Classes/MainController.m; sourceTree = "<group>"; };
 		AEAD727F124002C80028D5A3 /* UserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserDefaults.h; path = Classes/UserDefaults.h; sourceTree = "<group>"; };
 		AEAD7280124002C80028D5A3 /* UserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserDefaults.m; path = Classes/UserDefaults.m; sourceTree = "<group>"; };
 		AEAD7284124002D20028D5A3 /* AsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncSocket.h; sourceTree = "<group>"; };
@@ -128,12 +127,20 @@
 		AEE5E0A412408C08002D2767 /* EMKeychainItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMKeychainItem.m; sourceTree = "<group>"; };
 		AEE5E0AD12408D7A002D2767 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		AEE5E0C012408F27002D2767 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
+		AEF6005512A4783E00A95FA8 /* AutojoinData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AutojoinData.h; path = Classes/Data/AutojoinData.h; sourceTree = "<group>"; };
+		AEF6005612A4783E00A95FA8 /* AutojoinData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AutojoinData.m; path = Classes/Data/AutojoinData.m; sourceTree = "<group>"; };
 		AEF6F79212A1903B00A95FA8 /* Code.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Code.png; path = Images/Code.png; sourceTree = "<group>"; };
 		AEF6FCF812A32DF300A95FA8 /* Status_Alert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Status_Alert.png; path = Images/Status_Alert.png; sourceTree = "<group>"; };
 		AEF6FCF912A32DF300A95FA8 /* Status_None.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Status_None.png; path = Images/Status_None.png; sourceTree = "<group>"; };
 		AEF6FCFA12A32DF300A95FA8 /* Status_Room.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Status_Room.png; path = Images/Status_Room.png; sourceTree = "<group>"; };
-		AEF6FDB112A354AA00A95FA8 /* IRCConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRCConnection.h; sourceTree = "<group>"; };
-		AEF6FDB212A354AA00A95FA8 /* IRCConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRCConnection.m; sourceTree = "<group>"; };
+		AEF6FEF912A4657400A95FA8 /* IRCConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IRCConnection.h; path = Classes/IRC/IRCConnection.h; sourceTree = "<group>"; };
+		AEF6FEFA12A4657400A95FA8 /* IRCConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IRCConnection.m; path = Classes/IRC/IRCConnection.m; sourceTree = "<group>"; };
+		AEF6FEFC12A4657C00A95FA8 /* MainController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainController.h; path = Classes/Controllers/MainController.h; sourceTree = "<group>"; };
+		AEF6FEFD12A4657C00A95FA8 /* MainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainController.m; path = Classes/Controllers/MainController.m; sourceTree = "<group>"; };
+		AEF6FEFE12A4657C00A95FA8 /* PrefController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PrefController.h; path = Classes/Controllers/PrefController.h; sourceTree = "<group>"; };
+		AEF6FEFF12A4657C00A95FA8 /* PrefController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PrefController.m; path = Classes/Controllers/PrefController.m; sourceTree = "<group>"; };
+		AEF6FF0B12A4661600A95FA8 /* IRCRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IRCRoom.h; path = Classes/IRC/IRCRoom.h; sourceTree = "<group>"; };
+		AEF6FF0C12A4661600A95FA8 /* IRCRoom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IRCRoom.m; path = Classes/IRC/IRCRoom.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,15 +161,11 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				AEAD727D124002C80028D5A3 /* MainController.h */,
-				AEAD727E124002C80028D5A3 /* MainController.m */,
-				AEF6FDB112A354AA00A95FA8 /* IRCConnection.h */,
-				AEF6FDB212A354AA00A95FA8 /* IRCConnection.m */,
+				AEF6FF0312A465A900A95FA8 /* Controllers */,
+				AEF6FF0212A4659400A95FA8 /* IRC */,
+				AE6F6BF212623DEE00FCAFCB /* Data */,
 				AEAD727F124002C80028D5A3 /* UserDefaults.h */,
 				AEAD7280124002C80028D5A3 /* UserDefaults.m */,
-				AE6F6BF212623DEE00FCAFCB /* Data */,
-				AE6F6D7B12625AA200FCAFCB /* PrefController.h */,
-				AE6F6D7C12625AA200FCAFCB /* PrefController.m */,
 				AEAD7283124002D20028D5A3 /* Includes */,
 				AEBB0051123C31C400E6CC21 /* UI */,
 			);
@@ -287,6 +290,8 @@
 				AE6F6C8D126245C000FCAFCB /* HostmaskData.m */,
 				AE6F71B91262CF3400FCAFCB /* RoomData.h */,
 				AE6F71BA1262CF3400FCAFCB /* RoomData.m */,
+				AEF6005512A4783E00A95FA8 /* AutojoinData.h */,
+				AEF6005612A4783E00A95FA8 /* AutojoinData.m */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -328,6 +333,28 @@
 				AE5C7E58129B82560080F146 /* KBScroller.m */,
 			);
 			name = UI;
+			sourceTree = "<group>";
+		};
+		AEF6FF0212A4659400A95FA8 /* IRC */ = {
+			isa = PBXGroup;
+			children = (
+				AEF6FEF912A4657400A95FA8 /* IRCConnection.h */,
+				AEF6FEFA12A4657400A95FA8 /* IRCConnection.m */,
+				AEF6FF0B12A4661600A95FA8 /* IRCRoom.h */,
+				AEF6FF0C12A4661600A95FA8 /* IRCRoom.m */,
+			);
+			name = IRC;
+			sourceTree = "<group>";
+		};
+		AEF6FF0312A465A900A95FA8 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				AEF6FEFC12A4657C00A95FA8 /* MainController.h */,
+				AEF6FEFD12A4657C00A95FA8 /* MainController.m */,
+				AEF6FEFE12A4657C00A95FA8 /* PrefController.h */,
+				AEF6FEFF12A4657C00A95FA8 /* PrefController.m */,
+			);
+			name = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -411,17 +438,20 @@
 				AEBBFFF8123C044E00E6CC21 /* UIController.m in Sources */,
 				AEBB006E123C31D100E6CC21 /* KBTextField.m in Sources */,
 				AEBB006F123C31D100E6CC21 /* KBSTextFieldCell.m in Sources */,
-				AEAD7281124002C80028D5A3 /* MainController.m in Sources */,
 				AEAD7282124002C80028D5A3 /* UserDefaults.m in Sources */,
 				AEAD7286124002D20028D5A3 /* AsyncSocket.m in Sources */,
 				AEE5E0A512408C08002D2767 /* EMKeychainItem.m in Sources */,
 				AE6F6C8E126245C000FCAFCB /* ActionsData.m in Sources */,
 				AE6F6C8F126245C000FCAFCB /* HostmaskData.m in Sources */,
-				AE6F6D7D12625AA200FCAFCB /* PrefController.m in Sources */,
 				AE6F71BB1262CF3400FCAFCB /* RoomData.m in Sources */,
 				AE5CFC431268F1F700C96195 /* RegexKitLite.m in Sources */,
 				AE5C7E5B129B82560080F146 /* KBScroller.m in Sources */,
 				AE5C7E5C129B82560080F146 /* KBScrollView.m in Sources */,
+				AEF6FEFB12A4657400A95FA8 /* IRCConnection.m in Sources */,
+				AEF6FF0012A4657C00A95FA8 /* MainController.m in Sources */,
+				AEF6FF0112A4657C00A95FA8 /* PrefController.m in Sources */,
+				AEF6FF0D12A4661600A95FA8 /* IRCRoom.m in Sources */,
+				AEF6005712A4783E00A95FA8 /* AutojoinData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
