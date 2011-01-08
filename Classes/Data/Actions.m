@@ -1,14 +1,14 @@
 //
-//  ActionsData.m
+//  IRCActions.m
 //  IRCBot
 //
 //  Created by Ben K on 2010/09/16.
 //  All code is provided under the New BSD license.
 //
 
-#import "ActionsData.h"
+#import "Actions.h"
 
-@implementation ActionsData
+@implementation Actions
 @synthesize actionsArray;
 
 
@@ -31,11 +31,11 @@
 	return self;
 }
 
--(void)addAction:(NSString *)action name:(NSString *)name restricted:(BOOL)restricted
+-(void)addAction:(NSString *)action name:(NSString *)name restricted:(BOOL)boolean
 {	
-	NSString *auth;
-	if (restricted) auth = @"Yes";
-	else auth = @"No";
+	int auth;
+	if (boolean) auth = 1;
+	else auth = 0;
 	
 	NSArray *tempArray = [NSArray arrayWithObjects:name,action,auth,nil];
 	[self.actionsArray addObject:tempArray];

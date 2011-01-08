@@ -1,14 +1,14 @@
 //
-//  RoomData.m
+//  IRCRooms.m
 //  IRCBot
 //
 //  Created by Ben K on 2010/09/16.
 //  All code is provided under the New BSD license.
 //
 
-#import "RoomData.h"
+#import "IRCRooms.h"
 
-@implementation RoomData
+@implementation IRCRooms
 @synthesize roomArray;
 
 
@@ -91,7 +91,7 @@
 	int index;
 	if ((index = [self indexOfRoom:room]) != -1){
 		IRCRoom *tempRoom = [self.roomArray objectAtIndex:index];
-		if (![tempRoom.status isEqualToString:@"None"]){
+		if ([tempRoom.status isEqualToString:@"Normal"]){
 			return YES;
 		}
 	}

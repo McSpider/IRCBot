@@ -3,7 +3,7 @@
 //  IRCBot
 //
 //  Created by Ben K on 2010/11/29.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//  All code is provided under the New BSD license.
 //
 
 #import "AutojoinData.h"

@@ -1,14 +1,14 @@
 //
-//  HostmaskData.m
+//  IRCHostmasks.m
 //  IRCBot
 //
 //  Created by Ben K on 2010/09/16.
 //  All code is provided under the New BSD license.
 //
 
-#import "HostmaskData.h"
+#import "Hostmasks.h"
 
-@implementation HostmaskData
+@implementation Hostmasks
 @synthesize hostmaskArray;
 
 
@@ -23,15 +23,15 @@
 	return self;
 }
 
--(void)addHostmask:(NSString *)host block:(BOOL)block
+-(void)addHostmask:(NSString *)host block:(BOOL)boolean
 {
-		NSString *auth;
-		if (block) auth = @"Yes";
-		else auth = @"No";
+	int auth;
+	if (boolean) auth = 1;
+	else auth = 0;
 	
-		NSArray *tempArray = [NSArray arrayWithObjects:host,auth,nil];
-		[self.hostmaskArray addObject:tempArray];
-		[hostmaskView reloadData];
+	NSArray *tempArray = [NSArray arrayWithObjects:host,[NSNumber numberWithInt:auth],nil];
+	[self.hostmaskArray addObject:tempArray];
+	[hostmaskView reloadData];
 }
 
 -(IBAction)addNewHostmask:(id)sender

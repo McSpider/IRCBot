@@ -1,5 +1,5 @@
 //
-//  ActionsData.h
+//  IRCActions.h
 //  IRCBot
 //
 //  Created by Ben K on 2010/10/10.
@@ -8,8 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-
-@interface ActionsData : NSObject {
+@interface Actions : NSObject {
 
 	int actionIndex;
 	NSMutableArray *actionsArray;
@@ -26,7 +25,7 @@
 @property (nonatomic,assign) NSMutableArray *actionsArray;
 
 
--(void)addAction:(NSString *)action name:(NSString *)name restricted:(BOOL)restricted;
+-(void)addAction:(NSString *)action name:(NSString *)name restricted:(BOOL)boolean;
 
 -(IBAction)addNewAction:(id)sender;
 -(IBAction)removeSelectedAction:(id)sender;

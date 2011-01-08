@@ -1,5 +1,5 @@
 //
-//  HostmaskData.h
+//  Hostmasks.h
 //  IRCBot
 //
 //  Created by Ben K on 2010/09/16.
@@ -8,8 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-
-@interface HostmaskData : NSObject {
+@interface Hostmasks : NSObject {
 
 	int userIndex;
 	NSMutableArray *hostmaskArray;
@@ -28,7 +27,7 @@
 -(IBAction)addNewHostmask:(id)sender;
 -(IBAction)removeSelectedHostmask:(id)sender;
 
--(void)addHostmask:(NSString *)host block:(BOOL)block;
+-(void)addHostmask:(NSString *)host block:(BOOL)boolean;
 -(void)clearData;
 
 -(BOOL)getAuthForHostmask:(NSString *)hostmask;

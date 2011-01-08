@@ -18,14 +18,14 @@
 {	
 	//Checks to see app support folder exits if not create it.
 	NSFileManager *fileManager = [NSFileManager defaultManager];
-	NSString *folder = @"~/Library/Application Support/IRCBot/";
-	NSString *actions = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/contents/resources/Actions.plist"];
+	NSString *folderPath = @"~/Library/Application Support/IRCBot/";
+	NSString *actionsPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/contents/resources/Actions.plist"];
 	
-	folder = [folder stringByExpandingTildeInPath];
-	if ([fileManager fileExistsAtPath: folder] == NO)
-		[fileManager createDirectoryAtPath: folder attributes: nil];
-	if ([fileManager isReadableFileAtPath:folder] && ![fileManager fileExistsAtPath:[NSString stringWithFormat:@"%@/Actions.plist",folder]])
-		[fileManager copyPath:actions toPath:[NSString stringWithFormat:@"%@/Actions.plist",folder] handler:nil];
+	folderPath = [folderPath stringByExpandingTildeInPath];
+	if ([fileManager fileExistsAtPath: folderPath] == NO)
+		[fileManager createDirectoryAtPath: folderPath attributes: nil];
+	if ([fileManager isReadableFileAtPath:folderPath] && ![fileManager fileExistsAtPath:[NSString stringWithFormat:@"%@/Actions.plist",folderPath]])
+		[fileManager copyPath:actionsPath toPath:[NSString stringWithFormat:@"%@/Actions.plist",folderPath] handler:nil];
 	
 	
 	// Hide the resize indicators on the windows
@@ -76,6 +76,7 @@
 		[EMGenericKeychainItem addGenericKeychainItemForService:@"IRCBot" withUsername:[uName stringValue] password:[uPassword stringValue]];
 		[passwordField setStringValue:[uPassword stringValue]];
 		[usernameField setStringValue:[uName stringValue]];
+		[autojoin addRoom:@"#jzbot" autojoin:YES];
 		
 		[standardUserDefaults setObject:[uRealname stringValue] forKey:@"realname"];
 		[standardUserDefaults setObject:[uNick stringValue] forKey:@"nickname"];
@@ -83,10 +84,9 @@
 		[standardUserDefaults setObject:[NSString stringWithFormat:@"%@: |+",[uNick stringValue]] forKey:@"triggers"];
 		[standardUserDefaults setObject:@"irc.freenode.net" forKey:@"irc_server"];
 		[standardUserDefaults setObject:@"6667" forKey:@"irc_port"];
-		[standardUserDefaults setObject:@"#jzbot" forKey:@"ircHome"];
 		[standardUserDefaults synchronize];
 	}
-	[usersData addHostmask:[hostMask stringValue] block:NO];
+	[hostmasks addHostmask:[hostMask stringValue] block:NO];
 	[self setFirstStart:YES];
 	
 	// End modal session
@@ -130,14 +130,14 @@
 		[hostMask setStringValue:@""];
 		
 		// Clear hostmask data
-		[usersData clearData];
-		[ircAutojoin clearData];
+		[hostmasks clearData];
+		[autojoin clearData];
 		
 		// Reset actions .plist
-		NSString *actions = [@"~/Library/Application Support/IRCBot/Actions.plist" stringByExpandingTildeInPath];
+		NSString *actionsPath = [@"~/Library/Application Support/IRCBot/Actions.plist" stringByExpandingTildeInPath];
 		NSString *defaultActions = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/contents/resources/Actions.plist"];		
-		[[NSFileManager defaultManager] removeFileAtPath:actions handler:nil];
-		[[NSFileManager defaultManager] copyPath:defaultActions toPath:actions handler:nil];
+		[[NSFileManager defaultManager] removeFileAtPath:actionsPath handler:nil];
+		[[NSFileManager defaultManager] copyPath:defaultActions toPath:actionsPath handler:nil];
 
 		
 		// Start modal session and open setupwindow.
@@ -175,11 +175,11 @@
 -(IBAction)savePreferences:(id)sender
 {
 	NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];	
-	[standardUserDefaults setObject:[usersData hostmaskArray] forKey:@"hostmasks"];
-	[standardUserDefaults setObject:[ircAutojoin autojoinArray] forKey:@"autojoin"];
+	[standardUserDefaults setObject:[hostmasks hostmaskArray] forKey:@"hostmasks"];
+	[standardUserDefaults setObject:[autojoin autojoinArray] forKey:@"autojoin"];
 	
-	NSString *actions = @"~/Library/Application Support/IRCBot/Actions.plist";
-	[ircActions.actionsArray writeToFile:[actions stringByExpandingTildeInPath] atomically:YES];	
+	NSString *actionsPath = @"~/Library/Application Support/IRCBot/Actions.plist";
+	[actions.actionsArray writeToFile:[actionsPath stringByExpandingTildeInPath] atomically:YES];	
 	
 	// Save the password to the appropriate location
 	if (![passwordInPlistCheck state]){

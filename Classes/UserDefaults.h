@@ -8,8 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 #import "EMKeychainItem.h"
-#import "HostmaskData.h"
-#import "ActionsData.h"
+#import "Hostmasks.h"
+#import "Actions.h"
 #import "AutojoinData.h"
 #import "PrefController.h"
 
@@ -31,9 +31,9 @@
 	IBOutlet NSButton *passwordInPlistCheck;
 	IBOutlet PrefController *prefs;
 
-	IBOutlet HostmaskData *usersData;
-	IBOutlet ActionsData *ircActions;
-	IBOutlet AutojoinData *ircAutojoin;
+	IBOutlet Hostmasks *hostmasks;
+	IBOutlet Actions *actions;
+	IBOutlet AutojoinData *autojoin;
 	
 	NSModalSession session;
 }

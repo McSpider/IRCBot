@@ -68,7 +68,7 @@ NSMutableArray* connectionData;
 -(void)sendMessage:(NSString *)message To:(NSString *)recipient logAs:(int)type
 {
 	if (recipient == nil || [recipient isEqualToString:@"NONE"])
-		recipient = [connectionData objectAtIndex:6];
+		return;
 	NSString* msg = [NSString stringWithFormat:@"PRIVMSG %@ :%@\r\n", recipient, message];
 	if ([message length] >= 1) [self sendRawString:msg logAs:type];
 }
@@ -76,7 +76,7 @@ NSMutableArray* connectionData;
 -(void)sendNotice:(NSString *)message To:(NSString *)recipient logAs:(int)type
 {
 	if (recipient == nil || [recipient isEqualToString:@"NONE"])
-		recipient = [connectionData objectAtIndex:6];
+		return;
 	NSString* msg = [NSString stringWithFormat:@"NOTICE %@ :%@\r\n", recipient, message];
 	if ([message length] >= 1) [self sendRawString:msg logAs:type];
 }
@@ -84,7 +84,7 @@ NSMutableArray* connectionData;
 -(void)sendAction:(NSString *)message To:(NSString *)recipient logAs:(int)type
 {
 	if (recipient == nil || [recipient isEqualToString:@"NONE"])
-		recipient = [connectionData objectAtIndex:6];
+		return;
 	NSString* msg = [NSString stringWithFormat:@"PRIVMSG %@ :%cACTION %@%c\r\n", recipient, 1, message, 1];
 	if ([message length] >= 1) [self sendRawString:msg logAs:type];
 }
@@ -92,7 +92,7 @@ NSMutableArray* connectionData;
 -(void)sendRawString:(NSString *)string logAs:(int)type
 {
 	NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
-	if ([string length] >= 1) [ircSocket writeData:data withTimeout:[[connectionData objectAtIndex:7] intValue] tag:0];
+	if ([string length] >= 1) [ircSocket writeData:data withTimeout:[[connectionData objectAtIndex:6] intValue] tag:0];
 	if([ircDelegate respondsToSelector:@selector(logMessage:type:)])
 		[ircDelegate logMessage:[NSString stringWithFormat:@"%@", string] type:type];
 }
@@ -149,7 +149,7 @@ NSMutableArray* connectionData;
 	
 	// Connect to host and report any errors that occured
 	NSError *error = nil;
-	if (![ircSocket connectToHost:server onPort:port withTimeout:[[connectionData objectAtIndex:7] intValue] error:&error]){
+	if (![ircSocket connectToHost:server onPort:port withTimeout:[[connectionData objectAtIndex:6] intValue] error:&error]){
 		[ircDelegate logMessage:[NSString stringWithFormat:@"Error Connecting to IRC: %@", error] type:1];
 		return;
 	}

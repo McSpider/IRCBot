@@ -1,5 +1,5 @@
 //
-//  RoomData.h
+//  IRCRooms.h
 //  IRCBot
 //
 //  Created by Ben K on 2010/09/16.
@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "IRCRoom.h"
 
-@interface RoomData : NSObject {
+@interface IRCRooms : NSObject {
 	
 	int roomIndex;
 	NSMutableArray *roomArray;
