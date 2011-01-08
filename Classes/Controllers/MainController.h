@@ -9,9 +9,9 @@
 #import <Cocoa/Cocoa.h>
 #import	"IRCConnection.h"
 
-#import "RoomData.h"
-#import "HostmaskData.h"
-#import	"ActionsData.h"
+#import "IRCRooms.h"
+#import "Hostmasks.h"
+#import	"Actions.h"
 #import	"AutojoinData.h"
 
 
@@ -22,24 +22,23 @@
 	IBOutlet NSTextField *commandField;
 	IBOutlet NSTextField *serverAddress;
 	IBOutlet NSTextField *serverPort;
-	IBOutlet NSTextField *serverRoom;
 	IBOutlet NSButton *connectionButton;
 	IBOutlet NSTextField *usernameField;
 	IBOutlet NSTextField *passwordField;
 	IBOutlet NSTextField *nicknameField;
 	IBOutlet NSTextField *realnameField;
 	
+	IBOutlet NSButton *rejoinKickedRooms;
+	
 	IBOutlet NSMenuItem *debugMenuItem;
 
 	// Connection //
 	IBOutlet NSTextView *serverOutput;
 	IBOutlet NSProgressIndicator *activityIndicator;
-	IBOutlet NSPopUpButton *connectionTimeout;
-	IBOutlet NSTextField *triggerField;
 		
-	IBOutlet RoomData *rooms;
-	IBOutlet HostmaskData *hostmasks;
-	IBOutlet ActionsData *actions;	
+	IBOutlet IRCRooms *rooms;
+	IBOutlet Hostmasks *hostmasks;
+	IBOutlet Actions *actions;	
 	IBOutlet AutojoinData *autoJoin;	
 }
 

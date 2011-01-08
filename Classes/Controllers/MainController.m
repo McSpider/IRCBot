@@ -59,36 +59,34 @@ IRCConnection *ircConnection;
 		if ([commandString isMatchedByRegex:@"^/join\\s.*$"]){
 			if (![rooms connectedToRoom:[commandArray objectAtIndex:1]])
 				[self joinRoom:[commandArray objectAtIndex:1]];
+			else
+				[self logMessage:@"You are already in that room." type:4];
 		}else if ([commandString isMatchedByRegex:@"^/part\\s.*$"]){
 			if ([rooms connectedToRoom:[commandArray objectAtIndex:1]])
 				[self partRoom:[commandArray objectAtIndex:1]];
+			else
+				[self logMessage:@"You are not connected to that room." type:4];
 		}else if ([commandString isMatchedByRegex:@"^/msg\\s.*\\s.*$"]){
-			if ([rooms.roomArray containsObject:[commandArray objectAtIndex:1]]){
-				NSString *tempString = @"";
-				int i;
-				for (i = 2; i < [commandArray count]; i++){
-					tempString = [tempString stringByAppendingString:[NSString stringWithFormat:@" %@",[commandArray objectAtIndex:i]]];
-				}
-				[ircConnection sendMessage:tempString To:[commandArray objectAtIndex:1] logAs:2];
+			NSString *tempString = @"";
+			int i;
+			for (i = 2; i < [commandArray count]; i++){
+				tempString = [tempString stringByAppendingString:[NSString stringWithFormat:@" %@",[commandArray objectAtIndex:i]]];
 			}
+			[ircConnection sendMessage:tempString To:[commandArray objectAtIndex:1] logAs:2];
 		}else if ([commandString isMatchedByRegex:@"^/me\\s.*\\s.*$"]){
-			if ([rooms.roomArray containsObject:[commandArray objectAtIndex:1]]){
-				NSString *tempString = @"";
-				int i;
-				for (i = 2; i < [commandArray count]; i++){
-					tempString = [tempString stringByAppendingString:[NSString stringWithFormat:@" %@",[commandArray objectAtIndex:i]]];
-				}
-				[ircConnection sendAction:tempString To:[commandArray objectAtIndex:1] logAs:2];
+			NSString *tempString = @"";
+			int i;
+			for (i = 2; i < [commandArray count]; i++){
+				tempString = [tempString stringByAppendingString:[NSString stringWithFormat:@" %@",[commandArray objectAtIndex:i]]];
 			}
+			[ircConnection sendAction:tempString To:[commandArray objectAtIndex:1] logAs:2];
 		}else if ([commandString isMatchedByRegex:@"^/notice\\s.*\\s.*$"]){
-			if ([rooms.roomArray containsObject:[commandArray objectAtIndex:1]]){
-				NSString *tempString = @"";
-				int i;
-				for (i = 2; i < [commandArray count]; i++){
-					tempString = [tempString stringByAppendingString:[NSString stringWithFormat:@" %@",[commandArray objectAtIndex:i]]];
-				}
-				[ircConnection sendNotice:tempString To:[commandArray objectAtIndex:1] logAs:2];
+			NSString *tempString = @"";
+			int i;
+			for (i = 2; i < [commandArray count]; i++){
+				tempString = [tempString stringByAppendingString:[NSString stringWithFormat:@" %@",[commandArray objectAtIndex:i]]];
 			}
+			[ircConnection sendNotice:tempString To:[commandArray objectAtIndex:1] logAs:2];
 		}else if ([commandString isMatchedByRegex:@"^/help(\\s.*$|$)"]){
 			[self logMessage:@"Valid commands are:\n› /join <room>\n› /part <room>\n› /msg <room> <msg>\n› /me <room> <msg>\n› /notice <room> <msg>" type:4];
 		}
@@ -154,9 +152,7 @@ IRCConnection *ircConnection;
 
 -(void)awakeFromNib
 {
-	[rooms addRoom:[serverRoom stringValue]];
 	connectionData = [[NSMutableArray alloc] init];
-	[self refreshConnectionData];
 	Debugging = NO;
 }
 
@@ -164,6 +160,7 @@ IRCConnection *ircConnection;
 {
 	if (!(ircConnection = [[IRCConnection alloc] initWithDelegate:self]))
 		[self logMessage:@"IRCBot - IRCConnection Allocation Error" type:1];
+	[self refreshConnectionData];
 }
 
 // Application should quit but server is still connected
@@ -171,12 +168,19 @@ IRCConnection *ircConnection;
 {
 	// If socket is still conected ask user if he's sure
 	if ([ircConnection isConnected]){
-		int answer = NSRunAlertPanel(@"You are still conected to a server.",@"Would you like to dissconect from the server before quiting?",
-																 @"Quit",@"Yes", nil);
-		if(answer != NSAlertDefaultReturn){
-			//[self disconnectFromIRC:@"Bye, don't forget to feed the goldfish."];
+		NSAlert *alert = [[NSAlert alloc] init];
+    [alert setMessageText:@"You are still conected to a server."];
+    [alert setInformativeText:@"Would you like to dissconect from the server before quiting?"];
+		[alert addButtonWithTitle:@"Yes"];
+		[alert addButtonWithTitle:@"Quit"];
+		[alert setAlertStyle:NSWarningAlertStyle];
+		int answer = [alert runModal];
+
+		if( answer == NSAlertFirstButtonReturn ) {
+			[alert release];
 			return NSTerminateCancel;
 		}
+		[alert release];
 	}
 	// If he is, quit application
 	return NSTerminateNow;
@@ -184,16 +188,34 @@ IRCConnection *ircConnection;
 
 // Main window is should be closed
 - (BOOL)windowShouldClose:(NSWindow *)sender
-{
+{		
 	if (sender == mainWindow){
-		// Ask user if he's sure
-		int answer = NSRunInformationalAlertPanel(@"Are you sure you want to close the main window?",
-																							@"You can display it again later by going under the IRCBot menu and choosing \"Main Window\".",
-																							@"Close",@"Cancel", nil);
-		// If he is, close window
-		if (answer == NSAlertDefaultReturn)
+		
+		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		if ([defaults boolForKey:@"hide_window_alert"]) {
 			return YES;
-		return NO;
+		}
+		
+		NSAlert *alert = [[NSAlert alloc] init];
+    [alert setMessageText:@"Are you sure you want to close the main window?"];
+    [alert setInformativeText:@"You can display it again later by going under the IRCBot menu and choosing \"Main Window\"."];
+		[alert addButtonWithTitle:@"Close"];
+		[alert addButtonWithTitle:@"Cancel"];
+		[alert setShowsSuppressionButton:YES];
+		[alert setAlertStyle:NSWarningAlertStyle];
+		int answer = [alert runModal];
+
+		if( answer == NSAlertSecondButtonReturn ) {
+			if ([[alert suppressionButton] state] == NSOnState) {
+				[defaults setBool:YES forKey:@"hide_window_alert"];
+			}
+			[alert release];
+			return NO;
+		}
+		if ([[alert suppressionButton] state] == NSOnState) {
+			[defaults setBool:YES forKey:@"hide_window_alert"];
+		}
+		[alert release];
 	}
 	return YES;
 }
@@ -214,7 +236,6 @@ IRCConnection *ircConnection;
 		[self logMessage:@"IRCBot - Joining Room" type:1];
 		NSString* joinMessage = [NSString stringWithFormat:@"JOIN %@ \r\n", aRoom];
 		[ircConnection sendRawString:joinMessage logAs:2];
-		[rooms connectRoom:aRoom];
 	}
 }
 
@@ -263,17 +284,18 @@ IRCConnection *ircConnection;
 	if ([type isEqualToString:@"IRC_CHANNEL_MSG"]){
 		// Split the message into its components 0:raw 1:Username 2:Hostmask 3:Type 4:Room 5:Message 6:Empty
 		NSArray *messageData;
-		messageData = [[input arrayOfCaptureComponentsMatchedByRegex:@":([^!]++)!~(\\S++)\\s++(\\S++)\\s++:?+(\\S++)\\s*+(?:[:+-]++(.*+))?(.*?)$"] objectAtIndex:0];
+		messageData = [[input arrayOfCaptureComponentsMatchedByRegex:@":([^!]+)!~(\\S+)\\s+(\\S+)\\s+:?+(\\S+)\\s*(?:[:+-]+(.*+))?$"] objectAtIndex:0];
 		
 		// Get triggers
-		NSArray *triggers = [[triggerField stringValue] componentsSeparatedByString:@"|"];
+		NSMutableArray *triggers = [NSMutableArray array]; //[NSMutableArray arrayWithArray:[[triggerField stringValue] componentsSeparatedByString:@"|"]];
+		[triggers insertObject:[NSString stringWithFormat:@"%@: ",[connectionData objectAtIndex:2]] atIndex:0];
 		
 		// Hardcoded actions
 		int index;
 		for (index = 0; index < [triggers count]; index++){
 			NSString *trigger = [triggers objectAtIndex:index];
 			// Escape all regex characters, not working properly
-			trigger = [self escapeString:trigger];
+			//trigger = [self escapeString:trigger];
 			
 			BOOL auth = [hostmasks getAuthForHostmask:[messageData objectAtIndex:2]]; 
 			if ([[messageData objectAtIndex:5] isMatchedByRegex:[NSString stringWithFormat:@"^%@shutdown.*$",trigger]]){
@@ -289,8 +311,8 @@ IRCConnection *ircConnection;
 				}else
 					[ircConnection sendMessage:@"You can only use IRCBot actions that aren't restricted." To:[messageData objectAtIndex:4] logAs:3];
 			}
-			NSLog(@"%@",[NSString stringWithFormat:@"^%@hi.*$",trigger]);
-			if ([[messageData objectAtIndex:5] isMatchedByRegex:[NSString stringWithFormat:@"^%@hi.*$",trigger]]){
+			NSLog(@"%@",[NSString stringWithFormat:@"^%@hi$",trigger]);
+			if ([[messageData objectAtIndex:5] isMatchedByRegex:[NSString stringWithFormat:@"^%@hi$",trigger]]){
 				[ircConnection sendMessage:[NSString stringWithFormat:@"Hello %@",[messageData objectAtIndex:1]] To:[messageData objectAtIndex:4] logAs:3];
 			}
 		}
@@ -308,6 +330,22 @@ IRCConnection *ircConnection;
 			NSString *reason = [[tempArray objectAtIndex:1] substringFromIndex:tempRange.location+tempRange.length+2];
 			[self logMessage:[NSString stringWithFormat:@"IRCBot - You have just been kicked from:%@ reason:%@",room,reason] type:1];
 			[rooms setStatus:@"Warning" forRoom:room];
+			
+			if ([rejoinKickedRooms state]){
+				[self joinRoom:room];
+			}
+		}
+	}
+	
+	// Cleanup and make more universal
+	if ([type isEqualToString:@"IRC_STATUS_MSG"]){
+		
+		// Split the message into its components 0:raw 1:ircServer 2:Empty 3:Notice# 4:Botname 5:Room 6:Message
+		NSArray *messageData;
+		messageData = [input arrayOfCaptureComponentsMatchedByRegex:@":(\\S+)\\s+([0-9]*?)(\\S+)\\s+(\\S+)\\s+:?+(\\S+)\\s*(?:[:+-]+(.*+))?$"];
+				
+		if ([input isMatchedByRegex:[NSString stringWithFormat:@"^.*\\s366\\s%@\\s.*:End of /NAMES.*$",[connectionData objectAtIndex:2]]]){
+			[rooms connectRoom:[[messageData objectAtIndex:0] objectAtIndex:5]];
 		}
 	}
 	
@@ -330,7 +368,6 @@ IRCConnection *ircConnection;
 	[returnString replaceOccurrencesOfString:@"[" withString:@"\\[" options:NSLiteralSearch range:NSMakeRange(0, [returnString length])];
 	[returnString replaceOccurrencesOfString:@"{" withString:@"\\{" options:NSLiteralSearch range:NSMakeRange(0, [returnString length])];
 	[returnString replaceOccurrencesOfString:@"\\" withString:@"\\\\" options:NSLiteralSearch range:NSMakeRange(0, [returnString length])];
-	[returnString replaceOccurrencesOfString:@"|" withString:@"\\|" options:NSLiteralSearch range:NSMakeRange(0, [returnString length])];
 	[returnString replaceOccurrencesOfString:@">" withString:@"\\>" options:NSLiteralSearch range:NSMakeRange(0, [returnString length])];
 	[returnString replaceOccurrencesOfString:@"." withString:@"\\." options:NSLiteralSearch range:NSMakeRange(0, [returnString length])];
 	[returnString replaceOccurrencesOfString:@"*" withString:@"\\*" options:NSLiteralSearch range:NSMakeRange(0, [returnString length])];
@@ -344,7 +381,6 @@ IRCConnection *ircConnection;
 	// Get connection data
 	NSString *ircServer = [serverAddress stringValue];
 	int ircPort = [serverPort intValue];
-	NSString *ircRoom = [serverRoom stringValue];
 	
 	// Get authentication data
 	NSString *username = [usernameField stringValue];
@@ -353,11 +389,11 @@ IRCConnection *ircConnection;
 	NSString *realname = [realnameField stringValue];
 	
 	// Get connection timeout and convert to ms
-	int timeout = [[connectionTimeout titleOfSelectedItem] floatValue]*60;
+	int timeout = 1.2*60;
 	
 	
-	// ConnectionData: username:0 password:1 nickname:2 realname:3 ircServer:4 ircPort:5 ircRoom:6 timeout:7
-	NSArray *tempArray = [NSArray arrayWithObjects:username,password,nickname,realname,ircServer,[NSNumber numberWithInteger:ircPort],ircRoom,[NSNumber numberWithInteger:timeout],nil];
+	// ConnectionData: username:0 password:1 nickname:2 realname:3 ircServer:4 ircPort:5 timeout:6
+	NSArray *tempArray = [NSArray arrayWithObjects:username,password,nickname,realname,ircServer,[NSNumber numberWithInteger:ircPort],[NSNumber numberWithInteger:timeout],nil];
 	[connectionData setArray:tempArray];
 	[ircConnection setConnectionData:tempArray];
 }
@@ -367,8 +403,9 @@ IRCConnection *ircConnection;
 {	
 	NSMutableString *secureMessage = [NSMutableString stringWithString:message];
 	// Block out the password in the log
+	NSLog(@"%@",connectionData);
 	if ([secureMessage rangeOfString:[connectionData objectAtIndex:1]].location != NSNotFound)
-		[secureMessage replaceCharactersInRange: [secureMessage rangeOfString:[connectionData objectAtIndex:1]] withString: @"******"];
+		[secureMessage replaceCharactersInRange:[secureMessage rangeOfString:[connectionData objectAtIndex:1]] withString:@"******"];
 	
 	// Get the length of the textview contents
 	NSRange theEnd=NSMakeRange([[serverOutput string] length],0);
@@ -438,7 +475,6 @@ IRCConnection *ircConnection;
 		
 	// Authenticate user and join the default room
 	[self authUser:[connectionData objectAtIndex:0] pass:[connectionData objectAtIndex:1] nick:[connectionData objectAtIndex:2] realName:[connectionData objectAtIndex:3]];
-	[self joinRoom:[connectionData objectAtIndex:6]];
 	
 	// Join rooms in the autojoin list
 	int index;
