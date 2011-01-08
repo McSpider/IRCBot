@@ -55,7 +55,9 @@
 	
 	[window setFrame:windowFrame display:YES animate:YES];
 	[contentView setFrame:[view frame]];
-	[contentView addSubview:view];	
+	[contentView addSubview:view];
+	[view setAlphaValue:0.0];
+	[[view animator] setAlphaValue:1.0]; // fade in
 }
 
 -(void)setPane:(int)index{
