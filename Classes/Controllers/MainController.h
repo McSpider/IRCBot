@@ -28,6 +28,8 @@
 	IBOutlet NSTextField *nicknameField;
 	IBOutlet NSTextField *realnameField;
 	
+	IBOutlet NSTextField *triggerField;
+	IBOutlet NSButton *nicknameAsTrigger;
 	IBOutlet NSButton *rejoinKickedRooms;
 	
 	IBOutlet NSMenuItem *debugMenuItem;

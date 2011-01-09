@@ -33,7 +33,7 @@
 			view = actionsView;
 			break;
 		case 4:
-			[window setTitle:@"Auto Join"];
+			[window setTitle:@"Rooms"];
 			view = roomsView;
 			break;
 		default:
@@ -81,7 +81,7 @@
 			view = actionsView;
 			break;
 		case 4:
-			[window setTitle:@"Auto Join"];
+			[window setTitle:@"Rooms"];
 			view = roomsView;
 			break;
 		default:

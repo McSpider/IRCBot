@@ -161,6 +161,7 @@ IRCConnection *ircConnection;
 	if (!(ircConnection = [[IRCConnection alloc] initWithDelegate:self]))
 		[self logMessage:@"IRCBot - IRCConnection Allocation Error" type:1];
 	[self refreshConnectionData];
+	[self logMessage:@"Welcome to IRCBot\nFor help type /help.\n" type:4];
 }
 
 // Application should quit but server is still connected
@@ -285,39 +286,93 @@ IRCConnection *ircConnection;
 		// Split the message into its components 0:raw 1:Username 2:Hostmask 3:Type 4:Room 5:Message 6:Empty
 		NSArray *messageData;
 		messageData = [[input arrayOfCaptureComponentsMatchedByRegex:@":([^!]+)!~(\\S+)\\s+(\\S+)\\s+:?+(\\S+)\\s*(?:[:+-]+(.*+))?$"] objectAtIndex:0];
+		NSString *message = [messageData objectAtIndex:5];
+		
+		// Get auth for the hostmask
+		BOOL auth = [hostmasks getAuthForHostmask:[messageData objectAtIndex:2]]; 
 		
 		// Get triggers
-		NSMutableArray *triggers = [NSMutableArray array]; //[NSMutableArray arrayWithArray:[[triggerField stringValue] componentsSeparatedByString:@"|"]];
-		[triggers insertObject:[NSString stringWithFormat:@"%@: ",[connectionData objectAtIndex:2]] atIndex:0];
+		NSMutableArray *triggers = [NSMutableArray arrayWithArray:[[triggerField stringValue] componentsSeparatedByString:@","]];
+		if ([nicknameAsTrigger state])
+			[triggers insertObject:[NSString stringWithFormat:@"%@: ",[connectionData objectAtIndex:2]] atIndex:0];
+		
+		
+		BOOL Error = FALSE;
+		NSString *returnMessage;
 		
 		// Hardcoded actions
 		int index;
-		for (index = 0; index < [triggers count]; index++){
+		for (index = 0; index < [triggers count]; index++) {
 			NSString *trigger = [triggers objectAtIndex:index];
 			// Escape all regex characters, not working properly
 			//trigger = [self escapeString:trigger];
 			
-			BOOL auth = [hostmasks getAuthForHostmask:[messageData objectAtIndex:2]]; 
-			if ([[messageData objectAtIndex:5] isMatchedByRegex:[NSString stringWithFormat:@"^%@shutdown.*$",trigger]]){
-				if (auth){
+			// Shutdown bot
+			if ([message isMatchedByRegex:[NSString stringWithFormat:@"^%@shutdown.*$",trigger]]) {
+				if (auth) {
 					[ircConnection sendMessage:[NSString stringWithFormat:@"Shutting down as ordered by: %@",[messageData objectAtIndex:1]] To:[messageData objectAtIndex:4] logAs:3];
 					[ircConnection disconnectFromIRC:@"Bye, don't forget to feed the goldfish."];
 				}else
-					[ircConnection sendMessage:[NSString stringWithFormat:@"%@, you do not have permission to execute that command.",[messageData objectAtIndex:1]] To:[messageData objectAtIndex:4] logAs:3];
+					Error = TRUE;
 			}
-			if ([[messageData objectAtIndex:5] isMatchedByRegex:[NSString stringWithFormat:@"^%@auth.*$",trigger]]){
-				if (auth){
+			
+			// Check authentication
+			if ([message isMatchedByRegex:[NSString stringWithFormat:@"^%@auth.*$",trigger]]) {
+				if (auth) {
 					[ircConnection sendMessage:@"You can use all IRCBot actions." To:[messageData objectAtIndex:4] logAs:3];
 				}else
 					[ircConnection sendMessage:@"You can only use IRCBot actions that aren't restricted." To:[messageData objectAtIndex:4] logAs:3];
 			}
-			NSLog(@"%@",[NSString stringWithFormat:@"^%@hi$",trigger]);
-			if ([[messageData objectAtIndex:5] isMatchedByRegex:[NSString stringWithFormat:@"^%@hi$",trigger]]){
-				[ircConnection sendMessage:[NSString stringWithFormat:@"Hello %@",[messageData objectAtIndex:1]] To:[messageData objectAtIndex:4] logAs:3];
+			
+			// Check version
+			if ([message isMatchedByRegex:[NSString stringWithFormat:@"^%@version.*$",trigger]]) {
+				NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+				NSString *versionString = [NSString stringWithFormat:@"IRCBot %@ - https://github.com/McSpider/IRCBot",version];
+				[ircConnection sendMessage:versionString To:[messageData objectAtIndex:4] logAs:3];
+			}
+			
+			// Block hostmask
+			if ([message isMatchedByRegex:[NSString stringWithFormat:@"^(%@block\\s*)(.*$)",trigger]]) {
+				if (auth) {
+					NSArray *messageComponents;
+					messageComponents = [[message arrayOfCaptureComponentsMatchedByRegex:[NSString stringWithFormat:@"^(%@block\\s*)(.*$)",trigger]] objectAtIndex:0];
+					NSLog(@"%@",messageComponents);
+					[hostmasks addHostmask:[messageComponents objectAtIndex:2] block:YES];
+					
+					returnMessage = [NSString stringWithFormat:@"Blocking hostmask: %@",[messageComponents objectAtIndex:2]];
+					[ircConnection sendMessage:returnMessage To:[messageData objectAtIndex:4] logAs:3];
+				}else
+					Error = TRUE;
+			}
+			
+			// Allow hostmask
+			if ([message isMatchedByRegex:[NSString stringWithFormat:@"^(%@allow\\s*)(.*$)",trigger]]) {
+				if (auth) {
+					NSArray *messageComponents;
+					messageComponents = [[message arrayOfCaptureComponentsMatchedByRegex:[NSString stringWithFormat:@"^(%@allow\\s*)(.*$)",trigger]] objectAtIndex:0];
+					NSLog(@"%@",messageComponents);
+					[hostmasks addHostmask:[messageComponents objectAtIndex:2] block:NO];
+					
+					returnMessage = [NSString stringWithFormat:@"Allowing hostmask: %@",[messageComponents objectAtIndex:2]];
+					[ircConnection sendMessage:returnMessage To:[messageData objectAtIndex:4] logAs:3];
+				}else
+					Error = TRUE;
+			}
+			
+			// Say hi
+			if ([message isMatchedByRegex:[NSString stringWithFormat:@"^%@hi$",trigger]]) {
+				returnMessage = [NSString stringWithFormat:@"Hello %@",[messageData objectAtIndex:1]];
+				[ircConnection sendMessage:returnMessage To:[messageData objectAtIndex:4] logAs:3];
 			}
 		}
 		
 		// Userdefined actions
+		
+		
+		// Error handling
+		if (Error) {
+			[ircConnection sendMessage:[NSString stringWithFormat:@"%@, you do not have permission to execute that command.",[messageData objectAtIndex:1]] To:[messageData objectAtIndex:4] logAs:3];
+		}
 		
 		
 	}
@@ -403,7 +458,6 @@ IRCConnection *ircConnection;
 {	
 	NSMutableString *secureMessage = [NSMutableString stringWithString:message];
 	// Block out the password in the log
-	NSLog(@"%@",connectionData);
 	if ([secureMessage rangeOfString:[connectionData objectAtIndex:1]].location != NSNotFound)
 		[secureMessage replaceCharactersInRange:[secureMessage rangeOfString:[connectionData objectAtIndex:1]] withString:@"******"];
 	
@@ -456,7 +510,6 @@ IRCConnection *ircConnection;
 		[[serverOutput textStorage] appendAttributedString:attributedString];
 	}
 }
-
 
 #pragma mark -
 #pragma mark Socket Delegate Messages

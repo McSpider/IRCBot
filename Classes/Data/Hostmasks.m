@@ -29,8 +29,23 @@
 	if (boolean) auth = 1;
 	else auth = 0;
 	
-	NSArray *tempArray = [NSArray arrayWithObjects:host,[NSNumber numberWithInt:auth],nil];
-	[self.hostmaskArray addObject:tempArray];
+	BOOL exists = NO;
+	
+	int index;
+	for (index = 0; index < [self.hostmaskArray count]; index++){
+		NSArray *hostmaskData = [self.hostmaskArray objectAtIndex:index];
+		if ([[hostmaskData objectAtIndex:0] isEqualToString:host]){
+			NSArray *tempArray = [NSArray arrayWithObjects:host,[NSNumber numberWithInt:auth],nil];
+			[self.hostmaskArray replaceObjectAtIndex:index withObject:tempArray];
+			exists = YES;
+			break;
+		}
+	}
+	
+	if (!exists){
+		NSArray *tempArray = [NSArray arrayWithObjects:host,[NSNumber numberWithInt:auth],nil];
+		[self.hostmaskArray addObject:tempArray];
+	}
 	[hostmaskView reloadData];
 }
 
