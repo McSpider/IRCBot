@@ -10,7 +10,7 @@
 
 
 @interface KBScroller : NSScroller {
-
+	BOOL isVertical;
 }
 
 @end

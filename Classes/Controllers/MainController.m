@@ -53,65 +53,49 @@ IRCConnection *ircConnection;
 
 -(IBAction)parseCommand:(id)sender
 {
-	if ([ircConnection isConnected]){
-		NSString *commandString = [commandField stringValue];
-		NSArray *commandArray = [commandString componentsSeparatedByString:@" "];
-		if ([commandString isMatchedByRegex:@"^/join\\s.*$"]){
-			if (![rooms connectedToRoom:[commandArray objectAtIndex:1]])
-				[self joinRoom:[commandArray objectAtIndex:1]];
-			else
-				[self logMessage:@"You are already in that room." type:4];
-		}else if ([commandString isMatchedByRegex:@"^/part\\s.*$"]){
-			if ([rooms connectedToRoom:[commandArray objectAtIndex:1]])
-				[self partRoom:[commandArray objectAtIndex:1]];
-			else
-				[self logMessage:@"You are not connected to that room." type:4];
-		}else if ([commandString isMatchedByRegex:@"^/msg\\s.*\\s.*$"]){
-			NSString *tempString = @"";
-			int i;
-			for (i = 2; i < [commandArray count]; i++){
-				tempString = [tempString stringByAppendingString:[NSString stringWithFormat:@" %@",[commandArray objectAtIndex:i]]];
-			}
-			[ircConnection sendMessage:tempString To:[commandArray objectAtIndex:1] logAs:2];
-		}else if ([commandString isMatchedByRegex:@"^/me\\s.*\\s.*$"]){
-			NSString *tempString = @"";
-			int i;
-			for (i = 2; i < [commandArray count]; i++){
-				tempString = [tempString stringByAppendingString:[NSString stringWithFormat:@" %@",[commandArray objectAtIndex:i]]];
-			}
-			[ircConnection sendAction:tempString To:[commandArray objectAtIndex:1] logAs:2];
-		}else if ([commandString isMatchedByRegex:@"^/notice\\s.*\\s.*$"]){
-			NSString *tempString = @"";
-			int i;
-			for (i = 2; i < [commandArray count]; i++){
-				tempString = [tempString stringByAppendingString:[NSString stringWithFormat:@" %@",[commandArray objectAtIndex:i]]];
-			}
-			[ircConnection sendNotice:tempString To:[commandArray objectAtIndex:1] logAs:2];
-		}else if ([commandString isMatchedByRegex:@"^/help(\\s.*$|$)"]){
-			[self logMessage:@"Valid commands are:\n› /join <room>\n› /part <room>\n› /msg <room> <msg>\n› /me <room> <msg>\n› /notice <room> <msg>" type:4];
+	NSString *commandString = [commandField stringValue];
+	NSArray *commandArray = [commandString componentsSeparatedByString:@" "];
+	
+	if ([commandString isMatchedByRegex:@"^/join\\s.*$"]){
+		if (![rooms connectedToRoom:[commandArray objectAtIndex:1]] && [ircConnection isConnected])
+			[self joinRoom:[commandArray objectAtIndex:1]];
+		else
+			[self logMessage:@"You are already in that room." type:4];
+	}else if ([commandString isMatchedByRegex:@"^/part\\s.*$"] && [ircConnection isConnected]){
+		if ([rooms connectedToRoom:[commandArray objectAtIndex:1]])
+			[self partRoom:[commandArray objectAtIndex:1]];
+		else
+			[self logMessage:@"You are not connected to that room." type:4];
+	}else if ([commandString isMatchedByRegex:@"^/msg\\s.*\\s.*$"] && [ircConnection isConnected]){
+		NSString *tempString = @"";
+		int i;
+		for (i = 2; i < [commandArray count]; i++){
+			tempString = [tempString stringByAppendingString:[NSString stringWithFormat:@" %@",[commandArray objectAtIndex:i]]];
 		}
-		// Invalid/Incomplete command handling
-		else if ([commandString isMatchedByRegex:@"^/join$"]){
-			[self logMessage:@"/join <room>" type:4];
-		}else if ([commandString isMatchedByRegex:@"^/part$"]){
-			[self logMessage:@"/part <room>" type:4];
-		}else if ([commandString isMatchedByRegex:@"^/msg($|\\s.*$)"]){
-			[self logMessage:@"/msg <room> <msg>" type:4];
-		}else if ([commandString isMatchedByRegex:@"^/me($|\\s.*$)"]){
-			[self logMessage:@"/me <room> <msg>" type:4];
-		}else if ([commandString isMatchedByRegex:@"^/notice($|\\s.*$)"]){
-			[self logMessage:@"/notice <room> <msg>" type:4];
-		}else{
-			[self logMessage:@"IRCBot - Invalid Command\n› Type /help for help" type:4];
+		[ircConnection sendMessage:tempString To:[commandArray objectAtIndex:1] logAs:2];
+	}else if ([commandString isMatchedByRegex:@"^/me\\s.*\\s.*$"] && [ircConnection isConnected]){
+		NSString *tempString = @"";
+		int i;
+		for (i = 2; i < [commandArray count]; i++){
+			tempString = [tempString stringByAppendingString:[NSString stringWithFormat:@" %@",[commandArray objectAtIndex:i]]];
 		}
+		[ircConnection sendAction:tempString To:[commandArray objectAtIndex:1] logAs:2];
+	}else if ([commandString isMatchedByRegex:@"^/notice\\s.*\\s.*$"] && [ircConnection isConnected]){
+		NSString *tempString = @"";
+		int i;
+		for (i = 2; i < [commandArray count]; i++){
+			tempString = [tempString stringByAppendingString:[NSString stringWithFormat:@" %@",[commandArray objectAtIndex:i]]];
+		}
+		[ircConnection sendNotice:tempString To:[commandArray objectAtIndex:1] logAs:2];
+	}else if ([commandString isMatchedByRegex:@"^/help(\\s.*$|$)"]){
+		[self logMessage:@"Valid commands are:\n› /join <room>\n› /part <room>\n› /msg <room> <msg>\n› /me <room> <msg>\n› /notice <room> <msg>" type:4];
+	}else if (![ircConnection isConnected]){
+		[self logMessage:@"IRCBot - No IRC Connection\n› Type /help for help" type:1];
 	}else{
-		NSString *commandString = [commandField stringValue];
-		if ([commandString isMatchedByRegex:@"^/help(\\s.*$|$)"]){
-			[self logMessage:@"Valid commands are:\n› /join <room>\n› /part <room>\n› /msg <room> <msg>\n› /me <room> <msg>\n› /notice <room> <msg>" type:4];
-		}else{
-			[self logMessage:@"IRCBot - No IRC Connection\n› Type /help for help" type:1];
-		}
+		[self logMessage:@"IRCBot - Invalid Command\n› Type /help for help" type:4];
 	}
+
+	
 	[commandField setStringValue:@""];
 }
 
@@ -161,7 +145,7 @@ IRCConnection *ircConnection;
 	if (!(ircConnection = [[IRCConnection alloc] initWithDelegate:self]))
 		[self logMessage:@"IRCBot - IRCConnection Allocation Error" type:1];
 	[self refreshConnectionData];
-	[self logMessage:@"Welcome to IRCBot\nFor help type /help.\n" type:4];
+	[self logMessage:@"Welcome to IRCBot\n› For help type /help.\n" type:4];
 }
 
 // Application should quit but server is still connected
@@ -310,7 +294,7 @@ IRCConnection *ircConnection;
 			// Shutdown bot
 			if ([message isMatchedByRegex:[NSString stringWithFormat:@"^%@shutdown.*$",trigger]]) {
 				if (auth) {
-					[ircConnection sendMessage:[NSString stringWithFormat:@"Shutting down as ordered by: %@",[messageData objectAtIndex:1]] To:[messageData objectAtIndex:4] logAs:3];
+					[ircConnection sendMessage:[NSString stringWithFormat:@"Shutting down as ordered by %@",[messageData objectAtIndex:1]] To:[messageData objectAtIndex:4] logAs:3];
 					[ircConnection disconnectFromIRC:@"Bye, don't forget to feed the goldfish."];
 				}else
 					Error = TRUE;
@@ -387,7 +371,7 @@ IRCConnection *ircConnection;
 			[rooms setStatus:@"Warning" forRoom:room];
 			
 			if ([rejoinKickedRooms state]){
-				[self joinRoom:room];
+				[self performSelector:@selector(joinRoom:) withObject:room afterDelay:1.0f];
 			}
 		}
 	}
@@ -541,7 +525,7 @@ IRCConnection *ircConnection;
 
 - (void)didDissconect
 {
-	[self logMessage:@"IRCBot - Socket disconnected" type:1];
+	[self logMessage:@"IRCBot - Socket disconnected\n" type:1];
 	
 	// Stop activity indicator and disable and enable all relevant controls
 	[activityIndicator stopAnimation:self];

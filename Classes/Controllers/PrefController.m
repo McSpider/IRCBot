@@ -14,25 +14,36 @@
 
 -(IBAction)changePanes:(id)sender{
 	NSView *view = nil;
+	BOOL changePane = YES;
 	
 	switch ([sender tag]) {
 		case 0:
+			if ([[window title] isEqualToString:@"Account"])
+				changePane = NO;
 			[window setTitle:@"Account"];
 			view = accountView;
 			break;
 		case 1:
+			if ([[window title] isEqualToString:@"General"])
+				changePane = NO;
 			[window setTitle:@"General"];
 			view = generalView;
 			break;
 		case 2:
+			if ([[window title] isEqualToString:@"Hostmasks"])
+				changePane = NO;
 			[window setTitle:@"Hostmasks"];
 			view = hostmasksView;
 			break;
 		case 3:
+			if ([[window title] isEqualToString:@"Actions"])
+				changePane = NO;
 			[window setTitle:@"Actions"];
 			view = actionsView;
 			break;
 		case 4:
+			if ([[window title] isEqualToString:@"Rooms"])
+				changePane = NO;
 			[window setTitle:@"Rooms"];
 			view = roomsView;
 			break;
@@ -42,22 +53,25 @@
 			break;
 	}
 	
-	NSRect windowFrame = [window frame];
-	windowFrame.origin.y = NSMaxY([window frame]) - ([view frame].size.height + WINDOW_TOOLBAR_HEIGHT);
-	windowFrame.origin.x = windowFrame.origin.x + (windowFrame.size.width-[view frame].size.width)/2;
-	windowFrame.size.height = [view frame].size.height + WINDOW_TOOLBAR_HEIGHT;
-	windowFrame.size.width = [view frame].size.width;
-
-	
-	if ([[contentView subviews] count] != 0){
-		[[[contentView subviews] objectAtIndex:0] removeFromSuperview];
+	// Don't replace the contents of a pane if they're the same
+	if (changePane){
+		NSRect windowFrame = [window frame];
+		windowFrame.origin.y = NSMaxY([window frame]) - ([view frame].size.height + WINDOW_TOOLBAR_HEIGHT);
+		windowFrame.origin.x = windowFrame.origin.x + (windowFrame.size.width-[view frame].size.width)/2;
+		windowFrame.size.height = [view frame].size.height + WINDOW_TOOLBAR_HEIGHT;
+		windowFrame.size.width = [view frame].size.width;
+		
+		
+		if ([[contentView subviews] count] != 0){
+			[[[contentView subviews] objectAtIndex:0] removeFromSuperview];
+		}
+		
+		[window setFrame:windowFrame display:YES animate:YES];
+		[contentView setFrame:[view frame]];
+		[contentView addSubview:view];
+		[view setAlphaValue:0.0];
+		[[view animator] setAlphaValue:1.0]; // fade in
 	}
-	
-	[window setFrame:windowFrame display:YES animate:YES];
-	[contentView setFrame:[view frame]];
-	[contentView addSubview:view];
-	[view setAlphaValue:0.0];
-	[[view animator] setAlphaValue:1.0]; // fade in
 }
 
 -(void)setPane:(int)index{
