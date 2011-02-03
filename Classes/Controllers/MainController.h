@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import	"IRCConnection.h"
+#import "LuaController.h"
 
 #import "IRCRooms.h"
 #import "Hostmasks.h"
@@ -42,6 +43,8 @@
 	IBOutlet Hostmasks *hostmasks;
 	IBOutlet Actions *actions;	
 	IBOutlet AutojoinData *autoJoin;	
+	
+	LuaController *lua;
 }
 
 // Connect to or disconnect IRC connection
@@ -50,5 +53,10 @@
 - (IBAction)saveLog:(id)sender;
 - (IBAction)clearLog:(id)sender;
 - (IBAction)toggleDebug:(id)sender;
+
+- (void)joinRoom:(NSString *)aRoom;
+- (void)partRoom:(NSString *)aRoom;
+
+- (void)logMessage:(NSString *)message type:(int)type;
 
 @end

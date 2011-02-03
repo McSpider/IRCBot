@@ -1,5 +1,5 @@
 //
-//  IRCActions.m
+//  Actions.m
 //  IRCBot
 //
 //  Created by Ben K on 2010/09/16.
@@ -15,20 +15,26 @@
 - (id)init{
 	if ((self = [super init])) {		
 		self.actionsArray = [[NSMutableArray alloc] init];
-		NSString *folder = @"~/Library/Application Support/IRCBot/";
-		NSString *actions = @"~/Library/Application Support/IRCBot/Actions.plist";
-		NSString *defaultActions = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/contents/resources/Actions.plist"];
-		
-		// If actions file exits in support folder load it, otherwise load the default file
-		NSFileManager *fileManager = [NSFileManager defaultManager];
-		if (![fileManager fileExistsAtPath: actions]){
-			if ([fileManager fileExistsAtPath: folder] == NO)
-				[fileManager createDirectoryAtPath: folder attributes: nil];
-			[fileManager copyPath:defaultActions toPath:[NSString stringWithFormat:@"%@/Actions.plist",folder] handler:nil];
-		}
-		[self.actionsArray addObjectsFromArray:[NSArray arrayWithContentsOfFile:[actions stringByExpandingTildeInPath]]];	
 	}
 	return self;
+}
+
+-(void)awakeFromNib{	
+	//Checks to see AppSupport folder exits if not create it.
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	NSString *folderPath = @"~/Library/Application Support/IRCBot Actions/";
+	NSString *defaultActions = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/contents/resources/IRCBot Actions/"];
+	
+	folderPath = [folderPath stringByExpandingTildeInPath];
+	if ([fileManager fileExistsAtPath: folderPath] == NO)
+		[[NSFileManager defaultManager] copyPath:defaultActions toPath:folderPath handler:nil];
+	
+	// Load the actions data file
+	NSString *actionsData = @"~/Library/Application Support/IRCBot Actions/data.plist";
+	[self.actionsArray addObjectsFromArray:[NSArray arrayWithContentsOfFile:[actionsData stringByExpandingTildeInPath]]];
+	
+	// Set the NSPathControl to our home folder
+	[actionPath setURL:[NSURL fileURLWithPath:[@"~/" stringByExpandingTildeInPath]]];
 }
 
 -(void)addAction:(NSString *)action name:(NSString *)name restricted:(BOOL)boolean
@@ -43,23 +49,40 @@
 }
 
 -(IBAction)addNewAction:(id)sender
-{
+{	
+	// Get filename
+	NSString *url = [[actionPath URL] absoluteString];
+	NSArray *parts = [url componentsSeparatedByString:@"/"];
+	NSString *filename = [parts lastObject];
+	
 	// Check if a action by that name already exists
-	BOOL exists = NO;
+	NSString *exists = @"NO";
 	int i;
 	for (i = 0; i < [self.actionsArray count]; i++){
 		NSArray *actionData = [self.actionsArray objectAtIndex:i];
 		if ([[actionData objectAtIndex:0] isEqualToString:[actionName stringValue]]){
-			exists = YES;
+			exists = @"A action with that name already exits.";
+		}
+		if ([[actionData objectAtIndex:1] isEqualToString:filename]){
+			exists = @"A action with that file name already exits.";
 		}
 	}
 	// If not add it otherwise show a alert message
-	if (!exists){
-		[self addAction:[actionFunction stringValue] name:[actionName stringValue] restricted:[restrictAction state]];
+	if ([exists isEqualToString:@"NO"]){
+		
+		// Copy file to ~/AppSupport/IRCBot/
+		NSFileManager *fileManager = [NSFileManager defaultManager];
+		NSString *folderPath = @"~/Library/Application Support/IRCBot/";
+		
+		if (![fileManager fileExistsAtPath:[NSString stringWithFormat:@"%@/%@",folderPath,filename]])
+			[fileManager copyPath:[[actionPath URL] absoluteString] toPath:[NSString stringWithFormat:@"%@/%@",filename] handler:nil];		
+		
+		// Add reference to data.plist		
+		[self addAction:filename name:[actionName stringValue] restricted:[restrictAction state]];
 		[sheetErrorMessage setStringValue:@""];
 		[addActionPane closeSheet:self];
 	}else{
-		[sheetErrorMessage setStringValue:@"A action with that name already exits."];
+		[sheetErrorMessage setStringValue:exists];
 	}
 }
 

@@ -155,7 +155,7 @@ NSMutableArray* connectionData;
 	}
 }
 
--(void)disconnectFromIRC:(NSString *)message
+-(void)disconnectWithMessage:(NSString *)message
 {
 	NSString* quitMSG = [NSString stringWithFormat:@"QUIT :%@ \r\n",message];
 	[self sendRawString:quitMSG logAs:2];

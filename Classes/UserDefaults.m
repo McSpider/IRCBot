@@ -15,19 +15,7 @@
 #pragma mark Initialization
 
 -(void)awakeFromNib
-{	
-	//Checks to see app support folder exits if not create it.
-	NSFileManager *fileManager = [NSFileManager defaultManager];
-	NSString *folderPath = @"~/Library/Application Support/IRCBot/";
-	NSString *actionsPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/contents/resources/Actions.plist"];
-	
-	folderPath = [folderPath stringByExpandingTildeInPath];
-	if ([fileManager fileExistsAtPath: folderPath] == NO)
-		[fileManager createDirectoryAtPath: folderPath attributes: nil];
-	if ([fileManager isReadableFileAtPath:folderPath] && ![fileManager fileExistsAtPath:[NSString stringWithFormat:@"%@/Actions.plist",folderPath]])
-		[fileManager copyPath:actionsPath toPath:[NSString stringWithFormat:@"%@/Actions.plist",folderPath] handler:nil];
-	
-	
+{
 	// Hide the resize indicators on the windows
 	[mainWindow setShowsResizeIndicator:NO]; [prefWindow setShowsResizeIndicator:NO]; [prefWindow center];
 	[toolBar setSelectedItemIdentifier:@"Account_Settings"];
@@ -134,11 +122,10 @@
 		[autojoin clearData];
 		
 		// Reset actions .plist
-		NSString *actionsPath = [@"~/Library/Application Support/IRCBot/Actions.plist" stringByExpandingTildeInPath];
-		NSString *defaultActions = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/contents/resources/Actions.plist"];		
+		NSString *actionsPath = [@"~/Library/Application Support/IRCBot Actions/" stringByExpandingTildeInPath];
+		NSString *defaultActions = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/contents/resources/IRCBot Actions/"];		
 		[[NSFileManager defaultManager] removeFileAtPath:actionsPath handler:nil];
 		[[NSFileManager defaultManager] copyPath:defaultActions toPath:actionsPath handler:nil];
-
 		
 		// Start modal session and open setupwindow.
 		session = [NSApp beginModalSessionForWindow:startWindow];
@@ -177,10 +164,11 @@
 	NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];	
 	[standardUserDefaults setObject:[hostmasks hostmaskArray] forKey:@"hostmasks"];
 	[standardUserDefaults setObject:[autojoin autojoinArray] forKey:@"autojoin"];
+	[standardUserDefaults setObject:[usernameField stringValue] forKey:@"username"];
 	
-	NSString *actionsPath = @"~/Library/Application Support/IRCBot/Actions.plist";
+	NSString *actionsPath = @"~/Library/Application Support/IRCBot/data.plist";
 	[actions.actionsArray writeToFile:[actionsPath stringByExpandingTildeInPath] atomically:YES];	
-	
+			
 	// Save the password to the appropriate location
 	if (![passwordInPlistCheck state]){
 		if ([standardUserDefaults objectForKey:@"password"])
@@ -190,19 +178,17 @@
 		// if the password or username has been changed
 		if (![[keychainItem password] isEqualToString:[passwordField stringValue]] || ![savedUsername isEqualToString:[usernameField stringValue]]){
 			// If the keychain item already exits modify it
-			if (keychainItem != nil){
+			if (keychainItem != nil) {
 				keychainItem.password = [passwordField stringValue];
 				keychainItem.username = [usernameField stringValue];
-			}else{
+			} else {
 				[EMGenericKeychainItem addGenericKeychainItemForService:@"IRCBot" withUsername:[usernameField stringValue] password:[passwordField stringValue]];
 			}
 		}
-	}else{
+	} else {
 		NSData* aData = [[passwordField stringValue] dataUsingEncoding:NSUTF8StringEncoding];		
 		[standardUserDefaults setObject:aData forKey:@"password"];	
 	}
-	
-	[standardUserDefaults setObject:[usernameField stringValue] forKey:@"username"];	
 }
 
 -(BOOL)windowShouldClose:(NSWindow *)sender
@@ -214,5 +200,6 @@
 	}
 	return YES;
 }
+
 
 @end

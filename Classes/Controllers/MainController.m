@@ -10,14 +10,8 @@
 
 @interface MainController (InternalMethods)
 
-// Messaging
 - (void)pingAlive:(NSString *)server;
 - (void)authUser:(NSString *)aUsername pass:(NSString *)aPassword nick:(NSString *)aNick realName:(NSString *)aName;
-- (void)joinRoom:(NSString *)aRoom;
-- (void)partRoom:(NSString *)aRoom;
-
-// Log message to text view
-- (void)logMessage:(NSString *)message type:(int)type;
 - (void)refreshConnectionData;
 - (void)parseServerOutput:(NSString *)input type:(NSString *)type;
 - (NSString *)escapeString:(NSString *)string;
@@ -47,7 +41,7 @@ IRCConnection *ircConnection;
 		[ircConnection connectToIRC:[serverAddress stringValue] port:[serverPort	intValue]];
 	}else{
 		[connectionButton setEnabled:NO];
-		[ircConnection disconnectFromIRC:@"Bye, don't forget to feed the goldfish."];
+		[ircConnection disconnectWithMessage:@"Bye, don't forget to feed the goldfish."];
 	}
 }
 
@@ -59,8 +53,10 @@ IRCConnection *ircConnection;
 	if ([commandString isMatchedByRegex:@"^/join\\s.*$"]){
 		if (![rooms connectedToRoom:[commandArray objectAtIndex:1]] && [ircConnection isConnected])
 			[self joinRoom:[commandArray objectAtIndex:1]];
-		else
+		else if ([ircConnection isConnected])
 			[self logMessage:@"You are already in that room." type:4];
+		else
+			[self logMessage:@"You need to connect to an irc server before joining rooms." type:1];
 	}else if ([commandString isMatchedByRegex:@"^/part\\s.*$"] && [ircConnection isConnected]){
 		if ([rooms connectedToRoom:[commandArray objectAtIndex:1]])
 			[self partRoom:[commandArray objectAtIndex:1]];
@@ -138,12 +134,21 @@ IRCConnection *ircConnection;
 {
 	connectionData = [[NSMutableArray alloc] init];
 	Debugging = NO;
+	
 }
 
 -(void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
 	if (!(ircConnection = [[IRCConnection alloc] initWithDelegate:self]))
 		[self logMessage:@"IRCBot - IRCConnection Allocation Error" type:1];
+	
+	lua = [[LuaController alloc] init];
+	[lua setParentClass:self];
+	[lua setConnectionClass:ircConnection];
+	[lua setRoomsClass:rooms];
+	[lua setHostmasksClass:hostmasks];
+	[lua setActionsClass:actions];
+	
 	[self refreshConnectionData];
 	[self logMessage:@"Welcome to IRCBot\n› For help type /help.\n" type:4];
 }
@@ -254,23 +259,24 @@ IRCConnection *ircConnection;
 
 -(void)parseServerOutput:(NSString *)input type:(NSString *)type
 {	
-	
 	// Log raw message string
-	if (Debugging)
-		[self logMessage:[NSString stringWithFormat:@"<%@> %@",type,input] type:0];
-	else
+	if (Debugging) {
+		NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
+		[formatter setDateFormat:@"hh:mm"];
+		NSString *time = [formatter stringFromDate:[NSDate date]];
+	
+		[self logMessage:[NSString stringWithFormat:@"%@ %@ %@",time,type,input] type:0];
+	} else {
 		[self logMessage:[NSString stringWithFormat:@"%@",input] type:0];
-	
-	
-	if ([type isEqualToString:@"IRC_QUERY_MSG"]){
-		
 	}
 	
-	if ([type isEqualToString:@"IRC_CHANNEL_MSG"]){
-		// Split the message into its components 0:raw 1:Username 2:Hostmask 3:Type 4:Room 5:Message 6:Empty
+	
+	if ([type isEqualToString:@"IRC_CHANNEL_MSG"] || [type isEqualToString:@"IRC_QUERY_MSG"]){
+		// Split the message into its components, see Notes.rtf for more info
 		NSArray *messageData;
 		messageData = [[input arrayOfCaptureComponentsMatchedByRegex:@":([^!]+)!~(\\S+)\\s+(\\S+)\\s+:?+(\\S+)\\s*(?:[:+-]+(.*+))?$"] objectAtIndex:0];
 		NSString *message = [messageData objectAtIndex:5];
+		NSLog(@"%@",messageData);
 		
 		// Get auth for the hostmask
 		BOOL auth = [hostmasks getAuthForHostmask:[messageData objectAtIndex:2]]; 
@@ -281,84 +287,36 @@ IRCConnection *ircConnection;
 			[triggers insertObject:[NSString stringWithFormat:@"%@: ",[connectionData objectAtIndex:2]] atIndex:0];
 		
 		
-		BOOL Error = FALSE;
-		NSString *returnMessage;
-		
-		// Hardcoded actions
-		int index;
-		for (index = 0; index < [triggers count]; index++) {
-			NSString *trigger = [triggers objectAtIndex:index];
-			// Escape all regex characters, not working properly
-			//trigger = [self escapeString:trigger];
+		// Actions
+		int triggerIndex;
+		for (triggerIndex = 0; triggerIndex < [triggers count]; triggerIndex++) {
+			NSString *trigger = [triggers objectAtIndex:triggerIndex];
 			
-			// Shutdown bot
-			if ([message isMatchedByRegex:[NSString stringWithFormat:@"^%@shutdown.*$",trigger]]) {
-				if (auth) {
-					[ircConnection sendMessage:[NSString stringWithFormat:@"Shutting down as ordered by %@",[messageData objectAtIndex:1]] To:[messageData objectAtIndex:4] logAs:3];
-					[ircConnection disconnectFromIRC:@"Bye, don't forget to feed the goldfish."];
-				}else
-					Error = TRUE;
-			}
-			
-			// Check authentication
-			if ([message isMatchedByRegex:[NSString stringWithFormat:@"^%@auth.*$",trigger]]) {
-				if (auth) {
-					[ircConnection sendMessage:@"You can use all IRCBot actions." To:[messageData objectAtIndex:4] logAs:3];
-				}else
-					[ircConnection sendMessage:@"You can only use IRCBot actions that aren't restricted." To:[messageData objectAtIndex:4] logAs:3];
-			}
-			
-			// Check version
-			if ([message isMatchedByRegex:[NSString stringWithFormat:@"^%@version.*$",trigger]]) {
-				NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
-				NSString *versionString = [NSString stringWithFormat:@"IRCBot %@ - https://github.com/McSpider/IRCBot",version];
-				[ircConnection sendMessage:versionString To:[messageData objectAtIndex:4] logAs:3];
-			}
-			
-			// Block hostmask
-			if ([message isMatchedByRegex:[NSString stringWithFormat:@"^(%@block\\s*)(.*$)",trigger]]) {
-				if (auth) {
-					NSArray *messageComponents;
-					messageComponents = [[message arrayOfCaptureComponentsMatchedByRegex:[NSString stringWithFormat:@"^(%@block\\s*)(.*$)",trigger]] objectAtIndex:0];
-					NSLog(@"%@",messageComponents);
-					[hostmasks addHostmask:[messageComponents objectAtIndex:2] block:YES];
+			if ([message hasPrefix:trigger]) {
+				int actionIndex;
+				for (actionIndex = 0; actionIndex < [actions.actionsArray count]; actionIndex++) {
+					NSArray *action = [actions.actionsArray objectAtIndex:actionIndex];					
+					NSString *actionName = [action objectAtIndex:0];
+					NSString *actionFile = [action objectAtIndex:1];
+					BOOL actionRestricted = [[action objectAtIndex:2] boolValue];
 					
-					returnMessage = [NSString stringWithFormat:@"Blocking hostmask: %@",[messageComponents objectAtIndex:2]];
-					[ircConnection sendMessage:returnMessage To:[messageData objectAtIndex:4] logAs:3];
-				}else
-					Error = TRUE;
-			}
-			
-			// Allow hostmask
-			if ([message isMatchedByRegex:[NSString stringWithFormat:@"^(%@allow\\s*)(.*$)",trigger]]) {
-				if (auth) {
 					NSArray *messageComponents;
-					messageComponents = [[message arrayOfCaptureComponentsMatchedByRegex:[NSString stringWithFormat:@"^(%@allow\\s*)(.*$)",trigger]] objectAtIndex:0];
-					NSLog(@"%@",messageComponents);
-					[hostmasks addHostmask:[messageComponents objectAtIndex:2] block:NO];
-					
-					returnMessage = [NSString stringWithFormat:@"Allowing hostmask: %@",[messageComponents objectAtIndex:2]];
-					[ircConnection sendMessage:returnMessage To:[messageData objectAtIndex:4] logAs:3];
-				}else
-					Error = TRUE;
+					NSString *regex = [NSString stringWithFormat:@"^(%@%@)\\s*(.*$)",trigger,actionName];
+
+					if ([message isMatchedByRegex:regex]) {
+						messageComponents = [[message arrayOfCaptureComponentsMatchedByRegex:regex] objectAtIndex:0];
+						
+						if ((actionRestricted && auth) || !actionRestricted) {
+							[lua loadFile:actionFile];
+							[lua runMainFunctionWithData:messageData andArguments:messageComponents];
+						} else {
+							NSString *errorMessage = [NSString stringWithFormat:@"%@, you do not have permission to execute that command.",[messageData objectAtIndex:1]];
+							[ircConnection sendMessage:errorMessage To:[messageData objectAtIndex:4] logAs:3];
+						}
+					}	
+				}
 			}
-			
-			// Say hi
-			if ([message isMatchedByRegex:[NSString stringWithFormat:@"^%@hi$",trigger]]) {
-				returnMessage = [NSString stringWithFormat:@"Hello %@",[messageData objectAtIndex:1]];
-				[ircConnection sendMessage:returnMessage To:[messageData objectAtIndex:4] logAs:3];
-			}
-		}
-		
-		// Userdefined actions
-		
-		
-		// Error handling
-		if (Error) {
-			[ircConnection sendMessage:[NSString stringWithFormat:@"%@, you do not have permission to execute that command.",[messageData objectAtIndex:1]] To:[messageData objectAtIndex:4] logAs:3];
-		}
-		
-		
+		}		
 	}
 	
 	if ([type isEqualToString:@"IRC_KICK_NOTICE"]){
@@ -431,7 +389,7 @@ IRCConnection *ircConnection;
 	int timeout = 1.2*60;
 	
 	
-	// ConnectionData: username:0 password:1 nickname:2 realname:3 ircServer:4 ircPort:5 timeout:6
+	// Set the connectionData array, see Notes.rtf for more info
 	NSArray *tempArray = [NSArray arrayWithObjects:username,password,nickname,realname,ircServer,[NSNumber numberWithInteger:ircPort],[NSNumber numberWithInteger:timeout],nil];
 	[connectionData setArray:tempArray];
 	[ircConnection setConnectionData:tempArray];
@@ -469,17 +427,7 @@ IRCConnection *ircConnection;
 		textColor = [NSColor blackColor];
 		formatedMessage = [NSString stringWithFormat:@"%@\n",secureMessage];
 	}
-	
-	if (Debugging){
-		// Get date and format it
-		NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
-		[formatter setDateFormat:@"h.mm.ss a"];
-		NSString *formattedDate = [formatter stringFromDate:[NSDate date]];
 		
-		// Add it to the message
-		formatedMessage = [NSString stringWithFormat:@"<%@> %@",formattedDate,formatedMessage];
-	}
-	
 	NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:textColor,NSForegroundColorAttributeName,textFont,NSFontAttributeName,nil];
 	NSAttributedString *attributedString = [[[NSAttributedString alloc] initWithString:formatedMessage attributes:attributes] autorelease];
 		
@@ -494,6 +442,7 @@ IRCConnection *ircConnection;
 		[[serverOutput textStorage] appendAttributedString:attributedString];
 	}
 }
+
 
 #pragma mark -
 #pragma mark Socket Delegate Messages
@@ -543,6 +492,7 @@ IRCConnection *ircConnection;
 // deallocate used memory
 -(void)dealloc
 {
+	[lua release];
 	[ircConnection release];
 	[connectionData release];
 	[super dealloc]; 

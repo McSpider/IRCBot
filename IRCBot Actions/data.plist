@@ -4,23 +4,23 @@
 <array>
 	<array>
 		<string>ping</string>
-		<string>sendMSG(pong)</string>
+		<string>ping.lua</string>
 		<false/>
 	</array>
 	<array>
 		<string>hi</string>
-		<string>sendMSG(hi %1%)</string>
+		<string>hello.lua</string>
 		<false/>
 	</array>
 	<array>
 		<string>shutdown</string>
-		<string>disconnectIRC(don&apos;t forget to feed the goldfish)</string>
+		<string>shutdown.lua</string>
 		<true/>
 	</array>
 	<array>
-		<string>meep</string>
-		<string>while(%var%&lt;20|sendMSG(meep)|%var%++)</string>
-		<true/>
+		<string>actions</string>
+		<string>actions.lua</string>
+		<false/>
 	</array>
 </array>
 </plist>

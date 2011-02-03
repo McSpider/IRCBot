@@ -35,13 +35,12 @@
 
 // Connect and disconnect from IRC server functions
 - (void)connectToIRC:(NSString *)server port:(int)port;
-- (void)disconnectFromIRC:(NSString *)message;
+- (void)disconnectWithMessage:(NSString *)message;
 
 // Messaging
 - (void)sendMessage:(NSString *)message To:(NSString *)recipient logAs:(int)type;
 - (void)sendNotice:(NSString *)message To:(NSString *)recipient logAs:(int)type;
 - (void)sendAction:(NSString *)message To:(NSString *)recipient logAs:(int)type;
 - (void)sendRawString:(NSString *)string logAs:(int)type;
-
 
 @end

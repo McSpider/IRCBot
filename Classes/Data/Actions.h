@@ -1,5 +1,5 @@
 //
-//  IRCActions.h
+//  Actions.h
 //  IRCBot
 //
 //  Created by Ben K on 2010/10/10.
@@ -14,7 +14,7 @@
 	NSMutableArray *actionsArray;
 	
 	IBOutlet NSTableView *actionsView;
-	IBOutlet NSTextField *actionFunction;
+	IBOutlet NSPathControl *actionPath;
 	IBOutlet NSTextField *actionName;
 	IBOutlet NSTextField *sheetErrorMessage;
 	IBOutlet NSButton *restrictAction;
