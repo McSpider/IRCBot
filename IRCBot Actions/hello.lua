@@ -1,16 +1,17 @@
 -- IRCBot lua script
 -- hello
 
--- Import the base frameworks
-LuaCocoa.import("Foundation")
-
 
 -- The main	function --
 function main(data, args, irc)
 	print('Running main function');
-		
-	msg = 'hello ' .. data[2]
-	hello_string = NSString:alloc():initWithUTF8String(msg)	
+	
+	if not args[3] ~= nil then
+		hello_string = 'hello ' .. args[3]
+	else
+		hello_string = 'hello ' .. data[2]
+	end
+	
 	irc:sendMessage_to_(hello_string,data[5])
 	
 	print('end')	

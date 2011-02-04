@@ -271,7 +271,7 @@ IRCConnection *ircConnection;
 	}
 	
 	
-	if ([type isEqualToString:@"IRC_CHANNEL_MSG"] || [type isEqualToString:@"IRC_QUERY_MSG"]){
+	if ([type isEqualToString:@"IRC_CHANNEL_MSG"]){
 		// Split the message into its components, see Notes.rtf for more info
 		NSArray *messageData;
 		messageData = [[input arrayOfCaptureComponentsMatchedByRegex:@":([^!]+)!~(\\S+)\\s+(\\S+)\\s+:?+(\\S+)\\s*(?:[:+-]+(.*+))?$"] objectAtIndex:0];
@@ -301,11 +301,11 @@ IRCConnection *ircConnection;
 					BOOL actionRestricted = [[action objectAtIndex:2] boolValue];
 					
 					NSArray *messageComponents;
-					NSString *regex = [NSString stringWithFormat:@"^(%@%@)\\s*(.*$)",trigger,actionName];
+					NSString *regex = [NSString stringWithFormat:@"^(%@%@)\\s*(\\S*)\\s*(.*$)",trigger,actionName];
 
 					if ([message isMatchedByRegex:regex]) {
 						messageComponents = [[message arrayOfCaptureComponentsMatchedByRegex:regex] objectAtIndex:0];
-						
+												
 						if ((actionRestricted && auth) || !actionRestricted) {
 							[lua loadFile:actionFile];
 							[lua runMainFunctionWithData:messageData andArguments:messageComponents];

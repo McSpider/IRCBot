@@ -12,6 +12,9 @@
 @synthesize hostmaskArray;
 
 
+#pragma mark -
+#pragma mark Initialization
+
 - (id)init
 {
 	if ((self = [super init])) {
@@ -22,6 +25,35 @@
 	}
 	return self;
 }
+
+
+#pragma mark -
+#pragma mark IBActions
+
+-(IBAction)addNewHostmask:(id)sender
+{
+	// Check if this hostmask exists
+	BOOL exists = NO;
+	int i;
+	for (i = 0; i < [self.hostmaskArray count]; i++){
+		NSArray *hostmaskData = [self.hostmaskArray objectAtIndex:i];
+		if ([[hostmaskData objectAtIndex:0] isEqualToString:[newHostmaskField stringValue]]){
+			exists = YES;
+		}
+	}
+	// If not add it, otherwise show a alert message
+	if (!exists){	
+		[self addHostmask:[newHostmaskField stringValue] block:[newHostmaskCheck state]];
+		[sheetErrorMessage setStringValue:@" "];
+		[addHostmaskPane closeSheet:self];
+	}else{
+		[sheetErrorMessage setStringValue:@"This hostmask already exists."];
+	}
+}
+
+
+#pragma mark -
+#pragma mark Functions
 
 -(void)addHostmask:(NSString *)host block:(BOOL)boolean
 {
@@ -49,25 +81,32 @@
 	[hostmaskView reloadData];
 }
 
--(IBAction)addNewHostmask:(id)sender
+-(void)removeHostmask:(NSString *)hostmask
 {
-	// Check if this hostmask exists
-	BOOL exists = NO;
-	int i;
-	for (i = 0; i < [self.hostmaskArray count]; i++){
-		NSArray *hostmaskData = [self.hostmaskArray objectAtIndex:i];
-		if ([[hostmaskData objectAtIndex:0] isEqualToString:[newHostmaskField stringValue]]){
-			exists = YES;
+	int index;
+	for (index = 0; index < [self.hostmaskArray count]; index++){
+		NSArray *hostmaskData = [self.hostmaskArray objectAtIndex:index];
+		if ([[hostmaskData objectAtIndex:0] isEqualToString:hostmask]){
+			[self.hostmaskArray removeObjectAtIndex:index];
 		}
 	}
-	// If not add it, otherwise show a alert message
-	if (!exists){	
-		[self addHostmask:[newHostmaskField stringValue] block:[newHostmaskCheck state]];
-		[sheetErrorMessage setStringValue:@" "];
-		[addHostmaskPane closeSheet:self];
-	}else{
-		[sheetErrorMessage setStringValue:@"This hostmask already exists."];
+	[hostmaskView reloadData];
+}
+
+-(void)hostmask:(NSString *)hostmask isBlocked:(BOOL)boolean
+{
+	int auth;
+	if (boolean) auth = 1;
+	else auth = 0;
+	
+	int index;
+	for (index = 0; index < [self.hostmaskArray count]; index++){
+		NSMutableArray *hostmaskData = [self.hostmaskArray objectAtIndex:index];
+		if ([[hostmaskData objectAtIndex:0] isEqualToString:hostmask]){
+			[hostmaskData replaceObjectAtIndex:1 withObject:[NSNumber numberWithInt:auth]];
+		}
 	}
+	[hostmaskView reloadData];
 }
 
 -(IBAction)removeSelectedHostmask:(id)sender
@@ -96,7 +135,7 @@
 
 
 #pragma mark -
-#pragma mark delegate messages
+#pragma mark Delegate Messages
 
 - (int)numberOfRowsInTableView:(NSTableView *)tableView
 {

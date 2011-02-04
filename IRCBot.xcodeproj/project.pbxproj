@@ -15,6 +15,7 @@
 		AE0012BB12415E6E0049FD63 /* BWToolkitFramework.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = AE0012A212415E4F0049FD63 /* BWToolkitFramework.framework */; };
 		AE0B2B51129E11AF001C789C /* Hat.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0B2B50129E11AF001C789C /* Hat.png */; };
 		AE2A3B1E124182F5004B42CB /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = AE2A3B1D124182F5004B42CB /* Credits.html */; };
+		AE58546912FC8BD800B63ACD /* Todo.rtf in Resources */ = {isa = PBXBuildFile; fileRef = AE58546812FC8BD800B63ACD /* Todo.rtf */; };
 		AE5C7E5B129B82560080F146 /* KBScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = AE5C7E58129B82560080F146 /* KBScroller.m */; };
 		AE5C7E5C129B82560080F146 /* KBScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = AE5C7E5A129B82560080F146 /* KBScrollView.m */; };
 		AE5C7E7B129B83660080F146 /* KBSTextFieldCF.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5C7E75129B83660080F146 /* KBSTextFieldCF.png */; };
@@ -90,6 +91,7 @@
 		AE0B2B50129E11AF001C789C /* Hat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Hat.png; path = Images/Hat.png; sourceTree = "<group>"; };
 		AE2A3B1D124182F5004B42CB /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
 		AE45B16212A083E4008DD726 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		AE58546812FC8BD800B63ACD /* Todo.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Todo.rtf; sourceTree = "<group>"; };
 		AE5C7E57129B82560080F146 /* KBScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBScroller.h; path = UI/KBScroller.h; sourceTree = "<group>"; };
 		AE5C7E58129B82560080F146 /* KBScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBScroller.m; path = UI/KBScroller.m; sourceTree = "<group>"; };
 		AE5C7E59129B82560080F146 /* KBScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBScrollView.h; path = UI/KBScrollView.h; sourceTree = "<group>"; };
@@ -312,6 +314,7 @@
 			isa = PBXGroup;
 			children = (
 				AE8EBE8012A0587800CA3FCE /* Notes.rtf */,
+				AE58546812FC8BD800B63ACD /* Todo.rtf */,
 				AE8EBE8112A0587800CA3FCE /* ServerOutput.rtf */,
 				AEC6FFBF12FB52BF007214B6 /* Backup.rtf */,
 			);
@@ -443,6 +446,7 @@
 				AEF6021212A5B9B000A95FA8 /* Design.png in Resources */,
 				AEB56C5812F76AE7006FEF77 /* IRCBot Actions in Resources */,
 				AEC6FFC012FB52BF007214B6 /* Backup.rtf in Resources */,
+				AE58546912FC8BD800B63ACD /* Todo.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,18 +1,16 @@
 -- IRCBot lua script
--- ping
-
--- Import the base frameworks
-LuaCocoa.import("Foundation")
+-- shutdown
 
 
 -- The main	function --
 function main(data, args, irc)
 	print('Running main function');
-
-	msg = 'Bye: Don\'t forget to feed the goldfish.'
 	
-	shutdown_string = NSString:alloc():initWithUTF8String(msg)	
+	confirmation_string = 'Shutting down as ordered by: ' .. data[2]
+	irc:sendMessage_to_(confirmation_string,data[5])
+
+	shutdown_string = 'Bye: Don\'t forget to feed the goldfish.'
 	irc:dissconectWithMessage(shutdown_string)
 	
-	print('end')	
+	print('end')
 end

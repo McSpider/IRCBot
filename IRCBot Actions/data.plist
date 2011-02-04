@@ -22,5 +22,10 @@
 		<string>actions.lua</string>
 		<false/>
 	</array>
+	<array>
+		<string>version</string>
+		<string>version.lua</string>
+		<false/>
+	</array>
 </array>
 </plist>

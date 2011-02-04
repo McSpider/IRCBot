@@ -3,7 +3,7 @@
 //  IRCBot
 //
 //  Created by Ben K on 2011/02/02.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  All code is provided under the New BSD license.
 //
 
 #import "LuaController.h"
@@ -59,78 +59,102 @@
 #pragma mark -
 #pragma mark Functions
 
-- (void)dissconectWithMessage:(NSString *)message
+- (void)dissconectWithMessage:(const char *)aMessage
 {
+	NSString *message = [NSString stringWithUTF8String:aMessage];
 	[irc disconnectWithMessage:message];
 }
 
-- (void)joinRoom:(NSString *)room
+- (void)joinRoom:(const char *)aRoom
 {
+	NSString *room = [NSString stringWithUTF8String:aRoom];
 	[main joinRoom:room];
 }
 
-- (void)partRoom:(NSString *)room
+- (void)partRoom:(const char *)aRoom
 {
+	NSString *room = [NSString stringWithUTF8String:aRoom];
 	[main partRoom:room];
 }
 
-- (NSArray *)getActionsList
+- (NSArray *)getActions
 {
 	return [actions actionsArray];
 }
 
-- (NSArray *)getRoomsList
+- (NSArray *)getRooms
 {
 	return [rooms roomArray];
 }
 
+- (const char *)getVersion
+{
+	return "Version 0.8 Beta";
+}
+
 
 // Messaging
-- (void)sendMessage:(NSString *)message to:(NSString *)recipient
+- (void)sendMessage:(const char *)aMessage to:(const char *)aRecipient
 {
+	NSString *message = [NSString stringWithUTF8String:aMessage];
+	NSString *recipient = [NSString stringWithUTF8String:aRecipient];
 	[irc sendMessage:message To:recipient logAs:3];
 }
 
-- (void)sendNotice:(NSString *)notice to:(NSString *)recipient
+- (void)sendNotice:(const char *)aNotice to:(const char *)aRecipient
 {
+	NSString *notice = [NSString stringWithUTF8String:aNotice];
+	NSString *recipient = [NSString stringWithUTF8String:aRecipient];
 	[irc sendNotice:notice To:recipient logAs:3];
 }
 
-- (void)sendActionMessage:(NSString *)action to:(NSString *)recipient
+- (void)sendActionMessage:(const char *)aAction to:(const char *)aRecipient
 {
+	NSString *action = [NSString stringWithUTF8String:aAction];
+	NSString *recipient = [NSString stringWithUTF8String:aRecipient];
 	[irc sendAction:action To:recipient logAs:3];
 }
 
-- (void)sendRawMessage:(NSString *)message
+- (void)sendRawMessage:(const char *)aString
 {
+	NSString *message = [NSString stringWithUTF8String:aString];
 	[irc sendRawString:message logAs:3];
-
 }
 
 // Hostmask tools
-- (void)addHostmask:(NSString *)mask block:(BOOL)blocked
+- (void)addHostmask:(const char *)mask block:(BOOL)blocked
 {
-	
+	NSString *hostmask = [NSString stringWithUTF8String:mask];
+	[hostmasks addHostmask:hostmask block:blocked];
 }
 
-- (void)removeHostmask:(NSString *)mask
+- (void)removeHostmask:(const char *)mask
 {
-	
+	NSString *hostmask = [NSString stringWithUTF8String:mask];
+	[hostmasks removeHostmask:hostmask];
 }
 
-- (void)blockHostmask:(NSString *)mask
+- (void)blockHostmask:(const char *)mask
 {
-	
+	NSString *hostmask = [NSString stringWithUTF8String:mask];
+	[hostmasks hostmask:hostmask isBlocked:YES];
 }
 
-- (void)unblockHostmask:(NSString *)mask
+- (void)unblockHostmask:(const char *)mask
 {
-	
+	NSString *hostmask = [NSString stringWithUTF8String:mask];
+	[hostmasks hostmask:hostmask isBlocked:NO];
 }
 
--(void)listHostmasks
+- (boolean_t)checkAuthFor:(const char *)aUser
 {
-	
+	NSString *hostmask = [NSString stringWithUTF8String:aUser];	
+	return [hostmasks getAuthForHostmask:hostmask];
+}
+
+-(NSArray *)getHostmasks
+{
+	return [hostmasks hostmaskArray];
 }
 
 #pragma mark -

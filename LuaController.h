@@ -3,7 +3,7 @@
 //  IRCBot
 //
 //  Created by Ben K on 2011/02/02.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  All code is provided under the New BSD license.
 //
 
 #import <Cocoa/Cocoa.h>

@@ -34,7 +34,7 @@
 	[self.actionsArray addObjectsFromArray:[NSArray arrayWithContentsOfFile:[actionsData stringByExpandingTildeInPath]]];
 	
 	// Set the NSPathControl to our home folder
-	[actionPath setURL:[NSURL fileURLWithPath:[@"~/" stringByExpandingTildeInPath]]];
+	[actionPath setURL:[NSURL fileURLWithPath:[@"~/Desktop/" stringByExpandingTildeInPath]]];
 }
 
 -(void)addAction:(NSString *)action name:(NSString *)name restricted:(BOOL)boolean
@@ -43,8 +43,13 @@
 	if (boolean) auth = 1;
 	else auth = 0;
 	
-	NSArray *tempArray = [NSArray arrayWithObjects:name,action,auth,nil];
+	NSLog(@"Then: %@",[self actionsArray]);
+	
+	NSArray *tempArray = [NSArray arrayWithObjects:name,action,[NSNumber numberWithInt:auth],nil];
 	[self.actionsArray addObject:tempArray];
+	
+	NSLog(@"Now: %@",[self actionsArray]);
+	
 	[actionsView reloadData];
 }
 
@@ -67,9 +72,9 @@
 			exists = @"A action with that file name already exits.";
 		}
 	}
+	
 	// If not add it otherwise show a alert message
 	if ([exists isEqualToString:@"NO"]){
-		
 		// Copy file to ~/AppSupport/IRCBot/
 		NSFileManager *fileManager = [NSFileManager defaultManager];
 		NSString *folderPath = @"~/Library/Application Support/IRCBot/";
@@ -77,7 +82,7 @@
 		if (![fileManager fileExistsAtPath:[NSString stringWithFormat:@"%@/%@",folderPath,filename]])
 			[fileManager copyPath:[[actionPath URL] absoluteString] toPath:[NSString stringWithFormat:@"%@/%@",filename] handler:nil];		
 		
-		// Add reference to data.plist		
+		// Add reference to data.plist
 		[self addAction:filename name:[actionName stringValue] restricted:[restrictAction state]];
 		[sheetErrorMessage setStringValue:@""];
 		[addActionPane closeSheet:self];

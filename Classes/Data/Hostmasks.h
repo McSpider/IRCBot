@@ -28,6 +28,11 @@
 -(IBAction)removeSelectedHostmask:(id)sender;
 
 -(void)addHostmask:(NSString *)host block:(BOOL)boolean;
+-(void)removeHostmask:(NSString *)host;
+
+-(void)hostmask:(NSString *)host isBlocked:(BOOL)boolean;
+
+
 -(void)clearData;
 
 -(BOOL)getAuthForHostmask:(NSString *)hostmask;

@@ -79,7 +79,12 @@
 		
 			NSBezierPath *bz = [NSBezierPath bezierPathWithRoundedRect:knobRect xRadius:4 yRadius:4];
 			[bz addClip];
-			[[NSColor colorWithCalibratedRed:0.70 green:0.70 blue:0.70 alpha:1.00] set];
+			
+			if([[[self superview] window] isKeyWindow])
+				[[NSColor colorWithCalibratedRed:0.70 green:0.70 blue:0.70 alpha:1.00] set];
+			else
+				[[NSColor colorWithCalibratedRed:0.80 green:0.80 blue:0.80 alpha:1.00] set];
+
 			NSRectFill(knobRect);
 		}else{
 			NSRect knobRect;
@@ -95,7 +100,12 @@
 			
 			NSBezierPath *bz = [NSBezierPath bezierPathWithRoundedRect:knobRect xRadius:4 yRadius:4];
 			[bz addClip];
-			[[NSColor colorWithCalibratedRed:0.70 green:0.70 blue:0.70 alpha:1.00] set];
+
+			if([[[self superview] window] isKeyWindow])
+				[[NSColor colorWithCalibratedRed:0.70 green:0.70 blue:0.70 alpha:1.00] set];
+			else
+				[[NSColor colorWithCalibratedRed:0.80 green:0.80 blue:0.80 alpha:1.00] set];
+			
 			NSRectFill(knobRect);
 		}
 	}
