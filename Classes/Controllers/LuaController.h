@@ -23,6 +23,8 @@
 	Actions *actions;
 	
 	LuaCocoa* luaCocoa;
+	NSArray* connectionData;
+	NSArray* triggers;
 }
 
 - (void)setParentClass:(id)parent;
@@ -33,6 +35,7 @@
 
 
 - (void)loadFile:(NSString *)fileName;
+- (void)setConnectionData:(NSArray *)theData andTriggers:(NSArray *)theTriggers;
 - (void)runMainFunctionWithData:(NSArray *)data andArguments:(NSArray *)args;
 
 @end

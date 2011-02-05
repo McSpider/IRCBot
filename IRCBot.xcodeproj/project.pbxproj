@@ -41,11 +41,11 @@
 		AEBB006E123C31D100E6CC21 /* KBTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBB0069123C31D100E6CC21 /* KBTextField.m */; };
 		AEBB006F123C31D100E6CC21 /* KBSTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBB006B123C31D100E6CC21 /* KBSTextFieldCell.m */; };
 		AEBBFFF8123C044E00E6CC21 /* UIController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBBFFF5123C044E00E6CC21 /* UIController.m */; };
-		AEC6FDD012FA0C87007214B6 /* LuaController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEC6FDCF12FA0C87007214B6 /* LuaController.m */; };
 		AEC6FFC012FB52BF007214B6 /* Backup.rtf in Resources */ = {isa = PBXBuildFile; fileRef = AEC6FFBF12FB52BF007214B6 /* Backup.rtf */; };
 		AEE5E0A512408C08002D2767 /* EMKeychainItem.m in Sources */ = {isa = PBXBuildFile; fileRef = AEE5E0A412408C08002D2767 /* EMKeychainItem.m */; };
 		AEE5E0AE12408D7A002D2767 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEE5E0AD12408D7A002D2767 /* Carbon.framework */; };
 		AEE5E0C112408F27002D2767 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEE5E0C012408F27002D2767 /* Security.framework */; };
+		AEEAEA5E12FD243400EA5D4A /* LuaController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEEAEA5D12FD243400EA5D4A /* LuaController.m */; };
 		AEF6005712A4783E00A95FA8 /* AutojoinData.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF6005612A4783E00A95FA8 /* AutojoinData.m */; };
 		AEF6021212A5B9B000A95FA8 /* Design.png in Resources */ = {isa = PBXBuildFile; fileRef = AEF6021112A5B9B000A95FA8 /* Design.png */; };
 		AEF6032112A5DDB000A95FA8 /* Actions.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF6031C12A5DDB000A95FA8 /* Actions.m */; };
@@ -126,13 +126,13 @@
 		AEBB006B123C31D100E6CC21 /* KBSTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBSTextFieldCell.m; path = UI/KBSTextFieldCell.m; sourceTree = "<group>"; };
 		AEBBFFF4123C044E00E6CC21 /* UIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIController.h; path = UI/UIController.h; sourceTree = "<group>"; };
 		AEBBFFF5123C044E00E6CC21 /* UIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIController.m; path = UI/UIController.m; sourceTree = "<group>"; };
-		AEC6FDCE12FA0C87007214B6 /* LuaController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaController.h; sourceTree = "<group>"; };
-		AEC6FDCF12FA0C87007214B6 /* LuaController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LuaController.m; sourceTree = "<group>"; };
 		AEC6FFBF12FB52BF007214B6 /* Backup.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Backup.rtf; sourceTree = "<group>"; };
 		AEE5E0A312408C08002D2767 /* EMKeychainItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMKeychainItem.h; sourceTree = "<group>"; };
 		AEE5E0A412408C08002D2767 /* EMKeychainItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMKeychainItem.m; sourceTree = "<group>"; };
 		AEE5E0AD12408D7A002D2767 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		AEE5E0C012408F27002D2767 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
+		AEEAEA5C12FD243400EA5D4A /* LuaController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LuaController.h; path = Classes/Controllers/LuaController.h; sourceTree = "<group>"; };
+		AEEAEA5D12FD243400EA5D4A /* LuaController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LuaController.m; path = Classes/Controllers/LuaController.m; sourceTree = "<group>"; };
 		AEF6005512A4783E00A95FA8 /* AutojoinData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AutojoinData.h; path = Classes/Data/AutojoinData.h; sourceTree = "<group>"; };
 		AEF6005612A4783E00A95FA8 /* AutojoinData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AutojoinData.m; path = Classes/Data/AutojoinData.m; sourceTree = "<group>"; };
 		AEF6021112A5B9B000A95FA8 /* Design.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Design.png; path = Images/Design.png; sourceTree = "<group>"; };
@@ -371,8 +371,8 @@
 				AEF6FEFD12A4657C00A95FA8 /* MainController.m */,
 				AEF6FEFE12A4657C00A95FA8 /* PrefController.h */,
 				AEF6FEFF12A4657C00A95FA8 /* PrefController.m */,
-				AEC6FDCE12FA0C87007214B6 /* LuaController.h */,
-				AEC6FDCF12FA0C87007214B6 /* LuaController.m */,
+				AEEAEA5C12FD243400EA5D4A /* LuaController.h */,
+				AEEAEA5D12FD243400EA5D4A /* LuaController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -475,7 +475,7 @@
 				AEF6032112A5DDB000A95FA8 /* Actions.m in Sources */,
 				AEF6032212A5DDB000A95FA8 /* Hostmasks.m in Sources */,
 				AEF604F012A70A3800A95FA8 /* IRCRooms.m in Sources */,
-				AEC6FDD012FA0C87007214B6 /* LuaController.m in Sources */,
+				AEEAEA5E12FD243400EA5D4A /* LuaController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

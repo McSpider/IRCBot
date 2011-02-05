@@ -26,6 +26,8 @@
 	if (self != nil) {
 		// Lua setup
 		luaCocoa = [[LuaCocoa alloc] init];	
+		connectionData = [[NSArray alloc] init];
+		triggers = [[NSArray alloc] init];
 	}
 	return self;
 }
@@ -87,9 +89,21 @@
 	return [rooms roomArray];
 }
 
-- (const char *)getVersion
+-(NSArray *)getTriggers
+{	
+	return triggers;
+}
+
+-(NSString *)getNickname
+{	
+	NSString *nick = [connectionData objectAtIndex:2];
+	return nick;
+}
+
+- (NSString *)getVersion
 {
-	return "Version 0.8 Beta";
+	NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+	return version;
 }
 
 
@@ -183,6 +197,19 @@
 	}	
 }
 
+- (void)setConnectionData:(NSArray *)theData andTriggers:(NSArray *)theTriggers
+{
+	if (connectionData != theData) {
+		[connectionData release];
+		connectionData = [theData copy];
+	}
+	
+	if (triggers != theTriggers) {
+		[triggers release];
+		triggers = [theTriggers copy];
+	}
+}
+
 - (void)runMainFunctionWithData:(NSArray *)data andArguments:(NSArray *)args
 {
 	// Run the main function
@@ -196,6 +223,8 @@
 - (void)dealloc
 {
 	[luaCocoa release];
+	[connectionData release];
+	[triggers release];
 	[super dealloc];
 }
 

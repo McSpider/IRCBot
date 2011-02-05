@@ -17,14 +17,15 @@
 - (NSString *)escapeString:(NSString *)string;
 
 BOOL Debugging;
-NSMutableArray* connectionData;
 
 // IRC connection
+NSMutableArray* connectionData;
 IRCConnection *ircConnection;
 @end
 
 
 @implementation MainController
+
 
 #pragma mark -
 #pragma mark IBActions
@@ -271,7 +272,7 @@ IRCConnection *ircConnection;
 	}
 	
 	
-	if ([type isEqualToString:@"IRC_CHANNEL_MSG"]){
+	if ([type isEqualToString:@"IRC_CHANNEL_MSG"] || [type isEqualToString:@"IRC_QUERY_MSG"]){
 		// Split the message into its components, see Notes.rtf for more info
 		NSArray *messageData;
 		messageData = [[input arrayOfCaptureComponentsMatchedByRegex:@":([^!]+)!~(\\S+)\\s+(\\S+)\\s+:?+(\\S+)\\s*(?:[:+-]+(.*+))?$"] objectAtIndex:0];
@@ -308,6 +309,7 @@ IRCConnection *ircConnection;
 												
 						if ((actionRestricted && auth) || !actionRestricted) {
 							[lua loadFile:actionFile];
+							[lua setConnectionData:connectionData andTriggers:triggers];
 							[lua runMainFunctionWithData:messageData andArguments:messageComponents];
 						} else {
 							NSString *errorMessage = [NSString stringWithFormat:@"%@, you do not have permission to execute that command.",[messageData objectAtIndex:1]];
