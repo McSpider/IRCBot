@@ -12,10 +12,12 @@ Still needs lots of changes to make it functional.
 [BWToolkitFramework](http://www.brandonwalkin.com/bwtoolkit/), for several UI elements.  
   
   
-###Current Commands:
+###Current Actions:
 shutdown: disconnect the bot.  
-auth: check your authentication status.  
 version: print the bot version.  
-allow: allow a hostmask to use the restricted functions.  
-block: block a hostmask from using all functions.  
+actions: print a list of available actions.  
 hi: say hello.  
+ping: send a ping, replies with 'Sender: pong'.  
+
+Actions are simple .lua files, with lots of possibilities.  
+The IRCBot Lua api is very simple, but some things don't work properly yet.  
