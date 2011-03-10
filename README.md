@@ -20,4 +20,3 @@ hi: say hello.
 ping: send a ping, replies with 'Sender: pong'.  
 
 Actions are simple .lua files, with lots of possibilities.  
-The IRCBot Lua api is very simple, but some things don't work properly yet.  
