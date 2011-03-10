@@ -284,19 +284,16 @@ IRCConnection *ircConnection;
 			if ([message hasPrefix:trigger]) {
 				int actionIndex;
 				for (actionIndex = 0; actionIndex < [actions.actionsArray count]; actionIndex++) {
-					NSArray *action = [actions.actionsArray objectAtIndex:actionIndex];					
-					NSString *actionName = [action objectAtIndex:0];
-					NSString *actionFile = [action objectAtIndex:1];
-					BOOL actionRestricted = [[action objectAtIndex:2] boolValue];
+					LuaAction *action = [actions.actionsArray objectAtIndex:actionIndex];					
 					
 					NSArray *messageComponents;
-					NSString *regex = [NSString stringWithFormat:@"^(%@%@)\\s*(\\S*)\\s*(.*$)",trigger,actionName];
+					NSString *regex = [NSString stringWithFormat:@"^(%@%@)\\s*(\\S*)\\s*(.*$)",trigger,action.name];
 
 					if ([message isMatchedByRegex:regex]) {
 						messageComponents = [[message arrayOfCaptureComponentsMatchedByRegex:regex] objectAtIndex:0];
 												
-						if ((actionRestricted && auth) || !actionRestricted) {
-							[lua loadFile:actionFile];
+						if ((action.restricted && auth) || !action.restricted) {
+							[lua loadFile:action.file];
 							[lua setConnectionData:connectionData andTriggers:triggers];
 							[lua runMainFunctionWithData:messageData andArguments:messageComponents];
 						} else {

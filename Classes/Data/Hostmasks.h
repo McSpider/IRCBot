@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "RegexKitLite.h"
 
 @interface Hostmasks : NSObject {
 

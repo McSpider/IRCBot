@@ -125,8 +125,9 @@
 {
 	int index;
 	for (index = 0; index < [self.hostmaskArray count]; index++){
-		NSArray *tempArray = [self.hostmaskArray objectAtIndex:index];
-		if ([[tempArray objectAtIndex:0] isEqualToString:hostmask] && ([[tempArray objectAtIndex:1] intValue] == 0)){
+		NSString *tempHostmask = [[self.hostmaskArray objectAtIndex:index] objectAtIndex:0];
+		BOOL blocked = [[[self.hostmaskArray objectAtIndex:index] objectAtIndex:1] intValue];
+		if ([tempHostmask isMatchedByRegex:hostmask] && !blocked){
 			return YES;
 		}
 	}
