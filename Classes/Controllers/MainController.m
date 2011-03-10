@@ -51,41 +51,30 @@ IRCConnection *ircConnection;
 	NSString *commandString = [commandField stringValue];
 	NSArray *commandArray = [commandString componentsSeparatedByString:@" "];
 	
-	if ([commandString isMatchedByRegex:@"^/join\\s.*$"]){
+	if ([commandString isMatchedByRegex:@"^join\\s.*$"]){
 		if (![rooms connectedToRoom:[commandArray objectAtIndex:1]] && [ircConnection isConnected])
 			[self joinRoom:[commandArray objectAtIndex:1]];
 		else if ([ircConnection isConnected])
 			[self logMessage:@"You are already in that room." type:4];
 		else
 			[self logMessage:@"You need to connect to an irc server before joining rooms." type:1];
-	}else if ([commandString isMatchedByRegex:@"^/part\\s.*$"] && [ircConnection isConnected]){
+	}else if ([commandString isMatchedByRegex:@"^part\\s.*$"] && [ircConnection isConnected]){
 		if ([rooms connectedToRoom:[commandArray objectAtIndex:1]])
 			[self partRoom:[commandArray objectAtIndex:1]];
 		else
 			[self logMessage:@"You are not connected to that room." type:4];
-	}else if ([commandString isMatchedByRegex:@"^/msg\\s.*\\s.*$"] && [ircConnection isConnected]){
-		NSString *tempString = @"";
-		int i;
-		for (i = 2; i < [commandArray count]; i++){
-			tempString = [tempString stringByAppendingString:[NSString stringWithFormat:@" %@",[commandArray objectAtIndex:i]]];
+	}else if ([commandString isMatchedByRegex:@"^msg\\s.*\\s.*$"] && [ircConnection isConnected]){
+		NSString * tempString = commandString;
+		if ([[commandArray objectAtIndex:2] isEqualToString:@".me"]) {
+			[ircConnection sendAction:tempString To:[commandArray objectAtIndex:1] logAs:2];
+		} else if ([[commandArray objectAtIndex:2] isEqualToString:@".ntc"]) {
+			[ircConnection sendNotice:tempString To:[commandArray objectAtIndex:1] logAs:2];
+		} else {
+			[ircConnection sendMessage:tempString To:[commandArray objectAtIndex:1] logAs:2];
 		}
-		[ircConnection sendMessage:tempString To:[commandArray objectAtIndex:1] logAs:2];
-	}else if ([commandString isMatchedByRegex:@"^/me\\s.*\\s.*$"] && [ircConnection isConnected]){
-		NSString *tempString = @"";
-		int i;
-		for (i = 2; i < [commandArray count]; i++){
-			tempString = [tempString stringByAppendingString:[NSString stringWithFormat:@" %@",[commandArray objectAtIndex:i]]];
-		}
-		[ircConnection sendAction:tempString To:[commandArray objectAtIndex:1] logAs:2];
-	}else if ([commandString isMatchedByRegex:@"^/notice\\s.*\\s.*$"] && [ircConnection isConnected]){
-		NSString *tempString = @"";
-		int i;
-		for (i = 2; i < [commandArray count]; i++){
-			tempString = [tempString stringByAppendingString:[NSString stringWithFormat:@" %@",[commandArray objectAtIndex:i]]];
-		}
-		[ircConnection sendNotice:tempString To:[commandArray objectAtIndex:1] logAs:2];
+			
 	}else if ([commandString isMatchedByRegex:@"^/help(\\s.*$|$)"]){
-		[self logMessage:@"Valid commands are:\n› /join <room>\n› /part <room>\n› /msg <room> <msg>\n› /me <room> <msg>\n› /notice <room> <msg>" type:4];
+		[self logMessage:@"Valid commands are:\n› /join (room)\n› /part (room)\n› /msg (recipient) [.me|.ntc] (message)" type:4];
 	}else if (![ircConnection isConnected]){
 		[self logMessage:@"IRCBot - No IRC Connection\n› Type /help for help" type:1];
 	}else{
@@ -135,7 +124,6 @@ IRCConnection *ircConnection;
 {
 	connectionData = [[NSMutableArray alloc] init];
 	Debugging = NO;
-	
 }
 
 -(void)applicationDidFinishLaunching:(NSNotification *)aNotification

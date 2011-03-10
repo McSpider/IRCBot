@@ -15,7 +15,7 @@
 -(void)drawRect:(NSRect)rect{
 	/*NSRect tempRect = NSInsetRect(rect, 2, 0);
 	[super drawRect:NSOffsetRect(tempRect, 2, 0)];*/
-	[super	drawRect:rect];
+	[super drawRect:rect];
 }
 
 -(void)dealloc{	

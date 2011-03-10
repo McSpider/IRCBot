@@ -166,9 +166,9 @@
 	[standardUserDefaults setObject:[autojoin autojoinArray] forKey:@"autojoin"];
 	[standardUserDefaults setObject:[usernameField stringValue] forKey:@"username"];
 	
-	NSString *actionsPath = @"~/Library/Application Support/IRCBot/data.plist";
-	[actions.actionsArray writeToFile:[actionsPath stringByExpandingTildeInPath] atomically:YES];	
-			
+	NSString *actionsPath = @"~/Library/Application Support/IRCBot Actions/data.plist";
+	[actions saveActionsToFile:actionsPath];
+	
 	// Save the password to the appropriate location
 	if (![passwordInPlistCheck state]){
 		if ([standardUserDefaults objectForKey:@"password"])

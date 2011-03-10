@@ -17,6 +17,6 @@
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *status;
 
--(void)initRoom:(NSString *)aRoom withStatus:(NSString *)aStatus;
+- (void)initRoom:(NSString *)aRoom withStatus:(NSString *)aStatus;
 
 @end

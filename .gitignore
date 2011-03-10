@@ -2,6 +2,7 @@ build/
 Notes/
 .DS_Store
 *.psd
+*.pages
 **/*.pbxuser
 *.mode2v3
 *.mode1v3

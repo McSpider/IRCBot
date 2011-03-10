@@ -11,8 +11,8 @@
 			<string key="com.brandonwalkin.BWToolkit">1.2.5</string>
 		</dictionary>
 		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs">
+			<integer value="372"/>
 			<integer value="29"/>
-			<integer value="2772"/>
 		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -2104,7 +2104,7 @@ dXJzIGxvZ2luIHRvIGlyYyBhbmQgcnVuIC93aG9pcyA8eW91cm5pY2s+A</string>
 				<string key="NSWindowContentMaxSize">{1.79769e+308, 1.79769e+308}</string>
 				<string key="NSWindowContentMinSize">{650, 400}</string>
 				<object class="NSView" key="NSWindowView" id="439893737">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSScrollView" id="87197612">
@@ -2399,7 +2399,7 @@ dXJzIGxvZ2luIHRvIGlyYyBhbmQgcnVuIC93aG9pcyA8eW91cm5pY2s+A</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="693315186">
 								<int key="NSCellFlags">-1804468671</int>
-								<int key="NSCellFlags2">272630784</int>
+								<int key="NSCellFlags2">268436480</int>
 								<string key="NSContents"/>
 								<reference key="NSSupport" ref="273677091"/>
 								<string key="NSPlaceholderString">Command</string>
@@ -2483,6 +2483,7 @@ dXJzIGxvZ2luIHRvIGlyYyBhbmQgcnVuIC93aG9pcyA8eW91cm5pY2s+A</string>
 						</object>
 					</array>
 					<string key="NSFrameSize">{650, 400}</string>
+					<reference key="NSSuperview"/>
 					<int key="NSViewLayerContentsRedrawPolicy">2</int>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
@@ -3667,13 +3668,13 @@ IGlzc3Vlcy4KXiAkICggKSA8ID4gWyBdIHsgfSBcIHwgLiAqICsgPw</string>
 							<object class="NSTextField" id="180432971">
 								<reference key="NSNextResponder" ref="617573712"/>
 								<int key="NSvFlags">265</int>
-								<string key="NSFrame">{{126, 3}, {51, 14}}</string>
+								<string key="NSFrame">{{126, 3}, {83, 14}}</string>
 								<reference key="NSSuperview" ref="617573712"/>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSTextFieldCell" key="NSCell" id="260163746">
 									<int key="NSCellFlags">68288064</int>
 									<int key="NSCellFlags2">272761856</int>
-									<string key="NSContents">Function</string>
+									<string key="NSContents">Lua Action File</string>
 									<reference key="NSSupport" ref="26"/>
 									<reference key="NSControlView" ref="180432971"/>
 									<reference key="NSBackgroundColor" ref="307855418"/>
@@ -4330,7 +4331,7 @@ IGlzc3Vlcy4KXiAkICggKSA8ID4gWyBdIHsgfSBcIHwgLiAqICsgPw</string>
 				<nil key="NSViewClass"/>
 				<string key="NSWindowContentMaxSize">{1.79769e+308, 1.79769e+308}</string>
 				<object class="NSView" key="NSWindowView" id="1053971071">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSTextField" id="1014668715">
@@ -4542,7 +4543,6 @@ IGlzc3Vlcy4KXiAkICggKSA8ID4gWyBdIHsgfSBcIHwgLiAqICsgPw</string>
 						</object>
 					</array>
 					<string key="NSFrameSize">{496, 180}</string>
-					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
 				<string key="NSMaxSize">{1.79769e+308, 1.79769e+308}</string>
@@ -8652,7 +8652,7 @@ IGlzc3Vlcy4KXiAkICggKSA8ID4gWyBdIHsgfSBcIHwgLiAqICsgPw</string>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">2982</int>
+			<int key="maxID">2984</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

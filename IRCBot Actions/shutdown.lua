@@ -1,8 +1,8 @@
--- IRCBot lua script
--- shutdown
+--: IRCBot lua script :--
+--: shutdown :--
 
 
--- The main	function --
+--: The main	function :--
 function main(data, args, irc)
 	print('Running main function');
 	

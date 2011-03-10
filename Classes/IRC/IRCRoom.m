@@ -13,7 +13,7 @@
 @synthesize name;
 @synthesize status;
 
--(id)init{
+- (id)init{
 	self = [super init];
 	if (self != nil) {
 		self.name = [[NSString alloc] initWithString:@"#null"];
@@ -23,17 +23,17 @@
 }
 
 
--(void)initRoom:(NSString *)aRoom withStatus:(NSString *)aStatus
+- (void)initRoom:(NSString *)aRoom withStatus:(NSString *)aStatus
 {
 	self.name = aRoom;
 	self.status = aStatus;
 }
 
--(NSString*)description{    
+- (NSString*)description{    
 	return [NSString stringWithFormat:@"IRC Room:%@ status:%@", self.name, self.status];
 }
 
--(void)dealloc{
+- (void)dealloc{
 	self.name = nil;
 	self.status = nil;
 	[super dealloc];

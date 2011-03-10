@@ -65,7 +65,7 @@ NSMutableArray* connectionData;
 #pragma mark -
 #pragma mark IRC Messaging
 
--(void)sendMessage:(NSString *)message To:(NSString *)recipient logAs:(int)type
+- (void)sendMessage:(NSString *)message To:(NSString *)recipient logAs:(int)type
 {
 	if (recipient == nil || [recipient isEqualToString:@"NONE"])
 		return;
@@ -73,7 +73,7 @@ NSMutableArray* connectionData;
 	if ([message length] >= 1) [self sendRawString:msg logAs:type];
 }
 
--(void)sendNotice:(NSString *)message To:(NSString *)recipient logAs:(int)type
+- (void)sendNotice:(NSString *)message To:(NSString *)recipient logAs:(int)type
 {
 	if (recipient == nil || [recipient isEqualToString:@"NONE"])
 		return;
@@ -81,7 +81,7 @@ NSMutableArray* connectionData;
 	if ([message length] >= 1) [self sendRawString:msg logAs:type];
 }
 
--(void)sendAction:(NSString *)message To:(NSString *)recipient logAs:(int)type
+- (void)sendAction:(NSString *)message To:(NSString *)recipient logAs:(int)type
 {
 	if (recipient == nil || [recipient isEqualToString:@"NONE"])
 		return;
@@ -89,7 +89,7 @@ NSMutableArray* connectionData;
 	if ([message length] >= 1) [self sendRawString:msg logAs:type];
 }
 
--(void)sendRawString:(NSString *)string logAs:(int)type
+- (void)sendRawString:(NSString *)string logAs:(int)type
 {
 	NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
 	if ([string length] >= 1) [ircSocket writeData:data withTimeout:[[connectionData objectAtIndex:6] intValue] tag:0];
@@ -97,7 +97,7 @@ NSMutableArray* connectionData;
 		[ircDelegate logMessage:[NSString stringWithFormat:@"%@", string] type:type];
 }
 
--(NSString*)getMessageType:(NSString*)input
+- (NSString*)getMessageType:(NSString*)input
 {	
 	if ([input isMatchedByRegex:@"^:[^ ]+? [0-9]{3} .+$"])
 		return @"IRC_STATUS_MSG";
@@ -141,7 +141,7 @@ NSMutableArray* connectionData;
 #pragma mark IRC Connection
 
 // Connect and disconnect from IRC server functions //
--(void)connectToIRC:(NSString *)server port:(int)port
+- (void)connectToIRC:(NSString *)server port:(int)port
 {	
 	// Check port validity
 	if (port < 0 || port > 65535)
@@ -155,7 +155,7 @@ NSMutableArray* connectionData;
 	}
 }
 
--(void)disconnectWithMessage:(NSString *)message
+- (void)disconnectWithMessage:(NSString *)message
 {
 	NSString* quitMSG = [NSString stringWithFormat:@"QUIT :%@ \r\n",message];
 	[self sendRawString:quitMSG logAs:2];
@@ -191,7 +191,7 @@ NSMutableArray* connectionData;
 }
 
 // Socket did connect to host
--(void)onSocket:(AsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port
+- (void)onSocket:(AsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port
 {		
 	// Start reading data
 	[ircSocket readDataToData:[AsyncSocket CRLFData] withTimeout:-1 tag:0];	
@@ -200,14 +200,14 @@ NSMutableArray* connectionData;
 }
 
 // Socket did disconnect
--(void)onSocketDidDisconnect:(AsyncSocket *)sock
+- (void)onSocketDidDisconnect:(AsyncSocket *)sock
 {
 	if([ircDelegate respondsToSelector:@selector(didDissconect)])
 		[ircDelegate didDissconect];
 }
 
 // Socket will discconect with error
--(void)onSocket:(AsyncSocket *)sock willDisconnectWithError:(NSError *)error
+- (void)onSocket:(AsyncSocket *)sock willDisconnectWithError:(NSError *)error
 {
 	[ircDelegate logMessage:[NSString stringWithFormat:@"IRCBot - Socket will disconnect with error: %@", error] type:1];
 }
@@ -231,7 +231,7 @@ NSMutableArray* connectionData;
 #pragma mark Dealloc Memory
 
 // deallocate used memory
--(void)dealloc
+- (void)dealloc
 {
 	[ircSocket release];
 	[connectionData release];

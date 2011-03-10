@@ -19,18 +19,18 @@
 
 @property (nonatomic,assign) NSMutableArray *roomArray;
 
--(IBAction)removeSelectedRoom:(id)sender;
+- (IBAction)removeSelectedRoom:(id)sender;
 
--(void)addRoom:(NSString *)room;
--(void)removeRoom:(NSString *)room;
--(void)setStatus:(NSString *)status forRoom:(NSString *)room;
--(void)connectRoom:(NSString *)room;
--(void)disconnectRoom:(NSString *)room;
--(void)disconnectAllRooms;
+- (void)addRoom:(NSString *)room;
+- (void)removeRoom:(NSString *)room;
+- (void)setStatus:(NSString *)status forRoom:(NSString *)room;
+- (void)connectRoom:(NSString *)room;
+- (void)disconnectRoom:(NSString *)room;
+- (void)disconnectAllRooms;
 
--(BOOL)connectedToRoom:(NSString *)room;
--(int)indexOfRoom:(NSString *)room;
--(NSString *)roomAtIndex:(int)index;
+- (BOOL)connectedToRoom:(NSString *)room;
+- (int)indexOfRoom:(NSString *)room;
+- (NSString *)roomAtIndex:(int)index;
 
 
 @end

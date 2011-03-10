@@ -14,6 +14,7 @@
 		AE0012A312415E4F0049FD63 /* BWToolkitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE0012A212415E4F0049FD63 /* BWToolkitFramework.framework */; };
 		AE0012BB12415E6E0049FD63 /* BWToolkitFramework.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = AE0012A212415E4F0049FD63 /* BWToolkitFramework.framework */; };
 		AE0B2B51129E11AF001C789C /* Hat.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0B2B50129E11AF001C789C /* Hat.png */; };
+		AE128A98132710C50063CD28 /* LuaAction.m in Sources */ = {isa = PBXBuildFile; fileRef = AE128A97132710C50063CD28 /* LuaAction.m */; };
 		AE2A3B1E124182F5004B42CB /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = AE2A3B1D124182F5004B42CB /* Credits.html */; };
 		AE58546912FC8BD800B63ACD /* Todo.rtf in Resources */ = {isa = PBXBuildFile; fileRef = AE58546812FC8BD800B63ACD /* Todo.rtf */; };
 		AE5C7E5B129B82560080F146 /* KBScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = AE5C7E58129B82560080F146 /* KBScroller.m */; };
@@ -89,6 +90,8 @@
 		8D1107320486CEB800E47090 /* IRCBot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IRCBot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE0012A212415E4F0049FD63 /* BWToolkitFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BWToolkitFramework.framework; path = Includes/BWToolkitFramework.framework; sourceTree = "<group>"; };
 		AE0B2B50129E11AF001C789C /* Hat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Hat.png; path = Images/Hat.png; sourceTree = "<group>"; };
+		AE128A96132710C50063CD28 /* LuaAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaAction.h; sourceTree = "<group>"; };
+		AE128A97132710C50063CD28 /* LuaAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LuaAction.m; sourceTree = "<group>"; };
 		AE2A3B1D124182F5004B42CB /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
 		AE45B16212A083E4008DD726 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		AE58546812FC8BD800B63ACD /* Todo.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Todo.rtf; sourceTree = "<group>"; };
@@ -302,6 +305,8 @@
 			children = (
 				AEF6031B12A5DDB000A95FA8 /* Actions.h */,
 				AEF6031C12A5DDB000A95FA8 /* Actions.m */,
+				AE128A96132710C50063CD28 /* LuaAction.h */,
+				AE128A97132710C50063CD28 /* LuaAction.m */,
 				AEF6031D12A5DDB000A95FA8 /* Hostmasks.h */,
 				AEF6031E12A5DDB000A95FA8 /* Hostmasks.m */,
 				AEF6005512A4783E00A95FA8 /* AutojoinData.h */,
@@ -476,6 +481,7 @@
 				AEF6032212A5DDB000A95FA8 /* Hostmasks.m in Sources */,
 				AEF604F012A70A3800A95FA8 /* IRCRooms.m in Sources */,
 				AEEAEA5E12FD243400EA5D4A /* LuaController.m in Sources */,
+				AE128A98132710C50063CD28 /* LuaAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -516,6 +522,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = IRCBot_Prefix.pch;
+				GCC_VERSION = 4.2;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";

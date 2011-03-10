@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "LuaAction.h"
 
 @interface Actions : NSObject {
 
@@ -24,6 +25,8 @@
 
 @property (nonatomic,assign) NSMutableArray *actionsArray;
 
+- (void)loadActionsFromFile:(NSString *)file;
+- (void)saveActionsToFile:(NSString *)file;
 
 -(void)addAction:(NSString *)action name:(NSString *)name restricted:(BOOL)boolean;
 

@@ -15,19 +15,19 @@
 - (id)init
 {
 	if ((self = [super init])) {
-		// Correct or is self needed?
+		// Correct or is self needed? (as in self.roomArray)
 		roomArray = [[NSMutableArray alloc] init];
 	}
 	return self;
 }
 
--(IBAction)removeSelectedRoom:(id)sender
+- (IBAction)removeSelectedRoom:(id)sender
 {
 	[self.roomArray removeObjectAtIndex:[roomView selectedRow]];
 	[roomView reloadData];
 }
 
--(void)addRoom:(NSString *)room
+- (void)addRoom:(NSString *)room
 {
 	int index = [self indexOfRoom:room];
 	if (index == -1){
@@ -38,7 +38,7 @@
 	[roomView reloadData];
 }
 
--(void)removeRoom:(NSString *)room
+- (void)removeRoom:(NSString *)room
 {
 	int index;
 	if ((index = [self indexOfRoom:room]) != -1){
@@ -47,7 +47,7 @@
 	}
 }
 
--(void)setStatus:(NSString *)status forRoom:(NSString *)room
+- (void)setStatus:(NSString *)status forRoom:(NSString *)room
 {
 	int index;
 	if ((index = [self indexOfRoom:room]) != -1){
@@ -57,7 +57,7 @@
 	}
 }
 
--(void)connectRoom:(NSString *)room
+- (void)connectRoom:(NSString *)room
 {
 	int index = [self indexOfRoom:room];
 	if (index == -1){
@@ -69,12 +69,12 @@
 }
 
 
--(void)disconnectRoom:(NSString *)room
+- (void)disconnectRoom:(NSString *)room
 {
 	[self setStatus:@"None" forRoom:room];
 }
 
--(void)disconnectAllRooms
+- (void)disconnectAllRooms
 {
 	int index;
 	for (index = 0; index < [self.roomArray count]; index++){
@@ -86,7 +86,7 @@
 #pragma mark -
 #pragma mark Data messages
 
--(BOOL)connectedToRoom:(NSString *)room
+- (BOOL)connectedToRoom:(NSString *)room
 {
 	int index;
 	if ((index = [self indexOfRoom:room]) != -1){
@@ -98,7 +98,7 @@
 	return NO;
 }
 
--(int)indexOfRoom:(NSString *)room
+- (int)indexOfRoom:(NSString *)room
 {
 	int index;
 	for (index = 0; index < [self.roomArray count]; index++){
@@ -110,7 +110,7 @@
 	return -1;
 }
 
--(NSString *)roomAtIndex:(int)index
+- (NSString *)roomAtIndex:(int)index
 {
 	IRCRoom *tempRoom = [self.roomArray objectAtIndex:index];
 	return tempRoom.name;
@@ -120,12 +120,12 @@
 #pragma mark -
 #pragma mark delegate messages
 
--(int)numberOfRowsInTableView:(NSTableView *)tableView
+- (int)numberOfRowsInTableView:(NSTableView *)tableView
 {
 	return [self.roomArray count];
 }
 
--(id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)column row:(int)row
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)column row:(int)row
 {	
 	IRCRoom *tempRoom = [self.roomArray objectAtIndex:row];
 	if ([[column identifier] intValue] == 0){
@@ -143,7 +143,7 @@
 	return @"#null";
 }
 
--(void)tableViewSelectionDidChange:(NSNotification *)notification{
+- (void)tableViewSelectionDidChange:(NSNotification *)notification{
 	if ([roomView selectedRow] == -1 || [roomView selectedRow] == 0)
 		[removeRoomButton setEnabled:NO];
 	else
@@ -152,12 +152,12 @@
 	roomIndex = [roomView selectedRow];	
 }
 
--(BOOL)selectionShouldChangeInTableView:(NSTableView *)tableView
+- (BOOL)selectionShouldChangeInTableView:(NSTableView *)tableView
 {
 	return NO;
 }
 
--(void)dealloc{
+- (void)dealloc{
 	[roomArray release];
 	[super dealloc];
 }

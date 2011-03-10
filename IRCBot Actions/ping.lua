@@ -1,8 +1,8 @@
--- IRCBot lua script
--- ping
+--: IRCBot lua script :--
+--: ping :--
 
 
--- The main	function --
+--: The main	function :--
 function main(data, args, irc)
 	print('Running main function');
 		

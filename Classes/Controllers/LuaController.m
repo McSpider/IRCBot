@@ -79,9 +79,18 @@
 	[main partRoom:room];
 }
 
-- (NSArray *)getActions
+- (NSString *)getActions
 {
-	return [actions actionsArray];
+	NSString *actionsString;
+	/*int index;
+	for (index = 0; index < [actions.actionsArray count]; index++) {
+		if ([actions.actionsArray objectAtIndex:2]) {
+			actionsString = [actionsString stringByAppendingString:[NSString stringWithFormat:@"@%@",[actions.actionsArray objectAtIndex:0]]];
+		}else{
+			actionsString = [actionsString stringByAppendingString:[NSString stringWithFormat:@"%@",[actions.actionsArray objectAtIndex:0]]];
+		}
+	}*/
+	return actionsString;
 }
 
 - (NSArray *)getRooms
