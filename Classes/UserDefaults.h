@@ -17,15 +17,18 @@
 
 	// Setup
 	IBOutlet NSWindow *mainWindow;
+	
 	IBOutlet NSWindow *startWindow;
+	IBOutlet NSTabView *startView;
+	
 	IBOutlet NSWindow *prefWindow;
 	IBOutlet NSToolbar *toolBar;
-	IBOutlet NSView	*accountView;
-	IBOutlet NSTextField *uName;
-	IBOutlet NSSecureTextField *uPassword;
-	IBOutlet NSTextField *uNick;
-	IBOutlet NSTextField *uRealname;
-	IBOutlet NSTextField *hostMask;
+
+	IBOutlet NSTextField *uNameField;
+	IBOutlet NSSecureTextField *uPasswordField;
+	IBOutlet NSTextField *uNickField;
+	IBOutlet NSTextField *uRealnameField;
+	IBOutlet NSTextField *hostmaskField;
 	IBOutlet NSTextField *usernameField;
 	IBOutlet NSSecureTextField *passwordField;
 	IBOutlet NSButton *passwordInPlistCheck;
@@ -35,7 +38,6 @@
 	IBOutlet Actions *actions;
 	IBOutlet AutojoinData *autojoin;
 	
-	NSModalSession session;
 }
 
 // Setup

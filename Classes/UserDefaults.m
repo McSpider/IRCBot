@@ -25,9 +25,6 @@
 	if (![self firstStart]){
 		[startWindow center];	
 		[startWindow makeKeyAndOrderFront:self];
-		// Start modal session
-		session = [NSApp beginModalSessionForWindow:startWindow];
-		[[NSApplication sharedApplication] runModalSession:session];
 	}else{
 		[mainWindow makeKeyAndOrderFront:self];
 		[prefs setPane:0];
@@ -58,27 +55,30 @@
 // Save all the initial setup data to the .plist
 -(IBAction)finishInitialSetup:(id)sender
 {	
+	// Check if the hostmask is valid
+	if ([[hostmaskField stringValue] isEqualToString:@""]) {
+		return;
+	}
+	
 	NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
 	if (standardUserDefaults) {
-		[standardUserDefaults setObject:[uName stringValue] forKey:@"username"];
-		[EMGenericKeychainItem addGenericKeychainItemForService:@"IRCBot" withUsername:[uName stringValue] password:[uPassword stringValue]];
-		[passwordField setStringValue:[uPassword stringValue]];
-		[usernameField setStringValue:[uName stringValue]];
+		[standardUserDefaults setObject:[uNameField stringValue] forKey:@"username"];
+		[EMGenericKeychainItem addGenericKeychainItemForService:@"IRCBot" withUsername:[uNameField stringValue] password:[uPasswordField stringValue]];
+		[passwordField setStringValue:[uPasswordField stringValue]];
+		[usernameField setStringValue:[uNameField stringValue]];
 		[autojoin addRoom:@"#jzbot" autojoin:YES];
 		
-		[standardUserDefaults setObject:[uRealname stringValue] forKey:@"realname"];
-		[standardUserDefaults setObject:[uNick stringValue] forKey:@"nickname"];
+		[standardUserDefaults setObject:[uRealnameField stringValue] forKey:@"realname"];
+		[standardUserDefaults setObject:[uNickField stringValue] forKey:@"nickname"];
 		[standardUserDefaults setInteger:1 forKey:@"timeout"];
-		[standardUserDefaults setObject:[NSString stringWithFormat:@"%@: |+",[uNick stringValue]] forKey:@"triggers"];
+		[standardUserDefaults setObject:[NSString stringWithFormat:@"%@: |+",[uNickField stringValue]] forKey:@"triggers"];
 		[standardUserDefaults setObject:@"irc.freenode.net" forKey:@"irc_server"];
 		[standardUserDefaults setObject:@"6667" forKey:@"irc_port"];
 		[standardUserDefaults synchronize];
 	}
-	[hostmasks addHostmask:[hostMask stringValue] block:NO];
+	[hostmasks addHostmask:[hostmaskField stringValue] block:NO];
 	[self setFirstStart:YES];
 	
-	// End modal session
-	[NSApp endModalSession:session];
 	// Close the setup window and show the main window
 	[startWindow orderOut:self];
 	[mainWindow center];
@@ -111,11 +111,11 @@
 		// Clear textFields
 		[passwordField setStringValue:@""];
 		[usernameField setStringValue:@""];
-		[uName setStringValue:@""];
-		[uPassword setStringValue:@""];
-		[uNick setStringValue:@""];
-		[uRealname setStringValue:@""];
-		[hostMask setStringValue:@""];
+		[uNameField setStringValue:@""];
+		[uPasswordField setStringValue:@""];
+		[uNickField setStringValue:@""];
+		[uRealnameField setStringValue:@""];
+		[hostmaskField setStringValue:@""];
 		
 		// Clear hostmask data
 		[hostmasks clearData];
@@ -127,10 +127,9 @@
 		[[NSFileManager defaultManager] removeFileAtPath:actionsPath handler:nil];
 		[[NSFileManager defaultManager] copyPath:defaultActions toPath:actionsPath handler:nil];
 		
-		// Start modal session and open setupwindow.
-		session = [NSApp beginModalSessionForWindow:startWindow];
-		[[NSApplication sharedApplication] runModalSession:session];
-		[startWindow makeFirstResponder: uName];	
+		// Open setupwindow.
+		[startWindow makeFirstResponder:uNameField];
+		[startView selectFirstTabViewItem:self];
 		[startWindow center];	
 		[startWindow makeKeyAndOrderFront:self];
 	}

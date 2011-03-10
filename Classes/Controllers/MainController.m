@@ -73,12 +73,12 @@ IRCConnection *ircConnection;
 			[ircConnection sendMessage:tempString To:[commandArray objectAtIndex:1] logAs:2];
 		}
 			
-	}else if ([commandString isMatchedByRegex:@"^/help(\\s.*$|$)"]){
-		[self logMessage:@"Valid commands are:\n› /join (room)\n› /part (room)\n› /msg (recipient) [.me|.ntc] (message)" type:4];
+	}else if ([commandString isMatchedByRegex:@"^help(\\s.*$|$)"] || [commandString isMatchedByRegex:@"^?(\\s.*$|$)"]){
+		[self logMessage:@"Valid commands are:\n› join (room)\n› part (room)\n› msg (recipient) (.me|.ntc) (message)" type:4];
 	}else if (![ircConnection isConnected]){
-		[self logMessage:@"IRCBot - No IRC Connection\n› Type /help for help" type:1];
+		[self logMessage:@"IRCBot - No IRC Connection\n› Type help or ? for help" type:1];
 	}else{
-		[self logMessage:@"IRCBot - Invalid Command\n› Type /help for help" type:4];
+		[self logMessage:@"IRCBot - Invalid Command\n› Type help or ? for help" type:4];
 	}
 
 	
