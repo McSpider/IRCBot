@@ -78,6 +78,9 @@ IRCConnection *ircConnection;
 	NSString *commandString = [commandField stringValue];
 	NSArray *commandArray = [commandString componentsSeparatedByString:@" "];
 	
+	if ([commandString isEqualToString:@""])
+		return;
+	
 	if ([commandString isMatchedByRegex:@"^join\\s.*$"]){
 		if (![rooms connectedToRoom:[commandArray objectAtIndex:1]] && [ircConnection isConnected])
 			[self joinRoom:[commandArray objectAtIndex:1]];
@@ -101,14 +104,14 @@ IRCConnection *ircConnection;
 		}
 			
 	}else if ([commandString isMatchedByRegex:@"^help(\\s.*$|$)"] || [commandString isMatchedByRegex:@"^?(\\s.*$|$)"]){
-		[self logMessage:@"Valid commands are:\n› join (room)\n› part (room)\n› msg (recipient) (.me|.ntc) (message)" type:4];
+		[self logMessage:@"Valid commands are:\n› join (room)\n› part (room)\n› msg (recipient) (.me|.ntc) (message)\n" type:4];
 	}else if (![ircConnection isConnected]){
 		[self logMessage:@"IRCBot - No IRC Connection\n› Type help or ? for help" type:1];
 	}else{
 		[self logMessage:@"IRCBot - Invalid Command\n› Type help or ? for help" type:4];
 	}
 
-	
+	[commandField addItemToPopupWithTitle:commandString];
 	[commandField setStringValue:@""];
 }
 
@@ -164,6 +167,8 @@ IRCConnection *ircConnection;
 	[lua setRoomsClass:rooms];
 	[lua setHostmasksClass:hostmasks];
 	[lua setActionsClass:actions];
+	
+	[commandField setDisplaysMenu:YES];
 	
 	[self refreshConnectionData];
 	[self logMessage:@"Welcome to IRCBot\n› For help type help.\n" type:4];
@@ -242,6 +247,7 @@ IRCConnection *ircConnection;
 		[self logMessage:@"IRCBot - Joining Room" type:1];
 		NSString* joinMessage = [NSString stringWithFormat:@"JOIN %@ \r\n", aRoom];
 		[ircConnection sendRawString:joinMessage logAs:2];
+		[rooms addRoom:aRoom];
 	}
 }
 
@@ -251,7 +257,7 @@ IRCConnection *ircConnection;
 		[self logMessage:@"IRCBot - Parting Room" type:1];
 		NSString* partMessage = [NSString stringWithFormat:@"PART %@ \r\n", aRoom];
 		[ircConnection sendRawString:partMessage logAs:2];
-		[rooms disconnectRoom:aRoom];
+		[rooms setStatus:@"None" forRoom:aRoom];
 	}
 }
 
@@ -317,7 +323,7 @@ IRCConnection *ircConnection;
 			if ([message hasPrefix:trigger]) {
 				int actionIndex;
 				for (actionIndex = 0; actionIndex < [actions.actionsArray count]; actionIndex++) {
-					LuaAction *action = [actions.actionsArray objectAtIndex:actionIndex];					
+					KBLuaAction *action = [actions.actionsArray objectAtIndex:actionIndex];					
 					
 					NSString *regex = [NSString stringWithFormat:@"^(%@%@)(\\s+|$).*$",trigger,action.name];
 					if ([message isMatchedByRegex:regex]) {
@@ -362,7 +368,7 @@ IRCConnection *ircConnection;
 		messageData = [input arrayOfCaptureComponentsMatchedByRegex:@":(\\S+)\\s+([0-9]*?)(\\S+)\\s+(\\S+)\\s+:?+(\\S+)\\s*(?:[:+-]+(.*+))?$"];
 				
 		if ([input isMatchedByRegex:[NSString stringWithFormat:@"^.*\\s366\\s%@\\s.*:End of /NAMES.*$",[connectionData objectAtIndex:2]]]){
-			[rooms connectRoom:[[messageData objectAtIndex:0] objectAtIndex:5]];
+			[rooms setStatus:@"Normal" forRoom:[[messageData objectAtIndex:0] objectAtIndex:5]];
 		}
 	}
 	
@@ -490,7 +496,7 @@ IRCConnection *ircConnection;
 	// Stop activity indicator and disable and enable all relevant controls
 	[activityIndicator stopAnimation:self];
 	[serverAddress setEnabled:YES];
-	[rooms disconnectAllRooms];
+	[rooms removeAllRooms];
 	[connectionButton setEnabled:YES];
 	[connectionButton setTitle:@"Connect"];
 }

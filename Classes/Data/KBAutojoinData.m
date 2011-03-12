@@ -6,10 +6,10 @@
 //  All code is provided under the New BSD license.
 //
 
-#import "AutojoinData.h"
+#import "KBAutojoinData.h"
 
 
-@implementation AutojoinData
+@implementation KBAutojoinData
 @synthesize autojoinArray;
 
 

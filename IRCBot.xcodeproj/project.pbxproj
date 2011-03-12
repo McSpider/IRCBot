@@ -30,7 +30,7 @@
 		AE6F6B981261662100FCAFCB /* Scripts.png in Resources */ = {isa = PBXBuildFile; fileRef = AE6F6B971261662100FCAFCB /* Scripts.png */; };
 		AE6F6F4012627FB800FCAFCB /* div.png in Resources */ = {isa = PBXBuildFile; fileRef = AE6F6F3F12627FB800FCAFCB /* div.png */; };
 		AE8EBE7E12A0571F00CA3FCE /* License.rtf in Resources */ = {isa = PBXBuildFile; fileRef = AE8EBE7D12A0571F00CA3FCE /* License.rtf */; };
-		AE9BAABE1329E2370099B4B9 /* LuaAction.m in Sources */ = {isa = PBXBuildFile; fileRef = AE9BAABD1329E2370099B4B9 /* LuaAction.m */; };
+		AE9BAABE1329E2370099B4B9 /* KBLuaAction.m in Sources */ = {isa = PBXBuildFile; fileRef = AE9BAABD1329E2370099B4B9 /* KBLuaAction.m */; };
 		AEAD7282124002C80028D5A3 /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAD7280124002C80028D5A3 /* UserDefaults.m */; };
 		AEAD7286124002D20028D5A3 /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAD7285124002D20028D5A3 /* AsyncSocket.m */; };
 		AEAD728A124002F20028D5A3 /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = AEAD7288124002F20028D5A3 /* AppIcon.icns */; };
@@ -45,10 +45,10 @@
 		AEE5E0AE12408D7A002D2767 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEE5E0AD12408D7A002D2767 /* Carbon.framework */; };
 		AEE5E0C112408F27002D2767 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEE5E0C012408F27002D2767 /* Security.framework */; };
 		AEEAEA5E12FD243400EA5D4A /* LuaController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEEAEA5D12FD243400EA5D4A /* LuaController.m */; };
-		AEF6005712A4783E00A95FA8 /* AutojoinData.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF6005612A4783E00A95FA8 /* AutojoinData.m */; };
+		AEF6005712A4783E00A95FA8 /* KBAutojoinData.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF6005612A4783E00A95FA8 /* KBAutojoinData.m */; };
 		AEF6021212A5B9B000A95FA8 /* Design.png in Resources */ = {isa = PBXBuildFile; fileRef = AEF6021112A5B9B000A95FA8 /* Design.png */; };
-		AEF6032112A5DDB000A95FA8 /* Actions.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF6031C12A5DDB000A95FA8 /* Actions.m */; };
-		AEF6032212A5DDB000A95FA8 /* Hostmasks.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF6031E12A5DDB000A95FA8 /* Hostmasks.m */; };
+		AEF6032112A5DDB000A95FA8 /* KBLuaActionsData.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF6031C12A5DDB000A95FA8 /* KBLuaActionsData.m */; };
+		AEF6032212A5DDB000A95FA8 /* KBHostmasksData.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF6031E12A5DDB000A95FA8 /* KBHostmasksData.m */; };
 		AEF604F012A70A3800A95FA8 /* IRCRooms.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF604EF12A70A3800A95FA8 /* IRCRooms.m */; };
 		AEF6F79312A1903B00A95FA8 /* Code.png in Resources */ = {isa = PBXBuildFile; fileRef = AEF6F79212A1903B00A95FA8 /* Code.png */; };
 		AEF6FCFB12A32DF300A95FA8 /* Status_Alert.png in Resources */ = {isa = PBXBuildFile; fileRef = AEF6FCF812A32DF300A95FA8 /* Status_Alert.png */; };
@@ -111,8 +111,8 @@
 		AE8EBE7D12A0571F00CA3FCE /* License.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = License.rtf; sourceTree = "<group>"; };
 		AE8EBE8012A0587800CA3FCE /* Notes.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Notes.rtf; sourceTree = "<group>"; };
 		AE8EBE8112A0587800CA3FCE /* ServerOutput.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = ServerOutput.rtf; sourceTree = "<group>"; };
-		AE9BAABC1329E2370099B4B9 /* LuaAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LuaAction.h; path = Classes/Data/LuaAction.h; sourceTree = "<group>"; };
-		AE9BAABD1329E2370099B4B9 /* LuaAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LuaAction.m; path = Classes/Data/LuaAction.m; sourceTree = "<group>"; };
+		AE9BAABC1329E2370099B4B9 /* KBLuaAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBLuaAction.h; path = Classes/Data/KBLuaAction.h; sourceTree = "<group>"; };
+		AE9BAABD1329E2370099B4B9 /* KBLuaAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBLuaAction.m; path = Classes/Data/KBLuaAction.m; sourceTree = "<group>"; };
 		AEAD727F124002C80028D5A3 /* UserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserDefaults.h; path = Classes/UserDefaults.h; sourceTree = "<group>"; };
 		AEAD7280124002C80028D5A3 /* UserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserDefaults.m; path = Classes/UserDefaults.m; sourceTree = "<group>"; };
 		AEAD7284124002D20028D5A3 /* AsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncSocket.h; sourceTree = "<group>"; };
@@ -134,13 +134,13 @@
 		AEE5E0C012408F27002D2767 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		AEEAEA5C12FD243400EA5D4A /* LuaController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LuaController.h; path = Classes/Controllers/LuaController.h; sourceTree = "<group>"; };
 		AEEAEA5D12FD243400EA5D4A /* LuaController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LuaController.m; path = Classes/Controllers/LuaController.m; sourceTree = "<group>"; };
-		AEF6005512A4783E00A95FA8 /* AutojoinData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AutojoinData.h; path = Classes/Data/AutojoinData.h; sourceTree = "<group>"; };
-		AEF6005612A4783E00A95FA8 /* AutojoinData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AutojoinData.m; path = Classes/Data/AutojoinData.m; sourceTree = "<group>"; };
+		AEF6005512A4783E00A95FA8 /* KBAutojoinData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBAutojoinData.h; path = Classes/Data/KBAutojoinData.h; sourceTree = "<group>"; };
+		AEF6005612A4783E00A95FA8 /* KBAutojoinData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBAutojoinData.m; path = Classes/Data/KBAutojoinData.m; sourceTree = "<group>"; };
 		AEF6021112A5B9B000A95FA8 /* Design.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Design.png; path = Images/Design.png; sourceTree = "<group>"; };
-		AEF6031B12A5DDB000A95FA8 /* Actions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Actions.h; path = Classes/Data/Actions.h; sourceTree = "<group>"; };
-		AEF6031C12A5DDB000A95FA8 /* Actions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Actions.m; path = Classes/Data/Actions.m; sourceTree = "<group>"; };
-		AEF6031D12A5DDB000A95FA8 /* Hostmasks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Hostmasks.h; path = Classes/Data/Hostmasks.h; sourceTree = "<group>"; };
-		AEF6031E12A5DDB000A95FA8 /* Hostmasks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Hostmasks.m; path = Classes/Data/Hostmasks.m; sourceTree = "<group>"; };
+		AEF6031B12A5DDB000A95FA8 /* KBLuaActionsData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBLuaActionsData.h; path = Classes/Data/KBLuaActionsData.h; sourceTree = "<group>"; };
+		AEF6031C12A5DDB000A95FA8 /* KBLuaActionsData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBLuaActionsData.m; path = Classes/Data/KBLuaActionsData.m; sourceTree = "<group>"; };
+		AEF6031D12A5DDB000A95FA8 /* KBHostmasksData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBHostmasksData.h; path = Classes/Data/KBHostmasksData.h; sourceTree = "<group>"; };
+		AEF6031E12A5DDB000A95FA8 /* KBHostmasksData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBHostmasksData.m; path = Classes/Data/KBHostmasksData.m; sourceTree = "<group>"; };
 		AEF604EE12A70A3800A95FA8 /* IRCRooms.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IRCRooms.h; path = Classes/IRC/IRCRooms.h; sourceTree = "<group>"; };
 		AEF604EF12A70A3800A95FA8 /* IRCRooms.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IRCRooms.m; path = Classes/IRC/IRCRooms.m; sourceTree = "<group>"; };
 		AEF6F79212A1903B00A95FA8 /* Code.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Code.png; path = Images/Code.png; sourceTree = "<group>"; };
@@ -301,14 +301,14 @@
 		AE6F6BF212623DEE00FCAFCB /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				AEF6031B12A5DDB000A95FA8 /* Actions.h */,
-				AEF6031C12A5DDB000A95FA8 /* Actions.m */,
-				AE9BAABC1329E2370099B4B9 /* LuaAction.h */,
-				AE9BAABD1329E2370099B4B9 /* LuaAction.m */,
-				AEF6031D12A5DDB000A95FA8 /* Hostmasks.h */,
-				AEF6031E12A5DDB000A95FA8 /* Hostmasks.m */,
-				AEF6005512A4783E00A95FA8 /* AutojoinData.h */,
-				AEF6005612A4783E00A95FA8 /* AutojoinData.m */,
+				AEF6031B12A5DDB000A95FA8 /* KBLuaActionsData.h */,
+				AEF6031C12A5DDB000A95FA8 /* KBLuaActionsData.m */,
+				AE9BAABC1329E2370099B4B9 /* KBLuaAction.h */,
+				AE9BAABD1329E2370099B4B9 /* KBLuaAction.m */,
+				AEF6031D12A5DDB000A95FA8 /* KBHostmasksData.h */,
+				AEF6031E12A5DDB000A95FA8 /* KBHostmasksData.m */,
+				AEF6005512A4783E00A95FA8 /* KBAutojoinData.h */,
+				AEF6005612A4783E00A95FA8 /* KBAutojoinData.m */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -472,12 +472,12 @@
 				AEF6FF0012A4657C00A95FA8 /* MainController.m in Sources */,
 				AEF6FF0112A4657C00A95FA8 /* PrefController.m in Sources */,
 				AEF6FF0D12A4661600A95FA8 /* IRCRoom.m in Sources */,
-				AEF6005712A4783E00A95FA8 /* AutojoinData.m in Sources */,
-				AEF6032112A5DDB000A95FA8 /* Actions.m in Sources */,
-				AEF6032212A5DDB000A95FA8 /* Hostmasks.m in Sources */,
+				AEF6005712A4783E00A95FA8 /* KBAutojoinData.m in Sources */,
+				AEF6032112A5DDB000A95FA8 /* KBLuaActionsData.m in Sources */,
+				AEF6032212A5DDB000A95FA8 /* KBHostmasksData.m in Sources */,
 				AEF604F012A70A3800A95FA8 /* IRCRooms.m in Sources */,
 				AEEAEA5E12FD243400EA5D4A /* LuaController.m in Sources */,
-				AE9BAABE1329E2370099B4B9 /* LuaAction.m in Sources */,
+				AE9BAABE1329E2370099B4B9 /* KBLuaAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

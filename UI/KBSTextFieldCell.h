@@ -9,8 +9,9 @@
 #import <Cocoa/Cocoa.h>
 
 @interface KBSTextFieldCell : NSTextFieldCell {
-
+	int leftPadding;
 }
 
+- (void)setPaddingLeft:(int)padding;
 
 @end

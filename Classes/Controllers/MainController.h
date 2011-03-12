@@ -11,16 +11,16 @@
 #import "LuaController.h"
 
 #import "IRCRooms.h"
-#import "Hostmasks.h"
-#import	"Actions.h"
-#import	"AutojoinData.h"
+#import "KBHostmasksData.h"
+#import	"KBLuaActionsData.h"
+#import	"KBAutojoinData.h"
+#import "KBTextField.h"
 
 
 @interface MainController : NSObject {
 	
 	IBOutlet NSWindow *mainWindow;
 	
-	IBOutlet NSTextField *commandField;
 	IBOutlet NSTextField *serverAddress;
 	IBOutlet NSButton *connectionButton;
 	IBOutlet NSTextField *usernameField;
@@ -33,15 +33,16 @@
 	IBOutlet NSButton *rejoinKickedRooms;
 	
 	IBOutlet NSMenuItem *debugMenuItem;
+	IBOutlet KBTextField *commandField;
 
 	// Connection //
 	IBOutlet NSTextView *serverOutput;
 	IBOutlet NSProgressIndicator *activityIndicator;
 		
 	IBOutlet IRCRooms *rooms;
-	IBOutlet Hostmasks *hostmasks;
-	IBOutlet Actions *actions;	
-	IBOutlet AutojoinData *autoJoin;	
+	IBOutlet KBHostmasksData *hostmasks;
+	IBOutlet KBLuaActionsData *actions;	
+	IBOutlet KBAutojoinData *autoJoin;	
 	
 	LuaController *lua;
 }

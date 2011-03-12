@@ -10,7 +10,23 @@
 
 
 @interface KBTextField : NSTextField {
-
+	NSPopUpButton *endcapButton;
+	NSMenu *popupMenu;
+	
+	NSString *popUpMenuTitle;
+	BOOL displaysMenu;
+	int maxPopUpItems;
 }
+
+- (void)setDisplaysMenu:(BOOL)boolean;
+- (void)setMaxPopUpItems:(int)max;
+- (void)setPopUpMenuTitle:(NSString *)title;
+
+- (BOOL)displaysMenu;
+- (int)maxPopUpItems;
+- (NSString *)popUpMenuTitle;
+
+
+- (void)addItemToPopupWithTitle:(NSString *)title;
 
 @end

@@ -1,14 +1,14 @@
 //
-//  IRCHostmasks.m
+//  KBHostmasksData.m
 //  IRCBot
 //
 //  Created by Ben K on 2010/09/16.
 //  All code is provided under the New BSD license.
 //
 
-#import "Hostmasks.h"
+#import "KBHostmasksData.h"
 
-@implementation Hostmasks
+@implementation KBHostmasksData
 @synthesize hostmaskArray;
 
 
@@ -53,7 +53,7 @@
 
 
 #pragma mark -
-#pragma mark Functions
+#pragma mark Methods
 
 -(void)addHostmask:(NSString *)host block:(BOOL)boolean
 {

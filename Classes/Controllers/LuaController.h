@@ -12,15 +12,15 @@
 @class MainController;
 @class IRCConnection;
 @class IRCRooms;
-@class Hostmasks;
-@class Actions;
+@class KBHostmasksData;
+@class KBLuaActionsData;
 
 @interface LuaController : NSObject {
 	MainController *main;
 	IRCConnection *irc;
 	IRCRooms *rooms;
-	Hostmasks *hostmasks;
-	Actions *actions;
+	KBHostmasksData *hostmasks;
+	KBLuaActionsData *actions;
 	
 	LuaCocoa* luaCocoa;
 	NSArray* connectionData;

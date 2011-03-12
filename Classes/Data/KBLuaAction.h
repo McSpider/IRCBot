@@ -1,5 +1,5 @@
 //
-//  LuaAction.h
+//  KBLuaAction.h
 //  IRCBot
 //
 //  Created by Ben K on 2011/03/08.
@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface LuaAction : NSObject {
+@interface KBLuaAction : NSObject {
 	
 	NSString *name;
 	NSString *file;

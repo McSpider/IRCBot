@@ -8,9 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 #import "EMKeychainItem.h"
-#import "Hostmasks.h"
-#import "Actions.h"
-#import "AutojoinData.h"
+#import "KBHostmasksData.h"
+#import "KBLuaActionsData.h"
+#import "KBAutojoinData.h"
 #import "PrefController.h"
 
 @interface UserDefaults : NSObject {
@@ -35,9 +35,9 @@
 	IBOutlet NSButton *passwordInPlistCheck;
 	IBOutlet PrefController *prefs;
 
-	IBOutlet Hostmasks *hostmasks;
-	IBOutlet Actions *actions;
-	IBOutlet AutojoinData *autojoin;
+	IBOutlet KBHostmasksData *hostmasks;
+	IBOutlet KBLuaActionsData *actions;
+	IBOutlet KBAutojoinData *autojoin;
 	
 	NSModalSession session;
 }

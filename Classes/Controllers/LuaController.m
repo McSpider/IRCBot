@@ -11,8 +11,8 @@
 
 #import "IRCConnection.h"
 #import "IRCRooms.h"
-#import "Hostmasks.h"
-#import	"Actions.h"
+#import "KBHostmasksData.h"
+#import	"KBLuaActionsData.h"
 
 @implementation LuaController
 
@@ -59,7 +59,7 @@
 
 
 #pragma mark -
-#pragma mark Functions
+#pragma mark Methods
 
 - (void)dissconectWithMessage:(const char *)aMessage
 {
@@ -87,7 +87,7 @@
 	
 	int index;
 	for (index = 0; index < [actions.actionsArray count]; index++) {
-		LuaAction *tempAction = [actions.actionsArray objectAtIndex:index];
+		KBLuaAction *tempAction = [actions.actionsArray objectAtIndex:index];
 		
 		if ([tempAction restricted]) {
 			actionsArray = [actionsArray arrayByAddingObject:[NSString stringWithFormat:@"+%@",tempAction.name]];

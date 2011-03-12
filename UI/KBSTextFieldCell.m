@@ -13,7 +13,10 @@ static NSImage *leftCap, *centerFill, *rightCap, *leftCapD, *centerFillD, *right
 @implementation KBSTextFieldCell
 
 
-+(void)initialize
+#pragma mark -
+#pragma mark Initialization
+
++ (void)initialize
 {
 	if([KBSTextFieldCell class] == [self class])
 	{
@@ -28,18 +31,29 @@ static NSImage *leftCap, *centerFill, *rightCap, *leftCapD, *centerFillD, *right
 	}
 }
 
--(id)initWithCoder:(NSCoder *)decoder
+- (id)initWithCoder:(NSCoder *)decoder
 {
-	if ((self = [super initWithCoder:decoder])){
+	if ((self = [super initWithCoder:decoder])) {
 		[self setSendsActionOnEndEditing:NO];
 	}
 	return self;
 }
 
--(void)drawWithFrame:(NSRect)frame inView:(NSView *)view
+
+#pragma mark -
+#pragma mark Methods
+
+- (void)setPaddingLeft:(int)padding
 {
-	//[super drawWithFrame:NSInsetRect(frame, 0, 0) inView:view];
-	
+	leftPadding = padding;
+}
+
+
+#pragma mark -
+#pragma mark Delegate messages
+
+- (void)drawWithFrame:(NSRect)frame inView:(NSView *)view
+{	
 	NSGraphicsContext *ctx = [NSGraphicsContext currentContext];
 	
 	//Background
@@ -68,26 +82,33 @@ static NSImage *leftCap, *centerFill, *rightCap, *leftCapD, *centerFillD, *right
 }
 
 
--(void)drawInteriorWithFrame:(NSRect)rect inView:(NSView*)controlView
+- (void)drawInteriorWithFrame:(NSRect)aRect inView:(NSView*)controlView
 {
-	[super drawInteriorWithFrame:NSOffsetRect(rect, 2, 0) inView:controlView];
+	aRect = NSMakeRect(aRect.origin.x, aRect.origin.y, aRect.size.width-leftPadding, aRect.size.height);
+	[super drawInteriorWithFrame:NSOffsetRect(aRect, leftPadding, 0) inView:controlView];
 }
 
--(void)editWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject event:(NSEvent *)theEvent
+- (void)editWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject event:(NSEvent *)theEvent
 {
-	[super editWithFrame: NSOffsetRect(aRect, 2, 0) inView: controlView editor:textObj delegate:anObject event: theEvent];
+	aRect = NSMakeRect(aRect.origin.x, aRect.origin.y, aRect.size.width-leftPadding, aRect.size.height);
+	[super editWithFrame: NSOffsetRect(aRect, leftPadding, 0) inView: controlView editor:textObj delegate:anObject event: theEvent];
 }
 
--(void)selectWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject start:(NSInteger)selStart length:(NSInteger)selLength
+- (void)selectWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject start:(NSInteger)selStart length:(NSInteger)selLength
 {
-	[super selectWithFrame: NSOffsetRect(aRect, 2, 0) inView: controlView editor:textObj delegate:anObject start:selStart length:selLength];
+	aRect = NSMakeRect(aRect.origin.x, aRect.origin.y, aRect.size.width-leftPadding, aRect.size.height);
+	[super selectWithFrame: NSOffsetRect(aRect, leftPadding, 0) inView: controlView editor:textObj delegate:anObject start:selStart length:selLength];
 }
 
--(BOOL)drawsBackground{
+- (BOOL)drawsBackground{
 	return NO;
 }
 
--(void)dealloc
+
+#pragma mark -
+#pragma mark Cleanup
+
+- (void)dealloc
 {	
 	[leftCap release];
 	[rightCap release];

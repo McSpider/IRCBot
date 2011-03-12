@@ -1,15 +1,15 @@
 //
-//  LuaAction.m
+//  KBLuaAction.m
 //  IRCBot
 //
 //  Created by Ben K on 2011/03/08.
 //  All code is provided under the New BSD license.
 //
 
-#import "LuaAction.h"
+#import "KBLuaAction.h"
 
 
-@implementation LuaAction
+@implementation KBLuaAction
 
 @synthesize name;
 @synthesize file;

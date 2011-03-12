@@ -1,5 +1,5 @@
 //
-//  AutojoinData.h
+//  KBAutojoinData.h
 //  IRCBot
 //
 //  Created by Ben K on 2010/11/29.
@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface AutojoinData : NSObject {
+@interface KBAutojoinData : NSObject {
 
 	int roomIndex;
 	NSMutableArray *autojoinArray;

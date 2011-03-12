@@ -1,5 +1,5 @@
 //
-//  Actions.h
+//  KBLuaActionsData.h
 //  IRCBot
 //
 //  Created by Ben K on 2010/10/10.
@@ -7,9 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "LuaAction.h"
+#import "KBLuaAction.h"
 
-@interface Actions : NSObject {
+@interface KBLuaActionsData : NSObject {
 
 	int actionIndex;
 	NSMutableArray *actionsArray;

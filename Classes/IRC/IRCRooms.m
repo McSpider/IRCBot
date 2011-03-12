@@ -21,11 +21,6 @@
 	return self;
 }
 
-- (IBAction)removeSelectedRoom:(id)sender
-{
-	[self.roomArray removeObjectAtIndex:[roomView selectedRow]];
-	[roomView reloadData];
-}
 
 - (void)addRoom:(NSString *)room
 {
@@ -47,6 +42,13 @@
 	}
 }
 
+- (void)removeAllRooms
+{
+	[self.roomArray removeAllObjects];
+	[roomView reloadData];
+}
+
+// None, Normal, Warning
 - (void)setStatus:(NSString *)status forRoom:(NSString *)room
 {
 	int index;
@@ -54,31 +56,6 @@
 		IRCRoom *tempRoom = [self.roomArray objectAtIndex:index];
 		tempRoom.status = status;
 		[roomView reloadData];
-	}
-}
-
-- (void)connectRoom:(NSString *)room
-{
-	int index = [self indexOfRoom:room];
-	if (index == -1){
-		[self addRoom:room];
-		[self setStatus:@"Normal" forRoom:room];
-	}else
-		[self setStatus:@"Normal" forRoom:room];
-	[roomView reloadData];
-}
-
-
-- (void)disconnectRoom:(NSString *)room
-{
-	[self setStatus:@"None" forRoom:room];
-}
-
-- (void)disconnectAllRooms
-{
-	int index;
-	for (index = 0; index < [self.roomArray count]; index++){
-		[self setStatus:@"None" forRoom:[self roomAtIndex:index]];
 	}
 }
 
@@ -118,7 +95,7 @@
 
 
 #pragma mark -
-#pragma mark delegate messages
+#pragma mark Delegate messages
 
 - (int)numberOfRowsInTableView:(NSTableView *)tableView
 {
@@ -141,15 +118,6 @@
 		return tempRoom.name;
 	}
 	return @"#null";
-}
-
-- (void)tableViewSelectionDidChange:(NSNotification *)notification{
-	if ([roomView selectedRow] == -1 || [roomView selectedRow] == 0)
-		[removeRoomButton setEnabled:NO];
-	else
-		[removeRoomButton setEnabled:YES];
-	
-	roomIndex = [roomView selectedRow];	
 }
 
 - (BOOL)selectionShouldChangeInTableView:(NSTableView *)tableView

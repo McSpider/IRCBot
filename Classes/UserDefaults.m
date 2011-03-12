@@ -145,8 +145,8 @@
 		// Reset actions .plist
 		NSString *actionsPath = [@"~/Library/Application Support/IRCBot Actions/" stringByExpandingTildeInPath];
 		NSString *defaultActions = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/contents/resources/IRCBot Actions/"];		
-		[[NSFileManager defaultManager] removeFileAtPath:actionsPath handler:nil];
-		[[NSFileManager defaultManager] copyPath:defaultActions toPath:actionsPath handler:nil];
+		[[NSFileManager defaultManager] removeItemAtPath:actionsPath error:NULL];
+		[[NSFileManager defaultManager] copyItemAtPath:defaultActions toPath:actionsPath error:NULL];
 		
 		// Start modal session and open setupwindow.
 		//session = [NSApp beginModalSessionForWindow:startWindow];

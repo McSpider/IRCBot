@@ -1,5 +1,5 @@
 //
-//  Hostmasks.h
+//  KBHostmasksData.h
 //  IRCBot
 //
 //  Created by Ben K on 2010/09/16.
@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "RegexKitLite.h"
 
-@interface Hostmasks : NSObject {
+@interface KBHostmasksData : NSObject {
 
 	int userIndex;
 	NSMutableArray *hostmaskArray;
