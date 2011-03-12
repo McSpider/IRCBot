@@ -31,8 +31,6 @@
 
 - (BOOL)isConnected;
 
--(void)setConnectionData:(NSArray *)array;
-
 // Connect and disconnect from IRC server functions
 - (void)connectToIRC:(NSString *)server port:(int)port;
 - (void)disconnectWithMessage:(NSString *)message;

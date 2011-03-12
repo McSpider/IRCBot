@@ -14,9 +14,7 @@
 		AE0012A312415E4F0049FD63 /* BWToolkitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE0012A212415E4F0049FD63 /* BWToolkitFramework.framework */; };
 		AE0012BB12415E6E0049FD63 /* BWToolkitFramework.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = AE0012A212415E4F0049FD63 /* BWToolkitFramework.framework */; };
 		AE0B2B51129E11AF001C789C /* Hat.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0B2B50129E11AF001C789C /* Hat.png */; };
-		AE128A98132710C50063CD28 /* LuaAction.m in Sources */ = {isa = PBXBuildFile; fileRef = AE128A97132710C50063CD28 /* LuaAction.m */; };
 		AE2A3B1E124182F5004B42CB /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = AE2A3B1D124182F5004B42CB /* Credits.html */; };
-		AE58546912FC8BD800B63ACD /* Todo.rtf in Resources */ = {isa = PBXBuildFile; fileRef = AE58546812FC8BD800B63ACD /* Todo.rtf */; };
 		AE5C7E5B129B82560080F146 /* KBScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = AE5C7E58129B82560080F146 /* KBScroller.m */; };
 		AE5C7E5C129B82560080F146 /* KBScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = AE5C7E5A129B82560080F146 /* KBScrollView.m */; };
 		AE5C7E7B129B83660080F146 /* KBSTextFieldCF.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5C7E75129B83660080F146 /* KBSTextFieldCF.png */; };
@@ -26,14 +24,13 @@
 		AE5C7E7F129B83660080F146 /* KBSTextFieldRC.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5C7E79129B83660080F146 /* KBSTextFieldRC.png */; };
 		AE5C7E80129B83660080F146 /* KBSTextFieldRC_disabled.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5C7E7A129B83660080F146 /* KBSTextFieldRC_disabled.png */; };
 		AE5CFC431268F1F700C96195 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = AE5CFC421268F1F700C96195 /* RegexKitLite.m */; };
-		AE5F3CA212F8B16400C9C9E6 /* LuaCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5F3CA112F8B16400C9C9E6 /* LuaCocoa.framework */; };
-		AE5F3CA512F8B16800C9C9E6 /* LuaCocoa.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = AE5F3CA112F8B16400C9C9E6 /* LuaCocoa.framework */; };
 		AE6F6B3C12614EDB00FCAFCB /* Hostmasks.png in Resources */ = {isa = PBXBuildFile; fileRef = AE6F6B3912614EDB00FCAFCB /* Hostmasks.png */; };
 		AE6F6B3D12614EDB00FCAFCB /* Preferences.png in Resources */ = {isa = PBXBuildFile; fileRef = AE6F6B3A12614EDB00FCAFCB /* Preferences.png */; };
 		AE6F6B8312615BFF00FCAFCB /* User.png in Resources */ = {isa = PBXBuildFile; fileRef = AE6F6B8212615BFF00FCAFCB /* User.png */; };
 		AE6F6B981261662100FCAFCB /* Scripts.png in Resources */ = {isa = PBXBuildFile; fileRef = AE6F6B971261662100FCAFCB /* Scripts.png */; };
 		AE6F6F4012627FB800FCAFCB /* div.png in Resources */ = {isa = PBXBuildFile; fileRef = AE6F6F3F12627FB800FCAFCB /* div.png */; };
 		AE8EBE7E12A0571F00CA3FCE /* License.rtf in Resources */ = {isa = PBXBuildFile; fileRef = AE8EBE7D12A0571F00CA3FCE /* License.rtf */; };
+		AE9BAABE1329E2370099B4B9 /* LuaAction.m in Sources */ = {isa = PBXBuildFile; fileRef = AE9BAABD1329E2370099B4B9 /* LuaAction.m */; };
 		AEAD7282124002C80028D5A3 /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAD7280124002C80028D5A3 /* UserDefaults.m */; };
 		AEAD7286124002D20028D5A3 /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAD7285124002D20028D5A3 /* AsyncSocket.m */; };
 		AEAD728A124002F20028D5A3 /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = AEAD7288124002F20028D5A3 /* AppIcon.icns */; };
@@ -42,7 +39,8 @@
 		AEBB006E123C31D100E6CC21 /* KBTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBB0069123C31D100E6CC21 /* KBTextField.m */; };
 		AEBB006F123C31D100E6CC21 /* KBSTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBB006B123C31D100E6CC21 /* KBSTextFieldCell.m */; };
 		AEBBFFF8123C044E00E6CC21 /* UIController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBBFFF5123C044E00E6CC21 /* UIController.m */; };
-		AEC6FFC012FB52BF007214B6 /* Backup.rtf in Resources */ = {isa = PBXBuildFile; fileRef = AEC6FFBF12FB52BF007214B6 /* Backup.rtf */; };
+		AEBD9CD11329A132004E0E6B /* LuaCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEBD9CD01329A132004E0E6B /* LuaCocoa.framework */; };
+		AEE1A311132B0BEB00CFF24F /* LuaCocoa.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = AEBD9CD01329A132004E0E6B /* LuaCocoa.framework */; };
 		AEE5E0A512408C08002D2767 /* EMKeychainItem.m in Sources */ = {isa = PBXBuildFile; fileRef = AEE5E0A412408C08002D2767 /* EMKeychainItem.m */; };
 		AEE5E0AE12408D7A002D2767 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEE5E0AD12408D7A002D2767 /* Carbon.framework */; };
 		AEE5E0C112408F27002D2767 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEE5E0C012408F27002D2767 /* Security.framework */; };
@@ -69,7 +67,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				AE5F3CA512F8B16800C9C9E6 /* LuaCocoa.framework in Copy Frameworks */,
+				AEE1A311132B0BEB00CFF24F /* LuaCocoa.framework in Copy Frameworks */,
 				AE0012BB12415E6E0049FD63 /* BWToolkitFramework.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
@@ -90,8 +88,6 @@
 		8D1107320486CEB800E47090 /* IRCBot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IRCBot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE0012A212415E4F0049FD63 /* BWToolkitFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BWToolkitFramework.framework; path = Includes/BWToolkitFramework.framework; sourceTree = "<group>"; };
 		AE0B2B50129E11AF001C789C /* Hat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Hat.png; path = Images/Hat.png; sourceTree = "<group>"; };
-		AE128A96132710C50063CD28 /* LuaAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaAction.h; sourceTree = "<group>"; };
-		AE128A97132710C50063CD28 /* LuaAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LuaAction.m; sourceTree = "<group>"; };
 		AE2A3B1D124182F5004B42CB /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
 		AE45B16212A083E4008DD726 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		AE58546812FC8BD800B63ACD /* Todo.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Todo.rtf; sourceTree = "<group>"; };
@@ -107,7 +103,6 @@
 		AE5C7E7A129B83660080F146 /* KBSTextFieldRC_disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = KBSTextFieldRC_disabled.png; sourceTree = "<group>"; };
 		AE5CFC411268F1F700C96195 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
 		AE5CFC421268F1F700C96195 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
-		AE5F3CA112F8B16400C9C9E6 /* LuaCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LuaCocoa.framework; path = /Library/Frameworks/LuaCocoa.framework; sourceTree = "<absolute>"; };
 		AE6F6B3912614EDB00FCAFCB /* Hostmasks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Hostmasks.png; path = Images/Hostmasks.png; sourceTree = "<group>"; };
 		AE6F6B3A12614EDB00FCAFCB /* Preferences.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Preferences.png; path = Images/Preferences.png; sourceTree = "<group>"; };
 		AE6F6B8212615BFF00FCAFCB /* User.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = User.png; path = Images/User.png; sourceTree = "<group>"; };
@@ -116,6 +111,8 @@
 		AE8EBE7D12A0571F00CA3FCE /* License.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = License.rtf; sourceTree = "<group>"; };
 		AE8EBE8012A0587800CA3FCE /* Notes.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Notes.rtf; sourceTree = "<group>"; };
 		AE8EBE8112A0587800CA3FCE /* ServerOutput.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = ServerOutput.rtf; sourceTree = "<group>"; };
+		AE9BAABC1329E2370099B4B9 /* LuaAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LuaAction.h; path = Classes/Data/LuaAction.h; sourceTree = "<group>"; };
+		AE9BAABD1329E2370099B4B9 /* LuaAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LuaAction.m; path = Classes/Data/LuaAction.m; sourceTree = "<group>"; };
 		AEAD727F124002C80028D5A3 /* UserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserDefaults.h; path = Classes/UserDefaults.h; sourceTree = "<group>"; };
 		AEAD7280124002C80028D5A3 /* UserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserDefaults.m; path = Classes/UserDefaults.m; sourceTree = "<group>"; };
 		AEAD7284124002D20028D5A3 /* AsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncSocket.h; sourceTree = "<group>"; };
@@ -129,6 +126,7 @@
 		AEBB006B123C31D100E6CC21 /* KBSTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBSTextFieldCell.m; path = UI/KBSTextFieldCell.m; sourceTree = "<group>"; };
 		AEBBFFF4123C044E00E6CC21 /* UIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIController.h; path = UI/UIController.h; sourceTree = "<group>"; };
 		AEBBFFF5123C044E00E6CC21 /* UIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIController.m; path = UI/UIController.m; sourceTree = "<group>"; };
+		AEBD9CD01329A132004E0E6B /* LuaCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LuaCocoa.framework; path = Includes/LuaCocoa.framework; sourceTree = "<group>"; };
 		AEC6FFBF12FB52BF007214B6 /* Backup.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Backup.rtf; sourceTree = "<group>"; };
 		AEE5E0A312408C08002D2767 /* EMKeychainItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMKeychainItem.h; sourceTree = "<group>"; };
 		AEE5E0A412408C08002D2767 /* EMKeychainItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMKeychainItem.m; sourceTree = "<group>"; };
@@ -168,7 +166,7 @@
 				AEE5E0AE12408D7A002D2767 /* Carbon.framework in Frameworks */,
 				AEE5E0C112408F27002D2767 /* Security.framework in Frameworks */,
 				AE0012A312415E4F0049FD63 /* BWToolkitFramework.framework in Frameworks */,
-				AE5F3CA212F8B16400C9C9E6 /* LuaCocoa.framework in Frameworks */,
+				AEBD9CD11329A132004E0E6B /* LuaCocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,7 +259,7 @@
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 				AE0012A212415E4F0049FD63 /* BWToolkitFramework.framework */,
-				AE5F3CA112F8B16400C9C9E6 /* LuaCocoa.framework */,
+				AEBD9CD01329A132004E0E6B /* LuaCocoa.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -305,8 +303,8 @@
 			children = (
 				AEF6031B12A5DDB000A95FA8 /* Actions.h */,
 				AEF6031C12A5DDB000A95FA8 /* Actions.m */,
-				AE128A96132710C50063CD28 /* LuaAction.h */,
-				AE128A97132710C50063CD28 /* LuaAction.m */,
+				AE9BAABC1329E2370099B4B9 /* LuaAction.h */,
+				AE9BAABD1329E2370099B4B9 /* LuaAction.m */,
 				AEF6031D12A5DDB000A95FA8 /* Hostmasks.h */,
 				AEF6031E12A5DDB000A95FA8 /* Hostmasks.m */,
 				AEF6005512A4783E00A95FA8 /* AutojoinData.h */,
@@ -450,8 +448,6 @@
 				AEF6FCFD12A32DF300A95FA8 /* Status_Room.png in Resources */,
 				AEF6021212A5B9B000A95FA8 /* Design.png in Resources */,
 				AEB56C5812F76AE7006FEF77 /* IRCBot Actions in Resources */,
-				AEC6FFC012FB52BF007214B6 /* Backup.rtf in Resources */,
-				AE58546912FC8BD800B63ACD /* Todo.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -481,7 +477,7 @@
 				AEF6032212A5DDB000A95FA8 /* Hostmasks.m in Sources */,
 				AEF604F012A70A3800A95FA8 /* IRCRooms.m in Sources */,
 				AEEAEA5E12FD243400EA5D4A /* LuaController.m in Sources */,
-				AE128A98132710C50063CD28 /* LuaAction.m in Sources */,
+				AE9BAABE1329E2370099B4B9 /* LuaAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

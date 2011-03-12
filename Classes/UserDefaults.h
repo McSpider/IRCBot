@@ -20,6 +20,7 @@
 	
 	IBOutlet NSWindow *startWindow;
 	IBOutlet NSTabView *startView;
+	IBOutlet NSTextField *errorMessage;
 	
 	IBOutlet NSWindow *prefWindow;
 	IBOutlet NSToolbar *toolBar;
@@ -38,6 +39,7 @@
 	IBOutlet Actions *actions;
 	IBOutlet AutojoinData *autojoin;
 	
+	NSModalSession session;
 }
 
 // Setup

@@ -22,7 +22,6 @@
 	
 	IBOutlet NSTextField *commandField;
 	IBOutlet NSTextField *serverAddress;
-	IBOutlet NSTextField *serverPort;
 	IBOutlet NSButton *connectionButton;
 	IBOutlet NSTextField *usernameField;
 	IBOutlet NSTextField *passwordField;

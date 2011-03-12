@@ -33,14 +33,41 @@ IRCConnection *ircConnection;
 // Connect to or disconnect IRC connection
 -(IBAction)ircConnection:(id)sender
 {
-	[activityIndicator startAnimation:self];
 	if (![ircConnection isConnected]){
-		[self refreshConnectionData];
+		// Get connection data
+		NSArray *connectionArray = [[serverAddress stringValue] componentsSeparatedByString:@":"];
+		NSString *ircServer;
+		int ircPort;
+		
+		if ([connectionArray count] != 0 && ![[connectionArray objectAtIndex:0] isEqualToString:@""]) {
+			ircServer = [connectionArray objectAtIndex:0];
+		} else {
+			[self logMessage:@"You need to specify a irc server to connect to." type:1];
+			return;
+		}
+		
+		if ([connectionArray count] >= 2) {
+			ircPort = [[connectionArray objectAtIndex:1] intValue];
+		} else {
+			ircPort = 6667;
+		}
+		
+		// Get authentication data
+		NSString *username = [usernameField stringValue];
+		NSString *password = [passwordField stringValue];	
+		NSString *nickname = [nicknameField stringValue];
+		NSString *realname = [realnameField stringValue];
+		
+		// Set the connectionData array, see Notes.rtf for more info
+		NSArray *tempArray = [NSArray arrayWithObjects:username,password,nickname,realname,ircServer,[NSNumber numberWithInteger:ircPort],nil];
+		[connectionData setArray:tempArray];		
+		
+		[activityIndicator startAnimation:self];
 		[connectionButton setEnabled:NO];
 		[serverAddress setEnabled:NO];
-		[serverPort setEnabled:NO];
-		[ircConnection connectToIRC:[serverAddress stringValue] port:[serverPort	intValue]];
+		[ircConnection connectToIRC:[connectionData objectAtIndex:4]  port:[[connectionData objectAtIndex:5] intValue]];
 	}else{
+		[activityIndicator startAnimation:self];
 		[connectionButton setEnabled:NO];
 		[ircConnection disconnectWithMessage:@"Bye, don't forget to feed the goldfish."];
 	}
@@ -236,14 +263,20 @@ IRCConnection *ircConnection;
 	
 	userMessage = [NSString stringWithFormat:@"USER %@ %@ %@ \r\n", aUsername, @" 0 * :", aName];
 	nickMessage = [NSString stringWithFormat:@"NICK %@ \r\n", aNick];
-	passMessage = [NSString stringWithFormat:@"PASS %@ \r\n", aPassword];	
-	nickServMessage = [NSString stringWithFormat:@"identify %@",aPassword];
 	
 	// Send authentication messages
 	[ircConnection sendRawString:userMessage logAs:2];
 	[ircConnection sendRawString:nickMessage logAs:2];
-	[ircConnection sendRawString:passMessage logAs:2];
-	[ircConnection sendMessage:nickServMessage To:@"NickServ" logAs:2];
+	
+	// Check if a password is specified
+	if (![aPassword isEqualToString:@""]) {
+		passMessage = [NSString stringWithFormat:@"PASS %@ \r\n", aPassword];	
+		nickServMessage = [NSString stringWithFormat:@"identify %@",aPassword];
+		[ircConnection sendRawString:passMessage logAs:2];
+		[ircConnection sendMessage:nickServMessage To:@"NickServ" logAs:2];
+	} else {
+		[self logMessage:@"IRCBot - No password specified!" type:1];
+	}
 }
 
 -(void)parseServerOutput:(NSString *)input type:(NSString *)type
@@ -265,7 +298,7 @@ IRCConnection *ircConnection;
 		NSArray *messageData;
 		messageData = [[input arrayOfCaptureComponentsMatchedByRegex:@":([^!]+)!~(\\S+)\\s+(\\S+)\\s+:?+(\\S+)\\s*(?:[:+-]+(.*+))?$"] objectAtIndex:0];
 		NSString *message = [messageData objectAtIndex:5];
-		NSLog(@"%@",messageData);
+		//NSLog(@"%@",messageData);
 		
 		// Get auth for the hostmask
 		BOOL auth = [hostmasks getAuthForHostmask:[messageData objectAtIndex:2]]; 
@@ -286,11 +319,11 @@ IRCConnection *ircConnection;
 				for (actionIndex = 0; actionIndex < [actions.actionsArray count]; actionIndex++) {
 					LuaAction *action = [actions.actionsArray objectAtIndex:actionIndex];					
 					
-					NSArray *messageComponents;
-					NSString *regex = [NSString stringWithFormat:@"^(%@%@)\\s*(\\S*)\\s*(.*$)",trigger,action.name];
-
+					NSString *regex = [NSString stringWithFormat:@"^(%@%@)(\\s+|$).*$",trigger,action.name];
 					if ([message isMatchedByRegex:regex]) {
-						messageComponents = [[message arrayOfCaptureComponentsMatchedByRegex:regex] objectAtIndex:0];
+						NSArray *messageComponents;
+						regex = @"'[^']*'|[^\\s]+";
+						messageComponents = [message componentsMatchedByRegex:regex];
 												
 						if ((action.restricted && auth) || !action.restricted) {
 							[lua loadFile:action.file];
@@ -362,24 +395,15 @@ IRCConnection *ircConnection;
 
 -(void)refreshConnectionData
 {
-	// Get connection data
-	NSString *ircServer = [serverAddress stringValue];
-	int ircPort = [serverPort intValue];
-	
 	// Get authentication data
 	NSString *username = [usernameField stringValue];
 	NSString *password = [passwordField stringValue];	
 	NSString *nickname = [nicknameField stringValue];
 	NSString *realname = [realnameField stringValue];
 	
-	// Get connection timeout and convert to ms
-	int timeout = 1.2*60;
-	
-	
 	// Set the connectionData array, see Notes.rtf for more info
-	NSArray *tempArray = [NSArray arrayWithObjects:username,password,nickname,realname,ircServer,[NSNumber numberWithInteger:ircPort],[NSNumber numberWithInteger:timeout],nil];
+	NSArray *tempArray = [NSArray arrayWithObjects:username,password,nickname,realname,nil];
 	[connectionData setArray:tempArray];
-	[ircConnection setConnectionData:tempArray];
 }
 
 // Log message to text view
@@ -466,7 +490,6 @@ IRCConnection *ircConnection;
 	// Stop activity indicator and disable and enable all relevant controls
 	[activityIndicator stopAnimation:self];
 	[serverAddress setEnabled:YES];
-	[serverPort setEnabled:YES];
 	[rooms disconnectAllRooms];
 	[connectionButton setEnabled:YES];
 	[connectionButton setTitle:@"Connect"];

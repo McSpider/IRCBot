@@ -17,7 +17,6 @@ BOOL Debugging;
 
 // IRC connection
 AsyncSocket *ircSocket;
-NSMutableArray* connectionData;
 
 @end
 
@@ -45,7 +44,6 @@ NSMutableArray* connectionData;
 		ircDelegate = delegate;
 		ircSocket = [[AsyncSocket alloc] initWithDelegate:self];
 		[ircSocket setRunLoopModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
-		connectionData = [[NSMutableArray alloc] init];
 		Debugging = NO;
 	}
 	return self;	
@@ -54,11 +52,6 @@ NSMutableArray* connectionData;
 - (BOOL)isConnected
 {
 	return [ircSocket isConnected];
-}
-
--(void)setConnectionData:(NSArray *)array
-{
-	[connectionData setArray:array];
 }
 
 
@@ -92,7 +85,7 @@ NSMutableArray* connectionData;
 - (void)sendRawString:(NSString *)string logAs:(int)type
 {
 	NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
-	if ([string length] >= 1) [ircSocket writeData:data withTimeout:[[connectionData objectAtIndex:6] intValue] tag:0];
+	if ([string length] >= 1) [ircSocket writeData:data withTimeout:1200 tag:0];
 	if([ircDelegate respondsToSelector:@selector(logMessage:type:)])
 		[ircDelegate logMessage:[NSString stringWithFormat:@"%@", string] type:type];
 }
@@ -149,7 +142,7 @@ NSMutableArray* connectionData;
 	
 	// Connect to host and report any errors that occured
 	NSError *error = nil;
-	if (![ircSocket connectToHost:server onPort:port withTimeout:[[connectionData objectAtIndex:6] intValue] error:&error]){
+	if (![ircSocket connectToHost:server onPort:port withTimeout:1200 error:&error]){
 		[ircDelegate logMessage:[NSString stringWithFormat:@"Error Connecting to IRC: %@", error] type:1];
 		return;
 	}
@@ -234,7 +227,6 @@ NSMutableArray* connectionData;
 - (void)dealloc
 {
 	[ircSocket release];
-	[connectionData release];
 	[super dealloc]; 
 }
 

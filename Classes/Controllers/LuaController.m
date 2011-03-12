@@ -79,14 +79,37 @@
 	[main partRoom:room];
 }
 
+
+// Data
 - (NSArray *)getActions
 {
-	return [actions actionsArray];
+	NSArray *actionsArray;
+	
+	int index;
+	for (index = 0; index < [actions.actionsArray count]; index++) {
+		LuaAction *tempAction = [actions.actionsArray objectAtIndex:index];
+		
+		if ([tempAction restricted]) {
+			actionsArray = [actionsArray arrayByAddingObject:[NSString stringWithFormat:@"+%@",tempAction.name]];
+		} else {
+			actionsArray = [actionsArray arrayByAddingObject:[NSString stringWithFormat:@"-%@",tempAction.name]];
+		}
+	}
+	
+	return actionsArray;
 }
 
 - (NSArray *)getRooms
 {
-	return [rooms roomArray];
+	NSArray *roomsArray;
+	
+	int index;
+	for (index = 0; index < [rooms.roomArray count]; index++) {
+		IRCRoom *tempRoom = [rooms.roomArray objectAtIndex:index];
+		roomsArray = [roomsArray arrayByAddingObject:[NSArray arrayWithObjects:tempRoom.name, tempRoom.status, nil]];
+	}
+		
+	return roomsArray;
 }
 
 -(NSArray *)getTriggers
@@ -159,17 +182,13 @@
 	NSString *hostmask = [NSString stringWithUTF8String:mask];
 	[hostmasks hostmask:hostmask isBlocked:NO];
 }
-
+	
 - (boolean_t)checkAuthFor:(const char *)aUser
 {
 	NSString *hostmask = [NSString stringWithUTF8String:aUser];	
 	return [hostmasks getAuthForHostmask:hostmask];
 }
 
--(NSArray *)getHostmasks
-{
-	return [hostmasks hostmaskArray];
-}
 
 #pragma mark -
 #pragma mark Lua

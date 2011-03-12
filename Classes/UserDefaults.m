@@ -14,7 +14,7 @@
 #pragma mark -
 #pragma mark Initialization
 
--(void)awakeFromNib
+- (void)awakeFromNib // should prolly be applicationDidFinishLaunching to prevent crashes
 {
 	// Hide the resize indicators on the windows
 	[mainWindow setShowsResizeIndicator:NO]; [prefWindow setShowsResizeIndicator:NO]; [prefWindow center];
@@ -23,8 +23,12 @@
 	// Check if this is the first start of the application
 	// If it is show a setup window
 	if (![self firstStart]){
-		[startWindow center];	
-		[startWindow makeKeyAndOrderFront:self];
+		// Start modal session and open the window
+		//session = [NSApp beginModalSessionForWindow:startWindow];
+		//[NSApp runModalSession:session];
+		[startWindow makeFirstResponder:uNameField];
+		[startWindow center];
+		[startWindow makeKeyAndOrderFront:self];		
 	}else{
 		[mainWindow makeKeyAndOrderFront:self];
 		[prefs setPane:0];
@@ -54,11 +58,25 @@
 
 // Save all the initial setup data to the .plist
 -(IBAction)finishInitialSetup:(id)sender
-{	
-	// Check if the hostmask is valid
-	if ([[hostmaskField stringValue] isEqualToString:@""]) {
+{		
+	// Check if user input is valid
+	if ([[uNameField stringValue] isEqualToString:@""]) {
+		[errorMessage setStringValue:@"Please fill in the username field"];
 		return;
 	}
+	if ([[uNickField stringValue] isEqualToString:@""]) {
+		[errorMessage setStringValue:@"Please fill in the nickname field"];
+		return;
+	}
+	if ([[uRealnameField stringValue] isEqualToString:@""]) {
+		[errorMessage setStringValue:@"Please fill in a real name field"];
+		return;
+	}
+	if ([[hostmaskField stringValue] isEqualToString:@""] || ![[hostmaskField stringValue] isMatchedByRegex:@"^\\S+@\\S+\\.\\S+$"]) {
+		[errorMessage setStringValue:@"Please fill in a valid hostmask"];
+		return;
+	}	
+		
 	
 	NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
 	if (standardUserDefaults) {
@@ -71,13 +89,17 @@
 		[standardUserDefaults setObject:[uRealnameField stringValue] forKey:@"realname"];
 		[standardUserDefaults setObject:[uNickField stringValue] forKey:@"nickname"];
 		[standardUserDefaults setInteger:1 forKey:@"timeout"];
-		[standardUserDefaults setObject:[NSString stringWithFormat:@"%@: |+",[uNickField stringValue]] forKey:@"triggers"];
+		[standardUserDefaults setObject:[NSString stringWithFormat:@"@",[uNickField stringValue]] forKey:@"triggers"];
 		[standardUserDefaults setObject:@"irc.freenode.net" forKey:@"irc_server"];
-		[standardUserDefaults setObject:@"6667" forKey:@"irc_port"];
 		[standardUserDefaults synchronize];
 	}
 	[hostmasks addHostmask:[hostmaskField stringValue] block:NO];
 	[self setFirstStart:YES];
+	
+	
+	// End modal session and save settings
+	//[NSApp endModalSession:session];
+	[self savePreferences:self];
 	
 	// Close the setup window and show the main window
 	[startWindow orderOut:self];
@@ -127,7 +149,9 @@
 		[[NSFileManager defaultManager] removeFileAtPath:actionsPath handler:nil];
 		[[NSFileManager defaultManager] copyPath:defaultActions toPath:actionsPath handler:nil];
 		
-		// Open setupwindow.
+		// Start modal session and open setupwindow.
+		//session = [NSApp beginModalSessionForWindow:startWindow];
+		//[NSApp runModalSession:session];
 		[startWindow makeFirstResponder:uNameField];
 		[startView selectFirstTabViewItem:self];
 		[startWindow center];	
@@ -167,6 +191,11 @@
 	
 	NSString *actionsPath = @"~/Library/Application Support/IRCBot Actions/data.plist";
 	[actions saveActionsToFile:actionsPath];
+	
+	// Don't try to save the pasword if its empty
+	if (![[passwordField stringValue] isMatchedByRegex:@"^//S+$"]) {
+		return;
+	}
 	
 	// Save the password to the appropriate location
 	if (![passwordInPlistCheck state]){
