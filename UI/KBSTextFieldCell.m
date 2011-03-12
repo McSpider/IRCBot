@@ -58,13 +58,13 @@ static NSImage *leftCap, *centerFill, *rightCap, *leftCapD, *centerFillD, *right
 	
 	//Background
 	[ctx saveGraphicsState];
-	if ([self isEnabled] && [self isEditable])
+	//if ([self isEnabled] && [self isEditable])
 		if([[[self controlView] window] isKeyWindow])//![self isHighlighted])
 			NSDrawThreePartImage(frame,leftCap,centerFill,rightCap,NO,NSCompositeSourceOver,1.0,YES);
 		else
 			NSDrawThreePartImage(frame,leftCapD,centerFillD,rightCapD,NO,NSCompositeSourceOver,1.0,YES);
-	else
-		NSDrawThreePartImage(frame,leftCapD,centerFillD,rightCapD,NO,NSCompositeSourceOver,1.0,YES);
+	//else
+	//	NSDrawThreePartImage(frame,leftCapD,centerFillD,rightCapD,NO,NSCompositeSourceOver,1.0,YES);
 	[ctx restoreGraphicsState];
 	
 	// If we have focus, draw a focus ring around the entire cellFrame.
