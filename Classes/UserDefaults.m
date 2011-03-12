@@ -77,7 +77,6 @@
 		return;
 	}	
 		
-	
 	NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
 	if (standardUserDefaults) {
 		[standardUserDefaults setObject:[uNameField stringValue] forKey:@"username"];
@@ -116,7 +115,7 @@
 }
 
 //Reset app and show setup window 
--(IBAction)resetApplication:(id)sender
+- (IBAction)resetApplication:(id)sender
 {	
 	// Ask user if he's sure
 	int answer = NSRunAlertPanel(@"Are you sure you want to reset IRCBot?",@"This will remove all your settings.", @"Cancel",@"Reset", nil);
@@ -160,7 +159,7 @@
 }
 
 // Set the setup bool in the .plist to true
--(void)setFirstStart:(BOOL)boolean
+- (void)setFirstStart:(BOOL)boolean
 {
 	NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
 	if (standardUserDefaults) {
@@ -170,7 +169,7 @@
 }
 
 // Check the setup bool in the .plist
--(BOOL)firstStart
+- (BOOL)firstStart
 {
 	NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
 	if (standardUserDefaults)
@@ -182,7 +181,7 @@
 #pragma mark -
 #pragma mark Preferences
 
--(IBAction)savePreferences:(id)sender
+- (IBAction)savePreferences:(id)sender
 {
 	NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];	
 	[standardUserDefaults setObject:[hostmasks hostmaskArray] forKey:@"hostmasks"];
@@ -219,7 +218,7 @@
 	}
 }
 
--(BOOL)windowShouldClose:(NSWindow *)sender
+- (BOOL)windowShouldClose:(NSWindow *)sender
 {
 	// If window closed is the prefrences window then save the prefs
 	if (sender == prefWindow){

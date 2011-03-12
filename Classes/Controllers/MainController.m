@@ -166,7 +166,7 @@ IRCConnection *ircConnection;
 	[lua setActionsClass:actions];
 	
 	[self refreshConnectionData];
-	[self logMessage:@"Welcome to IRCBot\n› For help type /help.\n" type:4];
+	[self logMessage:@"Welcome to IRCBot\n› For help type help.\n" type:4];
 }
 
 // Application should quit but server is still connected
