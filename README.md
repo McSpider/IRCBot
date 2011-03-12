@@ -2,13 +2,14 @@ Objective C IRCBot
 ==================
 
 An IRC Bot written mainly in Objective C.  
-Still needs lots of changes to make it functional.  
+It still needs lots of changes to make it fully functional.  
   
   
 ###IRCBot Uses:
 [AsyncSocket](http://code.google.com/p/cocoaasyncsocket/), to connect to the irc server.  
 [EMKeychain](http://extendmac.com/EMKeychain/), to store the login details.  
 [RegexKitLite](http://regexkit.sourceforge.net/), to parse the irc messages.  
+[LuaCocoa](http://playcontrol.net/opensource/LuaCocoa/), to execute the lua actions.  
 [BWToolkitFramework](http://www.brandonwalkin.com/bwtoolkit/), for several UI elements.  
   
   
