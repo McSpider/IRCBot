@@ -20,7 +20,7 @@
 	
 }
 
--(IBAction)changePanes:(id)sender;
--(void)setPane:(int)index;
+- (IBAction)changePanes:(id)sender;
+- (void)setPane:(int)index;
 
 @end

@@ -28,9 +28,9 @@
 - (void)loadActionsFromFile:(NSString *)file;
 - (void)saveActionsToFile:(NSString *)file;
 
--(void)addAction:(NSString *)action name:(NSString *)name restricted:(BOOL)boolean;
+- (void)addAction:(NSString *)action name:(NSString *)name restricted:(BOOL)boolean;
 
--(IBAction)addNewAction:(id)sender;
--(IBAction)removeSelectedAction:(id)sender;
+- (IBAction)addNewAction:(id)sender;
+- (IBAction)removeSelectedAction:(id)sender;
 
 @end

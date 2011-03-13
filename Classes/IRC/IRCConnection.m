@@ -39,8 +39,7 @@ AsyncSocket *ircSocket;
 
 - (id)initWithDelegate:(id)delegate
 {
-	if((self = [super init]))
-	{
+	if ((self = [super init])) {
 		ircDelegate = delegate;
 		ircSocket = [[AsyncSocket alloc] initWithDelegate:self];
 		[ircSocket setRunLoopModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
@@ -60,7 +59,7 @@ AsyncSocket *ircSocket;
 
 - (void)sendMessage:(NSString *)message To:(NSString *)recipient logAs:(int)type
 {
-	if (recipient == nil || [recipient isEqualToString:@"NONE"])
+	if (recipient == nil || [recipient isEqualToString:@""])
 		return;
 	NSString* msg = [NSString stringWithFormat:@"PRIVMSG %@ :%@\r\n", recipient, message];
 	if ([message length] >= 1) [self sendRawString:msg logAs:type];
@@ -68,7 +67,7 @@ AsyncSocket *ircSocket;
 
 - (void)sendNotice:(NSString *)message To:(NSString *)recipient logAs:(int)type
 {
-	if (recipient == nil || [recipient isEqualToString:@"NONE"])
+	if (recipient == nil || [recipient isEqualToString:@""])
 		return;
 	NSString* msg = [NSString stringWithFormat:@"NOTICE %@ :%@\r\n", recipient, message];
 	if ([message length] >= 1) [self sendRawString:msg logAs:type];
@@ -76,7 +75,7 @@ AsyncSocket *ircSocket;
 
 - (void)sendAction:(NSString *)message To:(NSString *)recipient logAs:(int)type
 {
-	if (recipient == nil || [recipient isEqualToString:@"NONE"])
+	if (recipient == nil || [recipient isEqualToString:@""])
 		return;
 	NSString* msg = [NSString stringWithFormat:@"PRIVMSG %@ :%cACTION %@%c\r\n", recipient, 1, message, 1];
 	if ([message length] >= 1) [self sendRawString:msg logAs:type];
@@ -170,12 +169,12 @@ AsyncSocket *ircSocket;
 	NSString *msg = [[[NSString alloc] initWithData:strData encoding:NSNonLossyASCIIStringEncoding] autorelease];
 	
 	// If the data is valid start parsing it
-	if (msg){
+	if (msg) {
 		NSString *type = [self getMessageType:msg];
 		// Pass on string to delegate
-		if([ircDelegate respondsToSelector:@selector(didReadData:ofType:)])
+		if ([ircDelegate respondsToSelector:@selector(didReadData:ofType:)])
 			[ircDelegate didReadData:msg ofType:type];
-	}else{
+	} else {
 		[ircDelegate logMessage:@"Error converting received data into ASCII String" type:1];
 	}
 	// Start new read operation if socket is still conected

@@ -13,7 +13,8 @@
 @synthesize name;
 @synthesize status;
 
-- (id)init{
+- (id)init
+{
 	self = [super init];
 	if (self != nil) {
 		self.name = [[NSString alloc] initWithString:@"#null"];

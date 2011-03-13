@@ -21,11 +21,11 @@
 
 @property (nonatomic,assign) NSMutableArray *autojoinArray;
 
--(IBAction)addNewRoom:(id)sender;
--(IBAction)removeSelectedRoom:(id)sender;
+- (IBAction)addNewRoom:(id)sender;
+- (IBAction)removeSelectedRoom:(id)sender;
 
--(void)addRoom:(NSString *)room autojoin:(BOOL)autojoin;
--(void)removeRoom:(NSString *)room;
--(void)clearData;
+- (void)addRoom:(NSString *)room autojoin:(BOOL)autojoin;
+- (void)removeRoom:(NSString *)room;
+- (void)clearData;
 
 @end

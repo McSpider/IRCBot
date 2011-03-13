@@ -18,8 +18,7 @@ static NSImage *leftCap, *centerFill, *rightCap, *leftCapD, *centerFillD, *right
 
 + (void)initialize
 {
-	if([KBSTextFieldCell class] == [self class])
-	{
+	if ([KBSTextFieldCell class] == [self class]) {
 		NSBundle *bundle = [NSBundle bundleForClass:[KBSTextFieldCell class]];
 		leftCap = [[NSImage alloc] initWithContentsOfFile:[bundle pathForImageResource:@"KBSTextFieldLC.png"]];
 		centerFill = [[NSImage alloc] initWithContentsOfFile:[bundle pathForImageResource:@"KBSTextFieldCF.png"]];
@@ -29,14 +28,6 @@ static NSImage *leftCap, *centerFill, *rightCap, *leftCapD, *centerFillD, *right
 		centerFillD = [[NSImage alloc] initWithContentsOfFile:[bundle pathForImageResource:@"KBSTextFieldCF_disabled.png"]];
 		rightCapD = [[NSImage alloc] initWithContentsOfFile:[bundle pathForImageResource:@"KBSTextFieldRC_disabled.png"]];
 	}
-}
-
-- (id)initWithCoder:(NSCoder *)decoder
-{
-	if ((self = [super initWithCoder:decoder])) {
-		[self setSendsActionOnEndEditing:NO];
-	}
-	return self;
 }
 
 
@@ -58,13 +49,11 @@ static NSImage *leftCap, *centerFill, *rightCap, *leftCapD, *centerFillD, *right
 	
 	//Background
 	[ctx saveGraphicsState];
-	//if ([self isEnabled] && [self isEditable])
-		if([[[self controlView] window] isKeyWindow])//![self isHighlighted])
-			NSDrawThreePartImage(frame,leftCap,centerFill,rightCap,NO,NSCompositeSourceOver,1.0,YES);
-		else
-			NSDrawThreePartImage(frame,leftCapD,centerFillD,rightCapD,NO,NSCompositeSourceOver,1.0,YES);
-	//else
-	//	NSDrawThreePartImage(frame,leftCapD,centerFillD,rightCapD,NO,NSCompositeSourceOver,1.0,YES);
+	if([[[self controlView] window] isKeyWindow]) {
+		NSDrawThreePartImage(frame,leftCap,centerFill,rightCap,NO,NSCompositeSourceOver,1.0,YES);
+	} else {
+		NSDrawThreePartImage(frame,leftCapD,centerFillD,rightCapD,NO,NSCompositeSourceOver,1.0,YES);
+	}
 	[ctx restoreGraphicsState];
 	
 	// If we have focus, draw a focus ring around the entire cellFrame.

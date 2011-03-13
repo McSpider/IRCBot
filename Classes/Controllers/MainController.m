@@ -33,7 +33,7 @@ IRCConnection *ircConnection;
 // Connect to or disconnect IRC connection
 -(IBAction)ircConnection:(id)sender
 {
-	if (![ircConnection isConnected]){
+	if (![ircConnection isConnected]) {
 		// Get connection data
 		NSArray *connectionArray = [[serverAddress stringValue] componentsSeparatedByString:@":"];
 		NSString *ircServer;
@@ -66,7 +66,7 @@ IRCConnection *ircConnection;
 		[connectionButton setEnabled:NO];
 		[serverAddress setEnabled:NO];
 		[ircConnection connectToIRC:[connectionData objectAtIndex:4]  port:[[connectionData objectAtIndex:5] intValue]];
-	}else{
+	} else {
 		[activityIndicator startAnimation:self];
 		[connectionButton setEnabled:NO];
 		[ircConnection disconnectWithMessage:@"Bye, don't forget to feed the goldfish."];
@@ -81,19 +81,19 @@ IRCConnection *ircConnection;
 	if ([commandString isEqualToString:@""])
 		return;
 	
-	if ([commandString isMatchedByRegex:@"^join\\s.*$"]){
+	if ([commandString isMatchedByRegex:@"^join\\s.*$"]) {
 		if (![rooms connectedToRoom:[commandArray objectAtIndex:1]] && [ircConnection isConnected])
 			[self joinRoom:[commandArray objectAtIndex:1]];
 		else if ([ircConnection isConnected])
 			[self logMessage:@"You are already in that room." type:4];
 		else
 			[self logMessage:@"You need to connect to an irc server before joining rooms." type:1];
-	}else if ([commandString isMatchedByRegex:@"^part\\s.*$"] && [ircConnection isConnected]){
+	} else if ([commandString isMatchedByRegex:@"^part\\s.*$"] && [ircConnection isConnected]) {
 		if ([rooms connectedToRoom:[commandArray objectAtIndex:1]])
 			[self partRoom:[commandArray objectAtIndex:1]];
 		else
 			[self logMessage:@"You are not connected to that room." type:4];
-	}else if ([commandString isMatchedByRegex:@"^msg\\s.*\\s.*$"] && [ircConnection isConnected]){
+	} else if ([commandString isMatchedByRegex:@"^msg\\s.*\\s.*$"] && [ircConnection isConnected]) {
 		NSString * tempString = commandString;
 		if ([[commandArray objectAtIndex:2] isEqualToString:@".me"]) {
 			[ircConnection sendAction:tempString To:[commandArray objectAtIndex:1] logAs:2];
@@ -103,19 +103,19 @@ IRCConnection *ircConnection;
 			[ircConnection sendMessage:tempString To:[commandArray objectAtIndex:1] logAs:2];
 		}
 			
-	}else if ([commandString isMatchedByRegex:@"^help(\\s.*$|$)"] || [commandString isMatchedByRegex:@"^?(\\s.*$|$)"]){
+	} else if ([commandString isMatchedByRegex:@"^help(\\s.*$|$)"] || [commandString isMatchedByRegex:@"^?(\\s.*$|$)"]) {
 		[self logMessage:@"Valid commands are:\n› join (room)\n› part (room)\n› msg (recipient) (.me|.ntc) (message)\n" type:4];
-	}else if (![ircConnection isConnected]){
+	} else if (![ircConnection isConnected]) {
 		[self logMessage:@"IRCBot - No IRC Connection\n› Type help or ? for help" type:1];
-	}else{
+	} else {
 		[self logMessage:@"IRCBot - Invalid Command\n› Type help or ? for help" type:4];
 	}
 
-	[commandField addItemToPopupWithTitle:commandString];
+	[commandField addPopUpItemWithTitle:commandString];
 	[commandField setStringValue:@""];
 }
 
--(IBAction)saveLog:(id)sender
+- (IBAction)saveLog:(id)sender
 {
 	// Get date and format it
 	NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
@@ -127,19 +127,19 @@ IRCConnection *ircConnection;
 	[[[serverOutput textStorage] string] writeToFile:[path stringByExpandingTildeInPath] atomically:YES encoding:4 error:nil];
 }
 
--(IBAction)clearLog:(id)sender
+- (IBAction)clearLog:(id)sender
 {
 	[serverOutput selectAll:nil];
 	[serverOutput setString:@""];
 }
 
--(IBAction)toggleDebug:(id)sender
+- (IBAction)toggleDebug:(id)sender
 {
-	if (Debugging){
+	if (Debugging) {
 		Debugging = NO;
 		[debugMenuItem setState:0];
 		[debugMenuItem setTitle:@"Debug Mode"];
-	}else{
+	} else {
 		Debugging = YES;
 		[debugMenuItem setState:1];
 		[debugMenuItem setTitle:@"Debug Mode On"];
@@ -150,13 +150,13 @@ IRCConnection *ircConnection;
 #pragma mark -
 #pragma mark Application Delegate Messages
 
--(void)awakeFromNib
+- (void)awakeFromNib
 {
 	connectionData = [[NSMutableArray alloc] init];
 	Debugging = NO;
 }
 
--(void)applicationDidFinishLaunching:(NSNotification *)aNotification
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
 	if (!(ircConnection = [[IRCConnection alloc] initWithDelegate:self]))
 		[self logMessage:@"IRCBot - IRCConnection Allocation Error" type:1];
@@ -175,10 +175,10 @@ IRCConnection *ircConnection;
 }
 
 // Application should quit but server is still connected
--(NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
 {
 	// If socket is still conected ask user if he's sure
-	if ([ircConnection isConnected]){
+	if ([ircConnection isConnected]) {
 		NSAlert *alert = [[NSAlert alloc] init];
     [alert setMessageText:@"You are still conected to a server."];
     [alert setInformativeText:@"Would you like to dissconect from the server before quiting?"];
@@ -200,7 +200,7 @@ IRCConnection *ircConnection;
 // Main window is should be closed
 - (BOOL)windowShouldClose:(NSWindow *)sender
 {		
-	if (sender == mainWindow){
+	if (sender == mainWindow) {
 		
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 		if ([defaults boolForKey:@"hide_window_alert"]) {
@@ -235,15 +235,15 @@ IRCConnection *ircConnection;
 #pragma mark -
 #pragma mark IRC Actions
 
--(void)pingAlive:(NSString *)server
+- (void)pingAlive:(NSString *)server
 {
 	NSString* replyMessage = [NSString stringWithFormat:@"PONG %@\r\n",server];
 	[ircConnection sendRawString:replyMessage logAs:2];
 }
 
--(void)joinRoom:(NSString *)aRoom
+- (void)joinRoom:(NSString *)aRoom
 {
-	if ([aRoom hasPrefix:@"#"]){
+	if ([aRoom hasPrefix:@"#"]) {
 		[self logMessage:@"IRCBot - Joining Room" type:1];
 		NSString* joinMessage = [NSString stringWithFormat:@"JOIN %@ \r\n", aRoom];
 		[ircConnection sendRawString:joinMessage logAs:2];
@@ -251,9 +251,9 @@ IRCConnection *ircConnection;
 	}
 }
 
--(void)partRoom:(NSString *)aRoom
+- (void)partRoom:(NSString *)aRoom
 {
-	if ([aRoom hasPrefix:@"#"]){
+	if ([aRoom hasPrefix:@"#"]) {
 		[self logMessage:@"IRCBot - Parting Room" type:1];
 		NSString* partMessage = [NSString stringWithFormat:@"PART %@ \r\n", aRoom];
 		[ircConnection sendRawString:partMessage logAs:2];
@@ -261,7 +261,7 @@ IRCConnection *ircConnection;
 	}
 }
 
--(void)authUser:(NSString *)aUsername pass:(NSString *)aPassword nick:(NSString *)aNick realName:(NSString *)aName
+- (void)authUser:(NSString *)aUsername pass:(NSString *)aPassword nick:(NSString *)aNick realName:(NSString *)aName
 {
 	// Create auth messages
 	[self logMessage:@"IRCBot - Authenticating User" type:1];
@@ -285,7 +285,7 @@ IRCConnection *ircConnection;
 	}
 }
 
--(void)parseServerOutput:(NSString *)input type:(NSString *)type
+- (void)parseServerOutput:(NSString *)input type:(NSString *)type
 {	
 	// Log raw message string
 	if (Debugging) {
@@ -299,7 +299,7 @@ IRCConnection *ircConnection;
 	}
 	
 	
-	if ([type isEqualToString:@"IRC_CHANNEL_MSG"] || [type isEqualToString:@"IRC_QUERY_MSG"]){
+	if ([type isEqualToString:@"IRC_CHANNEL_MSG"] || [type isEqualToString:@"IRC_QUERY_MSG"]) {
 		// Split the message into its components, see Notes.rtf for more info
 		NSArray *messageData;
 		messageData = [[input arrayOfCaptureComponentsMatchedByRegex:@":([^!]+)!~(\\S+)\\s+(\\S+)\\s+:?+(\\S+)\\s*(?:[:+-]+(.*+))?$"] objectAtIndex:0];
@@ -345,7 +345,7 @@ IRCConnection *ircConnection;
 		}		
 	}
 	
-	if ([type isEqualToString:@"IRC_KICK_NOTICE"]){
+	if ([type isEqualToString:@"IRC_KICK_NOTICE"]) {
 		if ([input rangeOfString:[connectionData objectAtIndex:2] options:NSLiteralSearch].location != NSNotFound){
 			NSArray *tempArray = [input componentsSeparatedByString:@"KICK "];
 			NSRange tempRange = [[tempArray objectAtIndex:1] rangeOfString:[connectionData objectAtIndex:2]];
@@ -354,25 +354,25 @@ IRCConnection *ircConnection;
 			[self logMessage:[NSString stringWithFormat:@"IRCBot - You have just been kicked from:%@ reason:%@",room,reason] type:1];
 			[rooms setStatus:@"Warning" forRoom:room];
 			
-			if ([rejoinKickedRooms state]){
+			if ([rejoinKickedRooms state]) {
 				[self performSelector:@selector(joinRoom:) withObject:room afterDelay:1.0f];
 			}
 		}
 	}
 	
 	// Cleanup and make more universal
-	if ([type isEqualToString:@"IRC_STATUS_MSG"]){
+	if ([type isEqualToString:@"IRC_STATUS_MSG"]) {
 		
 		// Split the message into its components 0:raw 1:ircServer 2:Empty 3:Notice# 4:Botname 5:Room 6:Message
 		NSArray *messageData;
 		messageData = [input arrayOfCaptureComponentsMatchedByRegex:@":(\\S+)\\s+([0-9]*?)(\\S+)\\s+(\\S+)\\s+:?+(\\S+)\\s*(?:[:+-]+(.*+))?$"];
 				
-		if ([input isMatchedByRegex:[NSString stringWithFormat:@"^.*\\s366\\s%@\\s.*:End of /NAMES.*$",[connectionData objectAtIndex:2]]]){
+		if ([input isMatchedByRegex:[NSString stringWithFormat:@"^.*\\s366\\s%@\\s.*:End of /NAMES.*$",[connectionData objectAtIndex:2]]]) {
 			[rooms setStatus:@"Normal" forRoom:[[messageData objectAtIndex:0] objectAtIndex:5]];
 		}
 	}
 	
-	if ([type isEqualToString:@"IRC_PING"]){
+	if ([type isEqualToString:@"IRC_PING"]) {
 		NSString *server = [input stringByMatching:@"^PING .*$"];
 		server = [server substringFromIndex:5];
 		[self pingAlive:server];
@@ -380,7 +380,7 @@ IRCConnection *ircConnection;
 	
 }
 
--(NSString *)escapeString:(NSString *)string
+- (NSString *)escapeString:(NSString *)string
 {
 	NSMutableString *returnString = [NSMutableString stringWithString:string];
 	[returnString replaceOccurrencesOfString:@"^" withString:@"\\^" options:NSLiteralSearch range:NSMakeRange(0, [returnString length])];
@@ -399,7 +399,7 @@ IRCConnection *ircConnection;
 	return returnString;
 }
 
--(void)refreshConnectionData
+- (void)refreshConnectionData
 {
 	// Get authentication data
 	NSString *username = [usernameField stringValue];
@@ -413,7 +413,7 @@ IRCConnection *ircConnection;
 }
 
 // Log message to text view
--(void)logMessage:(NSString *)message type:(int)type
+- (void)logMessage:(NSString *)message type:(int)type
 {	
 	NSMutableString *secureMessage = [NSMutableString stringWithString:message];
 	// Block out the password in the log
@@ -428,19 +428,19 @@ IRCConnection *ircConnection;
 	NSFont *textFont = [NSFont fontWithName:@"Menlo" size:12.0];
 	
 	// Setup color of string depending on type
-	if (type == 1){
+	if (type == 1) {
 		textColor = [NSColor colorWithCalibratedRed:0.35 green:0.00 blue:0.00 alpha:1.00];
 		formatedMessage = [NSString stringWithFormat:@"› %@\n",secureMessage];
-	}else if (type == 2){
+	} else if (type == 2) {
 		textColor = [NSColor colorWithCalibratedRed:0.00 green:0.00 blue:0.35 alpha:1.00];
 		formatedMessage = [NSString stringWithFormat:@"› %@",secureMessage];
-	}else if (type == 3){
+	} else if (type == 3) {
 		textColor = [NSColor colorWithCalibratedRed:0.15 green:0.30 blue:0.00 alpha:1.00];
 		formatedMessage = [NSString stringWithFormat:@"› %@",secureMessage];
-	}else if (type == 4){
+	} else if (type == 4) {
 		textColor = [NSColor colorWithCalibratedRed:0.24 green:0.00 blue:0.30 alpha:1.00];
 		formatedMessage = [NSString stringWithFormat:@"› %@\n",secureMessage];
-	}else{
+	} else {
 		textColor = [NSColor blackColor];
 		formatedMessage = [NSString stringWithFormat:@"%@\n",secureMessage];
 	}
@@ -454,7 +454,7 @@ IRCConnection *ircConnection;
 		[[serverOutput textStorage] appendAttributedString:attributedString];
 		theEnd.location+=[formatedMessage length];
 		[serverOutput scrollRangeToVisible:theEnd];
-	}else{
+	} else {
 		// Append string to textview
 		[[serverOutput textStorage] appendAttributedString:attributedString];
 	}
@@ -481,7 +481,7 @@ IRCConnection *ircConnection;
 	
 	// Join rooms in the autojoin list
 	int index;
-	for (index = 0; index < [autoJoin.autojoinArray count]; index++){
+	for (index = 0; index < [autoJoin.autojoinArray count]; index++) {
 		NSArray *tempArray = [autoJoin.autojoinArray objectAtIndex:index];
 		if ([[tempArray objectAtIndex:1] intValue] != 0)
 			[self joinRoom:[tempArray objectAtIndex:0]];
@@ -506,7 +506,7 @@ IRCConnection *ircConnection;
 #pragma mark Dealloc Memory
 
 // deallocate used memory
--(void)dealloc
+- (void)dealloc
 {
 	[lua release];
 	[ircConnection release];

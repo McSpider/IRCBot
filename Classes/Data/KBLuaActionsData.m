@@ -91,13 +91,13 @@
 	
 	// Check if a action by that name already exists
 	int i;
-	for (i = 0; i < [self.actionsArray count]; i++){
+	for (i = 0; i < [self.actionsArray count]; i++) {
 		KBLuaAction *tempAction = [self.actionsArray objectAtIndex:i];
 		if ([tempAction.name isEqualToString:[actionName stringValue]]){
 			[sheetErrorMessage setStringValue:@"A action with that name already exits."];
 			return;
 		}
-		if ([tempAction.name isEqualToString:filename]){
+		if ([tempAction.name isEqualToString:filename]) {
 			[sheetErrorMessage setStringValue:@"A action with that file name already exits."];
 			return;
 		}
@@ -131,7 +131,8 @@
 	return [self.actionsArray count];
 }
 
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)rowIndex{
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)rowIndex
+{
 	KBLuaAction *tempAction = [self.actionsArray objectAtIndex:rowIndex];
 	
 	if ([[tableColumn identifier] intValue] == 0)
@@ -143,7 +144,8 @@
 	return @"";
 }
 
--(void)tableViewSelectionDidChange:(NSNotification *)notification{
+- (void)tableViewSelectionDidChange:(NSNotification *)notification
+{
 	if ([actionsView selectedRow] == -1)
 		[removeActionButton setEnabled:NO];
 	else
@@ -152,7 +154,8 @@
 	actionIndex = [actionsView selectedRow];	
 }
 
--(void)tableView:(NSTableView *)tableView setObjectValue:(NSObject *)object forTableColumn:(NSTableColumn *)tableColumn row:(int)rowIndex{
+- (void)tableView:(NSTableView *)tableView setObjectValue:(NSObject *)object forTableColumn:(NSTableColumn *)tableColumn row:(int)rowIndex
+{
 	KBLuaAction *tempAction = [self.actionsArray objectAtIndex:rowIndex];
 	if ([[tableColumn identifier] intValue] == 0)
 		[tempAction setName:(NSString *)object];
@@ -162,7 +165,8 @@
 		[tempAction setRestricted:[(NSNumber *)object boolValue]];
 }
 
--(void)dealloc{
+- (void)dealloc
+{
 	[actionsArray release];
 	[super dealloc];
 }

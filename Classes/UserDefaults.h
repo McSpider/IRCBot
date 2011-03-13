@@ -43,11 +43,11 @@
 }
 
 // Setup
--(IBAction)finishInitialSetup:(id)sender;
--(IBAction)savePreferences:(id)sender;
--(IBAction)resetApplication:(id)sender;
+- (IBAction)finishInitialSetup:(id)sender;
+- (IBAction)savePreferences:(id)sender;
+- (IBAction)resetApplication:(id)sender;
 
--(void)setFirstStart:(BOOL)boolean;
--(BOOL)firstStart;
+- (void)setFirstStart:(BOOL)boolean;
+- (BOOL)firstStart;
 
 @end

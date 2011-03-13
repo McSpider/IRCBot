@@ -12,7 +12,7 @@
 @implementation  KBScrollView
 
 
-+(Class)_verticalScrollerClass
++ (Class)_verticalScrollerClass
 {
 	return [KBScroller class];
 }

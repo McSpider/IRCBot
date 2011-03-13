@@ -112,12 +112,12 @@
 	return roomsArray;
 }
 
--(NSArray *)getTriggers
+- (NSArray *)getTriggers
 {	
 	return triggers;
 }
 
--(NSString *)getNickname
+- (NSString *)getNickname
 {	
 	NSString *nick = [connectionData objectAtIndex:2];
 	return nick;
@@ -201,15 +201,13 @@
 	NSString *filePath = [[NSString stringWithFormat:@"~/Library/Application Support/IRCBot Actions/%@",fileName] stringByExpandingTildeInPath];
 	
 	error = luaL_loadfile(luaState, [filePath fileSystemRepresentation]);
-	if(error)
-	{
+	if (error) {
 		NSLog(@"luaL_loadfile failed: %s", lua_tostring(luaState, -1));
 		lua_pop(luaState, 1); /* pop error message from stack */
 		exit(0);
 	} 
 	error = lua_pcall(luaState, 0, 0, 0);
-	if(error)
-	{
+	if (error) {
 		NSLog(@"Lua parse load failed: %s", lua_tostring(luaState, -1));
 		lua_pop(luaState, 1); /* pop error message from stack */
 		exit(0);

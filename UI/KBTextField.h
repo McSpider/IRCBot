@@ -16,7 +16,10 @@
 	NSString *popUpMenuTitle;
 	BOOL displaysMenu;
 	int maxPopUpItems;
+	
+	IBOutlet id delegate;
 }
+
 
 - (void)setDisplaysMenu:(BOOL)boolean;
 - (void)setMaxPopUpItems:(int)max;
@@ -27,6 +30,7 @@
 - (NSString *)popUpMenuTitle;
 
 
-- (void)addItemToPopupWithTitle:(NSString *)title;
+- (void)addPopUpItemWithTitle:(NSString *)title;
+- (void)removePopUpItemAtIndex:(int)index;
 
 @end

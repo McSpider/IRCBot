@@ -13,6 +13,6 @@
 	
 }
 
-+(Class)_verticalScrollerClass;
++ (Class)_verticalScrollerClass;
 
 @end

@@ -17,7 +17,8 @@
 @synthesize enabled;
 
 
-- (id)init{
+- (id)init
+{
 	self = [super init];
 	if (self != nil) {
 		self.name = [[NSString alloc] initWithString:@"Untitled"];

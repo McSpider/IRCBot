@@ -22,14 +22,15 @@
 	
 	// Check if this is the first start of the application
 	// If it is show a setup window
-	if (![self firstStart]){
+	if (![self firstStart]) {
 		// Start modal session and open the window
 		//session = [NSApp beginModalSessionForWindow:startWindow];
 		//[NSApp runModalSession:session];
+		
 		[startWindow makeFirstResponder:uNameField];
 		[startWindow center];
 		[startWindow makeKeyAndOrderFront:self];		
-	}else{
+	} else {
 		[mainWindow makeKeyAndOrderFront:self];
 		[prefs setPane:0];
 		
@@ -39,25 +40,27 @@
 		[usernameField setStringValue:savedUsername];
 		
 		// Check where the password is stored
-		if (![standardUserDefaults boolForKey:@"pass_in_plist"]){
+		if (![standardUserDefaults boolForKey:@"pass_in_plist"]) {
 			EMGenericKeychainItem *keychainItem = [EMGenericKeychainItem genericKeychainItemForService:@"IRCBot" withUsername:savedUsername];
-			if (keychainItem != nil)
+			if (keychainItem != nil) {
 				[passwordField setStringValue:[NSString stringWithFormat:@"%@",[keychainItem password]]];
-			else
+			} else {
 				NSRunAlertPanel(@"Failed to retrive password from keychain",@"IRCBot couldn't access your irc password stored in the keychain.",@"OK",nil,nil);
-		}else{
-			if ([standardUserDefaults objectForKey:@"password"]){
+			}
+		} else {
+			if ([standardUserDefaults objectForKey:@"password"]) {
 				NSString* aStr = [[NSString alloc] initWithData:[standardUserDefaults objectForKey:@"password"] encoding:NSUTF8StringEncoding];
 				[passwordField setStringValue:aStr];
 				[aStr release];
-			}else
+			} else {
 				NSRunAlertPanel(@"Failed to retrive password from the .plist",@"Please re-enter the password in the IRCBot preferences.",@"OK",nil,nil);
+			}
 		}
 	}
 }
 
 // Save all the initial setup data to the .plist
--(IBAction)finishInitialSetup:(id)sender
+- (IBAction)finishInitialSetup:(id)sender
 {		
 	// Check if user input is valid
 	if ([[uNameField stringValue] isEqualToString:@""]) {
@@ -119,7 +122,7 @@
 {	
 	// Ask user if he's sure
 	int answer = NSRunAlertPanel(@"Are you sure you want to reset IRCBot?",@"This will remove all your settings.", @"Cancel",@"Reset", nil);
-	if(answer != NSAlertDefaultReturn){
+	if (answer != NSAlertDefaultReturn) {
 		// Close all windows
 		[mainWindow orderOut:self];
 		[prefWindow orderOut:self];
@@ -172,8 +175,9 @@
 - (BOOL)firstStart
 {
 	NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-	if (standardUserDefaults)
+	if (standardUserDefaults) {
 		return [standardUserDefaults boolForKey:@"setup"];
+	}
 	return NO;
 }
 
@@ -221,7 +225,7 @@
 - (BOOL)windowShouldClose:(NSWindow *)sender
 {
 	// If window closed is the prefrences window then save the prefs
-	if (sender == prefWindow){
+	if (sender == prefWindow) {
 		[self savePreferences:nil];
 		return YES;
 	}

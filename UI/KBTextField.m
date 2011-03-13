@@ -19,7 +19,7 @@
 - (id)initWithCoder:(NSCoder *)decoder
 {
 	self = [super initWithCoder:decoder];
-	if (self != nil){
+	if (self != nil) {
 		NSRect popupRect = NSMakeRect(0, 0, 25, 22);
 		displaysMenu = NO;
 		maxPopUpItems = 10;
@@ -61,11 +61,11 @@
 
 - (void)popupItemWasSelected:(id)sender
 {
-	NSLog(@"Item Was Selected: (%@)",sender);
 	[self setStringValue:[sender representedObject]];
+	//[self sendAction:@selector(popupItemWasSelected:) to:delegate];
 }
 
-- (void)addItemToPopupWithTitle:(NSString *)title
+- (void)addPopUpItemWithTitle:(NSString *)title
 {
 	NSMenuItem *popUpItem = [[NSMenuItem alloc] initWithTitle:title action:@selector(popupItemWasSelected:) keyEquivalent:@""];
 	[popUpItem setRepresentedObject:title];
@@ -77,6 +77,11 @@
 	
 	[popupMenu addItem:popUpItem];
 	[popUpItem release];
+}
+
+- (void)removePopUpItemAtIndex:(int)index
+{
+	[popupMenu removeItemAtIndex:index+2];
 }
 
 
@@ -125,14 +130,14 @@
 	[self display];
 }
 
-- (void)setMaxPopUpItems:(int)max
-{
-	maxPopUpItems = max;
-}
-
 - (BOOL)displaysMenu
 {
 	return displaysMenu;
+}
+
+- (void)setMaxPopUpItems:(int)max
+{
+	maxPopUpItems = max;
 }
 
 - (int)maxPopUpItems
@@ -144,7 +149,8 @@
 #pragma mark -
 #pragma mark Cleanup
 
--(void)dealloc{	
+- (void)dealloc
+{
 	[super dealloc];
 	[popupMenu release];
 	[endcapButton release];

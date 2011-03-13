@@ -25,7 +25,7 @@
 - (void)addRoom:(NSString *)room
 {
 	int index = [self indexOfRoom:room];
-	if (index == -1){
+	if (index == -1) {
 		IRCRoom *tempRoom = [[IRCRoom alloc] init];
 		tempRoom.name = room;
 		[self.roomArray addObject:tempRoom];
@@ -36,7 +36,7 @@
 - (void)removeRoom:(NSString *)room
 {
 	int index;
-	if ((index = [self indexOfRoom:room]) != -1){
+	if ((index = [self indexOfRoom:room]) != -1) {
 		[self.roomArray removeObjectAtIndex:index];
 		[roomView reloadData];
 	}
@@ -52,7 +52,7 @@
 - (void)setStatus:(NSString *)status forRoom:(NSString *)room
 {
 	int index;
-	if ((index = [self indexOfRoom:room]) != -1){
+	if ((index = [self indexOfRoom:room]) != -1) {
 		IRCRoom *tempRoom = [self.roomArray objectAtIndex:index];
 		tempRoom.status = status;
 		[roomView reloadData];
@@ -66,9 +66,9 @@
 - (BOOL)connectedToRoom:(NSString *)room
 {
 	int index;
-	if ((index = [self indexOfRoom:room]) != -1){
+	if ((index = [self indexOfRoom:room]) != -1) {
 		IRCRoom *tempRoom = [self.roomArray objectAtIndex:index];
-		if ([tempRoom.status isEqualToString:@"Normal"]){
+		if ([tempRoom.status isEqualToString:@"Normal"]) {
 			return YES;
 		}
 	}
@@ -78,9 +78,9 @@
 - (int)indexOfRoom:(NSString *)room
 {
 	int index;
-	for (index = 0; index < [self.roomArray count]; index++){
+	for (index = 0; index < [self.roomArray count]; index++) {
 		IRCRoom *tempRoom = [self.roomArray objectAtIndex:index];
-		if ([tempRoom.name isEqualToString:room]){
+		if ([tempRoom.name isEqualToString:room]) {
 			return index;
 		}
 	}
@@ -105,7 +105,7 @@
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)column row:(int)row
 {	
 	IRCRoom *tempRoom = [self.roomArray objectAtIndex:row];
-	if ([[column identifier] intValue] == 0){
+	if ([[column identifier] intValue] == 0) {
 		if ([tempRoom.status isEqualToString:@"None"])
 			return [NSImage imageNamed:@"Status_None.png"];
 		else if ([tempRoom.status isEqualToString:@"Normal"])
@@ -114,7 +114,7 @@
 			return [NSImage imageNamed:@"Status_Alert.png"];
 		else
 			return [NSImage imageNamed:@"Status_None.png"];
-	}else if ([[column identifier] intValue] == 1){
+	} else if ([[column identifier] intValue] == 1) {
 		return tempRoom.name;
 	}
 	return @"#null";
@@ -125,7 +125,8 @@
 	return NO;
 }
 
-- (void)dealloc{
+- (void)dealloc
+{
 	[roomArray release];
 	[super dealloc];
 }

@@ -12,7 +12,8 @@
 
 @implementation PrefController
 
--(IBAction)changePanes:(id)sender{
+- (IBAction)changePanes:(id)sender
+{
 	NSView *view = nil;
 	BOOL changePane = YES;
 	
@@ -54,7 +55,7 @@
 	}
 	
 	// Don't replace the contents of a pane if they're the same
-	if (changePane){
+	if (changePane) {
 		NSRect windowFrame = [window frame];
 		windowFrame.origin.y = NSMaxY([window frame]) - ([view frame].size.height + WINDOW_TOOLBAR_HEIGHT);
 		windowFrame.origin.x = windowFrame.origin.x + (windowFrame.size.width-[view frame].size.width)/2;
@@ -62,7 +63,7 @@
 		windowFrame.size.width = [view frame].size.width;
 		
 		
-		if ([[contentView subviews] count] != 0){
+		if ([[contentView subviews] count] != 0) {
 			[[[contentView subviews] objectAtIndex:0] removeFromSuperview];
 		}
 		
@@ -75,7 +76,8 @@
 	}
 }
 
--(void)setPane:(int)index{
+- (void)setPane:(int)index
+{
 	NSView *view = nil;
 	
 	switch (index) {
@@ -110,7 +112,7 @@
 	windowFrame.size.width = [view frame].size.width;
 	windowFrame.origin.y = NSMaxY([window frame]) - ([view frame].size.height + WINDOW_TOOLBAR_HEIGHT);
 	
-	if ([[contentView subviews] count] != 0){
+	if ([[contentView subviews] count] != 0) {
 		[[[contentView subviews] objectAtIndex:0] removeFromSuperview];
 	}
 	

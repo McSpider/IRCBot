@@ -10,62 +10,64 @@
 
 @implementation KBScroller
 
--(id)initWithFrame:(NSRect)frameRect
+- (id)initWithFrame:(NSRect)frameRect
 {
-	if ((self = [super initWithFrame:frameRect])){
+	if ((self = [super initWithFrame:frameRect])) {
 		[self setArrowsPosition:NSScrollerArrowsNone];
 		
-		if ([self bounds].size.width / [self bounds].size.height < 1)
+		if ([self bounds].size.width / [self bounds].size.height < 1) {
 			isVertical = YES;
-		else
+		} else {
 			isVertical = NO;
+		}
 	}
 	return self;
 }
 
--(id)initWithCoder:(NSCoder *)decoder
+- (id)initWithCoder:(NSCoder *)decoder
 {
-	if ((self = [super initWithCoder:decoder])){
+	if ((self = [super initWithCoder:decoder])) {
 		[self setArrowsPosition:NSScrollerArrowsNone];	
 		
-		if ([self bounds].size.width / [self bounds].size.height < 1)
+		if ([self bounds].size.width / [self bounds].size.height < 1) {
 			isVertical = YES;
-		else
+		} else {
 			isVertical = NO;
+		}
 	}
 	return self;
 }
 
-+(CGFloat)scrollerWidth
++ (CGFloat)scrollerWidth
 {
 	return 12.0f;
 }
 
-+(CGFloat)scrollerWidthForControlSize:(NSControlSize)controlSize
++ (CGFloat)scrollerWidthForControlSize:(NSControlSize)controlSize
 {
 	return 12.0f;
 }
 
-+(CGFloat)scrollerHeight
++ (CGFloat)scrollerHeight
 {
 	return 12.0f;
 }
 
-+(CGFloat)scrollerHeightForControlSize:(NSControlSize)controlSize
++ (CGFloat)scrollerHeightForControlSize:(NSControlSize)controlSize
 {
 	return 12.0f;
 }
 
--(void)drawRect:(NSRect)aRect
+- (void)drawRect:(NSRect)aRect
 {
 	// Get the containing ScrollViews background color and fill the rect
 	// This works although Xcode complains, Fixable?
 	[[[self superview] backgroundColor] set];
 	NSRectFill([self bounds]);
 	
-	if ([self knobProportion] > 0.0){
+	if ([self knobProportion] > 0.0) {
 		
-		if (isVertical){
+		if (isVertical) {
 			NSRect knobRect;
 			NSRect slotRect = [self rectForPart:NSScrollerKnobSlot];			
 		
@@ -80,13 +82,14 @@
 			NSBezierPath *bz = [NSBezierPath bezierPathWithRoundedRect:knobRect xRadius:4 yRadius:4];
 			[bz addClip];
 			
-			if([[[self superview] window] isKeyWindow])
+			if([[[self superview] window] isKeyWindow]) {
 				[[NSColor colorWithCalibratedRed:0.70 green:0.70 blue:0.70 alpha:1.00] set];
-			else
+			} else {
 				[[NSColor colorWithCalibratedRed:0.80 green:0.80 blue:0.80 alpha:1.00] set];
+			}
 
 			NSRectFill(knobRect);
-		}else{
+		} else {
 			NSRect knobRect;
 			NSRect slotRect = [self rectForPart:NSScrollerKnobSlot];			
 			
@@ -101,10 +104,11 @@
 			NSBezierPath *bz = [NSBezierPath bezierPathWithRoundedRect:knobRect xRadius:4 yRadius:4];
 			[bz addClip];
 
-			if([[[self superview] window] isKeyWindow])
+			if([[[self superview] window] isKeyWindow]) {
 				[[NSColor colorWithCalibratedRed:0.70 green:0.70 blue:0.70 alpha:1.00] set];
-			else
+			} else {
 				[[NSColor colorWithCalibratedRed:0.80 green:0.80 blue:0.80 alpha:1.00] set];
+			}
 			
 			NSRectFill(knobRect);
 		}
