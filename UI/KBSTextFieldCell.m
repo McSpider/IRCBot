@@ -16,9 +16,10 @@ static NSImage *leftCap, *centerFill, *rightCap, *leftCapD, *centerFillD, *right
 #pragma mark -
 #pragma mark Initialization
 
-+ (void)initialize
+- (id)initWithCoder:(NSCoder *)decoder
 {
-	if ([KBSTextFieldCell class] == [self class]) {
+	self = [super initWithCoder:decoder];
+	if (self != nil) {
 		NSBundle *bundle = [NSBundle bundleForClass:[KBSTextFieldCell class]];
 		leftCap = [[NSImage alloc] initWithContentsOfFile:[bundle pathForImageResource:@"KBSTextFieldLC.png"]];
 		centerFill = [[NSImage alloc] initWithContentsOfFile:[bundle pathForImageResource:@"KBSTextFieldCF.png"]];
@@ -28,6 +29,7 @@ static NSImage *leftCap, *centerFill, *rightCap, *leftCapD, *centerFillD, *right
 		centerFillD = [[NSImage alloc] initWithContentsOfFile:[bundle pathForImageResource:@"KBSTextFieldCF_disabled.png"]];
 		rightCapD = [[NSImage alloc] initWithContentsOfFile:[bundle pathForImageResource:@"KBSTextFieldRC_disabled.png"]];
 	}
+	return self;
 }
 
 

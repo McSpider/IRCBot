@@ -23,6 +23,8 @@
 
 @interface IRCConnection : NSObject {
 	id ircDelegate;	
+	
+	AsyncSocket *ircSocket;
 }
 
 - (id)initWithDelegate:(id)delegate;

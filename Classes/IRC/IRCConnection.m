@@ -13,11 +13,6 @@
 
 -(NSString*)getMessageType:(NSString*)input;
 
-BOOL Debugging;
-
-// IRC connection
-AsyncSocket *ircSocket;
-
 @end
 
 
@@ -43,7 +38,6 @@ AsyncSocket *ircSocket;
 		ircDelegate = delegate;
 		ircSocket = [[AsyncSocket alloc] initWithDelegate:self];
 		[ircSocket setRunLoopModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
-		Debugging = NO;
 	}
 	return self;	
 }

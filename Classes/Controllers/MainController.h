@@ -45,6 +45,12 @@
 	IBOutlet KBAutojoinData *autoJoin;	
 	
 	LuaController *lua;
+	
+	
+	BOOL Debugging;
+	// IRC connection
+	NSMutableArray* connectionData;
+	IRCConnection *ircConnection;
 }
 
 // Connect to or disconnect IRC connection

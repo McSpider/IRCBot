@@ -24,8 +24,8 @@
 	// If it is show a setup window
 	if (![self firstStart]) {
 		// Start modal session and open the window
-		//session = [NSApp beginModalSessionForWindow:startWindow];
-		//[NSApp runModalSession:session];
+		/*session = [NSApp beginModalSessionForWindow:startWindow];
+		[NSApp runModalSession:session];*/
 		
 		[startWindow makeFirstResponder:uNameField];
 		[startWindow center];
@@ -79,6 +79,7 @@
 		[errorMessage setStringValue:@"Please fill in a valid hostmask"];
 		return;
 	}	
+	
 		
 	NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
 	if (standardUserDefaults) {
@@ -100,7 +101,7 @@
 	
 	
 	// End modal session and save settings
-	//[NSApp endModalSession:session];
+	/*[NSApp endModalSession:session];*/
 	[self savePreferences:self];
 	
 	// Close the setup window and show the main window

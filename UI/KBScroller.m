@@ -9,26 +9,13 @@
 #import "KBScroller.h"
 
 @implementation KBScroller
+@synthesize usesAlternateStyle;
 
-- (id)initWithFrame:(NSRect)frameRect
-{
-	if ((self = [super initWithFrame:frameRect])) {
-		[self setArrowsPosition:NSScrollerArrowsNone];
-		
-		if ([self bounds].size.width / [self bounds].size.height < 1) {
-			isVertical = YES;
-		} else {
-			isVertical = NO;
-		}
-	}
-	return self;
-}
 
 - (id)initWithCoder:(NSCoder *)decoder
 {
 	if ((self = [super initWithCoder:decoder])) {
 		[self setArrowsPosition:NSScrollerArrowsNone];	
-		
 		if ([self bounds].size.width / [self bounds].size.height < 1) {
 			isVertical = YES;
 		} else {
@@ -37,6 +24,86 @@
 	}
 	return self;
 }
+
+- (void)drawRect:(NSRect)aRect
+{		
+	NSGraphicsContext *ctx = [NSGraphicsContext currentContext];
+	
+	
+	// Background
+	if (usesAlternateStyle) {
+		[ctx saveGraphicsState];
+		
+		NSGradient *outerGradient = [[NSGradient alloc] initWithColorsAndLocations:
+																 [NSColor colorWithDeviceWhite:0.96f alpha:1.0f], 0.0f, 
+																 [NSColor colorWithDeviceWhite:0.92f alpha:1.0f], 1.0f, 
+																 nil];
+		
+		[outerGradient drawInRect:[self bounds] angle:0.0f];
+		[outerGradient release];
+		
+		NSBezierPath *line = [[NSBezierPath alloc] init];
+		[line moveToPoint:NSMakePoint(0, 0)];
+		[line lineToPoint:NSMakePoint(0, [self bounds].size.height)];
+		[line setLineWidth:1];
+		[[NSColor colorWithDeviceWhite:0.6f alpha:1.0f] set];
+		[line stroke];
+		[line release];
+		
+		[ctx restoreGraphicsState];
+	}
+	else {
+		[[(NSScrollView *)[self superview] backgroundColor] set];
+		NSRectFill([self bounds]);
+	}
+	
+	// Slot
+  [ctx saveGraphicsState];
+	
+	NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:NSInsetRect([self bounds], 4, 4) xRadius:4 yRadius:4];
+	[path addClip];
+	[[NSColor colorWithCalibratedWhite:0.8 alpha:1.0] set];
+	NSRectFill([self bounds]);
+	
+	[ctx restoreGraphicsState];
+	
+	
+	// Knob
+	[ctx saveGraphicsState];
+	
+	[self drawKnob];
+	
+	[ctx restoreGraphicsState];
+}
+
+- (void)drawKnob
+{	
+	if (isVertical) {
+		NSRect knobRect = [self rectForPart:NSScrollerKnob];
+		
+		knobRect = NSInsetRect(knobRect, 4, 0);
+		
+		NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:knobRect xRadius:4 yRadius:4];
+		[path addClip];
+		
+		[[NSColor colorWithCalibratedWhite:0.5 alpha:1.0] set];
+		
+		NSRectFill(knobRect);
+	}
+	else {
+		NSRect knobRect = [self rectForPart:NSScrollerKnob];
+		
+		knobRect = NSInsetRect(knobRect, 0, 4);
+		
+		NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:knobRect xRadius:4 yRadius:4];
+		[path addClip];
+		
+		[[NSColor colorWithCalibratedWhite:0.5 alpha:1.0] set];
+		
+		NSRectFill(knobRect);
+	}
+}
+
 
 + (CGFloat)scrollerWidth
 {
@@ -58,61 +125,5 @@
 	return 12.0f;
 }
 
-- (void)drawRect:(NSRect)aRect
-{
-	// Get the containing ScrollViews background color and fill the rect
-	// This works although Xcode complains, Fixable?
-	[[[self superview] backgroundColor] set];
-	NSRectFill([self bounds]);
-	
-	if ([self knobProportion] > 0.0) {
-		
-		if (isVertical) {
-			NSRect knobRect;
-			NSRect slotRect = [self rectForPart:NSScrollerKnobSlot];			
-		
-			float knobHeight = roundf(slotRect.size.height * [self knobProportion]);
-		
-			if (knobHeight < 25)
-				knobHeight = 25;
-		
-			float knobY = slotRect.origin.y + roundf((slotRect.size.height - knobHeight) * [self floatValue]);
-			knobRect = NSMakeRect(1, knobY, 8, knobHeight);
-		
-			NSBezierPath *bz = [NSBezierPath bezierPathWithRoundedRect:knobRect xRadius:4 yRadius:4];
-			[bz addClip];
-			
-			if([[[self superview] window] isKeyWindow]) {
-				[[NSColor colorWithCalibratedRed:0.70 green:0.70 blue:0.70 alpha:1.00] set];
-			} else {
-				[[NSColor colorWithCalibratedRed:0.80 green:0.80 blue:0.80 alpha:1.00] set];
-			}
-
-			NSRectFill(knobRect);
-		} else {
-			NSRect knobRect;
-			NSRect slotRect = [self rectForPart:NSScrollerKnobSlot];			
-			
-			float knobWidth = roundf(slotRect.size.width * [self knobProportion]);
-			
-			if (knobWidth < 25)
-				knobWidth = 25;
-			
-			float knobX = slotRect.origin.x + roundf((slotRect.size.width - knobWidth) * [self floatValue]);
-			knobRect = NSMakeRect(knobX, 4, knobWidth, 8);
-			
-			NSBezierPath *bz = [NSBezierPath bezierPathWithRoundedRect:knobRect xRadius:4 yRadius:4];
-			[bz addClip];
-
-			if([[[self superview] window] isKeyWindow]) {
-				[[NSColor colorWithCalibratedRed:0.70 green:0.70 blue:0.70 alpha:1.00] set];
-			} else {
-				[[NSColor colorWithCalibratedRed:0.80 green:0.80 blue:0.80 alpha:1.00] set];
-			}
-			
-			NSRectFill(knobRect);
-		}
-	}
-}
 
 @end

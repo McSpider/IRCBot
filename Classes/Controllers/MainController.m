@@ -16,11 +16,6 @@
 - (void)parseServerOutput:(NSString *)input type:(NSString *)type;
 - (NSString *)escapeString:(NSString *)string;
 
-BOOL Debugging;
-
-// IRC connection
-NSMutableArray* connectionData;
-IRCConnection *ircConnection;
 @end
 
 

@@ -13,6 +13,5 @@
 	
 }
 
-+ (Class)_verticalScrollerClass;
 
 @end

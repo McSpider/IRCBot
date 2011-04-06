@@ -12,9 +12,10 @@
 @implementation  KBScrollView
 
 
-+ (Class)_verticalScrollerClass
-{
-	return [KBScroller class];
-}
+/*- (void)tile {
+	[super tile];
+	[[self contentView] setFrame:[self bounds]];
+}*/
+
 
 @end

@@ -11,6 +11,10 @@
 
 @interface KBScroller : NSScroller {
 	BOOL isVertical;
+	BOOL usesAlternateStyle;
 }
+
+@property BOOL usesAlternateStyle;
+
 
 @end
