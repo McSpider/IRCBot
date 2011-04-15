@@ -36,21 +36,17 @@
 	[mainWindow setShowsResizeIndicator:NO];
 	[prefWindow setShowsResizeIndicator:NO];
 	[prefWindow center];
-	[toolBar setSelectedItemIdentifier:@"Account_Settings"];
+	[toolBar setSelectedItemIdentifier:@"Default"];
 	
 	if (![self isSetup]) {
-		// Start modal session and open the window
-		/*session = [NSApp beginModalSessionForWindow:startWindow];
-		 [NSApp runModalSession:session];*/
-		
-		[startWindow makeFirstResponder:newUsernameField];
-		[startWindow center];
-		[startWindow makeKeyAndOrderFront:self];		
-		return;
+		// Show the hostmask pane
+		[[NSUserDefaults standardUserDefaults] setObject:@"irc.freenode.net" forKey:@"irc_server"];
+		[[NSUserDefaults standardUserDefaults] setObject:@"@" forKey:@"triggers"];
+		[self setIsSetup:YES];
 	}
 	
 	[mainWindow makeKeyAndOrderFront:self];
-	[self setPane:0];
+	[self setPane:1];
 	
 	// Get irc account data
 	self.username = [[NSUserDefaults standardUserDefaults] objectForKey:@"username"];		
@@ -64,74 +60,12 @@
 		if (keychainItem != nil) {
 			self.password = [NSString stringWithFormat:@"%@",[keychainItem password]];
 		}
-		else {
-			NSRunAlertPanel(@"Failed to retrive password from keychain",@"IRCBot couldn't access your irc password stored in the keychain.",@"OK",nil,nil);
-		}
 	}
 	else {
 		self.password = [[[NSString alloc] initWithData:[[NSUserDefaults standardUserDefaults] objectForKey:@"password"] encoding:NSUTF8StringEncoding] autorelease];
 	}
 }
 
-// Save all the initial setup data to the .plist
-- (IBAction)finishInitialSetup:(id)sender
-{		
-	// Check if user input is valid
-	if ([[newUsernameField stringValue] length] == 0) {
-		[errorMessage setStringValue:@"Please fill in the username field"];
-		return;
-	}
-	if ([[newNicknameField stringValue] length] == 0) {
-		[errorMessage setStringValue:@"Please fill in the nickname field"];
-		return;
-	}
-	if ([[newRealnameField stringValue] length] == 0) {
-		[errorMessage setStringValue:@"Please fill in a real name field"];
-		return;
-	}
-	if ([[newHostmaskField stringValue] length] == 0 || ![[newHostmaskField stringValue] isMatchedByRegex:@"^\\S+@\\S+\\.\\S+$"]) {
-		[errorMessage setStringValue:@"Please fill in a valid hostmask"];
-		return;
-	}	
-	
-	
-	NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-	if (standardUserDefaults) {
-		[standardUserDefaults setObject:[newUsernameField stringValue] forKey:@"username"];
-		[standardUserDefaults setObject:[newRealnameField stringValue] forKey:@"realname"];
-		[standardUserDefaults setObject:[newNicknameField stringValue] forKey:@"nickname"];
-		[EMGenericKeychainItem addGenericKeychainItemForService:@"IRCBot" withUsername:[newUsernameField stringValue] password:[newPasswordField stringValue]];
-		self.password = [newPasswordField stringValue];
-		self.username = [newUsernameField stringValue];
-		self.realname = [newRealnameField stringValue];
-		self.nickname = [newNicknameField stringValue];
-		[autojoinData addRoom:@"#jzbot" autojoin:YES];
-		
-		[standardUserDefaults setInteger:1 forKey:@"timeout"];
-		[standardUserDefaults setObject:[NSString stringWithFormat:@"@",[newNicknameField stringValue]] forKey:@"triggers"];
-		[standardUserDefaults setObject:@"irc.freenode.net" forKey:@"irc_server"];
-		[standardUserDefaults synchronize];
-	}
-	[hostmasksData addHostmask:[newHostmaskField stringValue] block:NO];
-	[self setIsSetup:YES];
-	
-	// End modal session and save settings
-	/*[NSApp endModalSession:session];*/
-	[self savePreferences:self];
-	
-	// Close the setup window and show the main window
-	[startWindow orderOut:self];
-	[mainWindow center];
-	[mainWindow setAlphaValue:0.0];
-	[mainWindow makeKeyAndOrderFront:self];
-	[self setPane:0];
-	
-	// Fade in the main window
-	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:mainWindow, NSViewAnimationTargetKey, NSViewAnimationFadeInEffect,NSViewAnimationEffectKey,nil];
-	NSViewAnimation *animation = [[NSViewAnimation alloc] initWithViewAnimations:[NSArray arrayWithObject:dict]];
-	[animation startAnimation];
-	[animation release];	
-}
 
 //Reset app and show setup window 
 - (IBAction)resetApplication:(id)sender
@@ -140,23 +74,19 @@
 	if (answer == NSAlertDefaultReturn)
 		return;
 	
-	[mainWindow orderOut:self];
 	[prefWindow orderOut:self];
 	
-	NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-	[standardUserDefaults removePersistentDomainForName:@"com.mcspider.ircbot"];
-	[standardUserDefaults synchronize];
+	[[NSUserDefaults standardUserDefaults] removePersistentDomainForName:@"com.mcspider.ircbot"];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+	
+	[[NSUserDefaults standardUserDefaults] setObject:@"irc.freenode.net" forKey:@"irc_server"];
+	[[NSUserDefaults standardUserDefaults] setObject:@"@" forKey:@"triggers"];
 	
 	// Clear textFields
 	self.password = nil;
 	self.username = nil;
 	self.nickname = nil;
 	self.realname = nil;
-	[newPasswordField setStringValue:nil];
-	[newUsernameField setStringValue:nil];
-	[newNicknameField setStringValue:nil];
-	[newRealnameField setStringValue:nil];
-	[newHostmaskField setStringValue:nil];
 	
 	// Clear hostmask data
 	[hostmasksData clearData];
@@ -168,13 +98,6 @@
 	[[NSFileManager defaultManager] removeItemAtPath:actionsPath error:NULL];
 	[[NSFileManager defaultManager] copyItemAtPath:defaultActions toPath:actionsPath error:NULL];
 	
-	// Start modal session and open setupwindow.
-	//session = [NSApp beginModalSessionForWindow:startWindow];
-	//[NSApp runModalSession:session];
-	[startWindow makeFirstResponder:newUsernameField];
-	[startView selectFirstTabViewItem:self];
-	[startWindow center];	
-	[startWindow makeKeyAndOrderFront:self];
 }
 
 // Set the setup bool in the .plist to true
@@ -249,12 +172,6 @@
 	BOOL changePane = YES;
 	
 	switch ([sender tag]) {
-		case 0:
-			if ([[prefWindow title] isEqualToString:@"Account"])
-				changePane = NO;
-			[prefWindow setTitle:@"Account"];
-			view = accountView;
-			break;
 		case 1:
 			if ([[prefWindow title] isEqualToString:@"General"])
 				changePane = NO;
@@ -280,8 +197,8 @@
 			view = roomsView;
 			break;
 		default:
-			[prefWindow setTitle:@"Account"];
-			view = accountView;
+			[prefWindow setTitle:@"General"];
+			view = generalView;
 			break;
 	}
 	
@@ -311,10 +228,6 @@
 	NSView *view = nil;
 	
 	switch (index) {
-		case 0:
-			[prefWindow setTitle:@"Account"];
-			view = accountView;
-			break;
 		case 1:
 			[prefWindow setTitle:@"General"];
 			view = generalView;
@@ -332,8 +245,8 @@
 			view = roomsView;
 			break;
 		default:
-			[prefWindow setTitle:@"Account"];
-			view = accountView;
+			[prefWindow setTitle:@"General"];
+			view = generalView;
 			break;
 	}
 	

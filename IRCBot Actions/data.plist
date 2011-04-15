@@ -27,5 +27,10 @@
 		<string>version.lua</string>
 		<false/>
 	</array>
+	<array>
+		<string>test</string>
+		<string>test.lua</string>
+		<true/>
+	</array>
 </array>
 </plist>

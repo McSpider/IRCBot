@@ -94,12 +94,12 @@
 		}
 	}
 	
-	// Copy file to ~/AppSupport/IRCBot/
+	// Copy file to ~/AppSupport/IRCBot Actions/
 	NSFileManager *fileManager = [NSFileManager defaultManager];
-	NSString *folderPath = @"~/Library/Application Support/IRCBot/";
+	NSString *folderPath = @"~/Library/Application Support/IRCBot Actions/";
 	
 	if (![fileManager fileExistsAtPath:[NSString stringWithFormat:@"%@/%@",folderPath,filename]])
-		[fileManager copyItemAtPath:[[actionPathControl URL] absoluteString] toPath:[NSString stringWithFormat:@"%@/%@",filename] error:NULL];		
+		[fileManager copyItemAtPath:url toPath:[NSString stringWithFormat:@"%@/%@",folderPath,filename] error:NULL];		
 	
 	// Add reference to data.plist
 	[self addAction:filename name:[actionName stringValue] restricted:[restrictAction state]];

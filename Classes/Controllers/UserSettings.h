@@ -13,30 +13,22 @@
 #import "KBAutojoinData.h"
 
 @interface UserSettings : NSObject {
-	IBOutlet NSView *accountView;
 	IBOutlet NSView *generalView;
 	IBOutlet NSView *hostmasksView;
-	IBOutlet NSView *actionsView;	
+	IBOutlet NSView *actionsView;
 	IBOutlet NSView *roomsView;
 	
 	IBOutlet NSWindow *mainWindow;
-	IBOutlet NSWindow *startWindow;
 	IBOutlet NSWindow *prefWindow;
 	
-	IBOutlet NSTabView *startView;
-	IBOutlet NSTextField *errorMessage;
-	IBOutlet NSTextField *newUsernameField;
 	IBOutlet NSToolbar *toolBar;
+	IBOutlet NSTextField *triggersField;
 	
 	
 	NSString *username;
 	NSString *password;
 	NSString *realname;
 	NSString *nickname;
-	IBOutlet NSTextField *newPasswordField;
-	IBOutlet NSTextField *newRealnameField;
-	IBOutlet NSTextField *newNicknameField;
-	IBOutlet NSTextField *newHostmaskField;
 	
 	BOOL passwordInPlist;
 	
@@ -44,7 +36,6 @@
 	IBOutlet KBLuaActionsData *actionsData;
 	IBOutlet KBAutojoinData *autojoinData;	
 	
-	NSModalSession session;	
 }
 
 @property (nonatomic, assign) NSString *username;
@@ -57,7 +48,6 @@
 @property (nonatomic, retain) KBLuaActionsData *actionsData;
 @property (nonatomic, retain) KBAutojoinData *autojoinData;	
 
-- (IBAction)finishInitialSetup:(id)sender;
 - (IBAction)savePreferences:(id)sender;
 - (IBAction)resetApplication:(id)sender;
 - (IBAction)changePanes:(id)sender;

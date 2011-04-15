@@ -60,6 +60,7 @@
 		[activityIndicator startAnimation:self];
 		[connectionButton setEnabled:NO];
 		[serverAddress setEnabled:NO];
+		[mainView selectTabViewItemAtIndex:1];
 		[ircConnection connectToIRC:[connectionData objectAtIndex:4]  port:[[connectionData objectAtIndex:5] intValue]];
 	}
 	else {
@@ -227,6 +228,17 @@
 		if ([[alert suppressionButton] state] == NSOnState)
 			[defaults setBool:YES forKey:@"hide_window_alert"];
 		[alert release];
+	}
+	return YES;
+}
+
+- (BOOL)validateUserInterfaceItem:(id <NSValidatedUserInterfaceItem>)anItem
+{
+	if (anItem.action == @selector(saveLog:)) {
+		return [ircConnection isConnected];
+	}
+	if (anItem.action == @selector(clearLog:)) {
+		return [ircConnection isConnected];
 	}
 	return YES;
 }
@@ -492,6 +504,8 @@
 	[rooms removeAllRooms];
 	[connectionButton setEnabled:YES];
 	[connectionButton setTitle:@"Connect"];
+	[mainView selectTabViewItemAtIndex:0];
+	[self clearLog:nil];
 }
 
 

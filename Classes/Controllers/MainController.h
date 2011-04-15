@@ -31,6 +31,7 @@
 
 	IBOutlet NSTextView *serverOutput;
 	IBOutlet NSProgressIndicator *activityIndicator;
+	IBOutlet NSTabView *mainView;
 	
 	IBOutlet IRCRooms *rooms;	
 	IBOutlet UserSettings *settings;
