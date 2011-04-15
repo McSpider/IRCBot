@@ -46,14 +46,9 @@
 	rooms = theRooms;
 }
 
-- (void)setHostmasksClass:(id)theHostmasks
+- (void)setSettingsClass:(id)theSettings
 {
-	hostmasks = theHostmasks;
-}
-
-- (void)setActionsClass:(id)theActions
-{
-	actions = theActions;
+	settings = theSettings;
 }
 
 
@@ -83,13 +78,13 @@
 - (NSArray *)getActions
 {
 	NSArray *actionsArray;
-	for (KBLuaAction *luaAction in [actions actionsArray]) {		
+	for (KBLuaAction *luaAction in [settings.actionsData actionsArray]) {		
 		if ([luaAction restricted])
 			actionsArray = [actionsArray arrayByAddingObject:[NSString stringWithFormat:@"+%@",luaAction.name]];
 		else
 			actionsArray = [actionsArray arrayByAddingObject:[NSString stringWithFormat:@"-%@",luaAction.name]];
 	}
-	return actionsArray;
+	return [actionsArray retain];
 }
 
 - (NSArray *)getRooms
@@ -149,31 +144,31 @@
 - (void)addHostmask:(const char *)mask block:(BOOL)blocked
 {
 	NSString *hostmask = [NSString stringWithUTF8String:mask];
-	[hostmasks addHostmask:hostmask block:blocked];
+	[settings.hostmasksData addHostmask:hostmask block:blocked];
 }
 
 - (void)removeHostmask:(const char *)mask
 {
 	NSString *hostmask = [NSString stringWithUTF8String:mask];
-	[hostmasks removeHostmask:hostmask];
+	[settings.hostmasksData removeHostmask:hostmask];
 }
 
 - (void)blockHostmask:(const char *)mask
 {
 	NSString *hostmask = [NSString stringWithUTF8String:mask];
-	[hostmasks hostmask:hostmask setBlocked:YES];
+	[settings.hostmasksData hostmask:hostmask setBlocked:YES];
 }
 
 - (void)unblockHostmask:(const char *)mask
 {
 	NSString *hostmask = [NSString stringWithUTF8String:mask];
-	[hostmasks hostmask:hostmask setBlocked:NO];
+	[settings.hostmasksData hostmask:hostmask setBlocked:NO];
 }
 	
 - (boolean_t)checkAuthFor:(const char *)aUser
 {
 	NSString *hostmask = [NSString stringWithUTF8String:aUser];	
-	return [hostmasks getAuthForHostmask:hostmask];
+	return [settings.hostmasksData getAuthForHostmask:hostmask];
 }
 
 

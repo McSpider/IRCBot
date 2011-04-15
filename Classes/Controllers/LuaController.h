@@ -12,15 +12,13 @@
 @class MainController;
 @class IRCConnection;
 @class IRCRooms;
-@class KBHostmasksData;
-@class KBLuaActionsData;
+@class UserSettings;
 
 @interface LuaController : NSObject {
 	MainController *main;
 	IRCConnection *irc;
 	IRCRooms *rooms;
-	KBHostmasksData *hostmasks;
-	KBLuaActionsData *actions;
+	UserSettings *settings;
 	
 	LuaCocoa* luaCocoa;
 	NSArray* connectionData;
@@ -30,9 +28,7 @@
 - (void)setParentClass:(id)parent;
 - (void)setConnectionClass:(id)theConnection;
 - (void)setRoomsClass:(id)theRooms;
-- (void)setHostmasksClass:(id)theHostmasks;
-- (void)setActionsClass:(id)theActions;
-
+- (void)setSettingsClass:(id)theSettings;
 
 - (void)loadFile:(NSString *)fileName;
 - (void)setConnectionData:(NSArray *)theData andTriggers:(NSArray *)theTriggers;

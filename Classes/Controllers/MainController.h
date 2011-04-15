@@ -41,6 +41,8 @@
 	LuaController *lua;
 }
 
+@property (nonatomic, retain) UserSettings *settings;
+
 // Connect to or disconnect IRC connection
 - (IBAction)toggleIrcConnection:(id)sender;
 - (IBAction)parseCommand:(id)sender;

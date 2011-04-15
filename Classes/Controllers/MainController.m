@@ -20,6 +20,7 @@
 
 
 @implementation MainController
+@synthesize settings;
 
 
 #pragma mark -
@@ -169,8 +170,7 @@
 	[lua setParentClass:self];
 	[lua setConnectionClass:ircConnection];
 	[lua setRoomsClass:rooms];
-	[lua setHostmasksClass:settings.hostmasksData];
-	[lua setActionsClass:settings.actionsData];
+	[lua setSettingsClass:settings];
 	
 	[commandField setDisplaysMenu:YES];
 	
@@ -293,12 +293,10 @@
 		NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
 		[formatter setDateFormat:@"hh:mm"];
 		NSString *time = [formatter stringFromDate:[NSDate date]];
-	
 		[self logMessage:[NSString stringWithFormat:@"%@ %@ %@",time,type,input] type:0];
 	}
-	else {
+	else
 		[self logMessage:[NSString stringWithFormat:@"%@",input] type:0];
-	}
 	
 	
 	if ([type isEqualToString:@"IRC_CHANNEL_MSG"] || [type isEqualToString:@"IRC_QUERY_MSG"]) {
@@ -316,9 +314,9 @@
 			[triggers insertObject:[NSString stringWithFormat:@"%@: ",[connectionData objectAtIndex:2]] atIndex:0];
 		
 		// Actions
-		for (NSString *trigger in triggers) {			
+		for (NSString *trigger in triggers) {
 			if (![message hasPrefix:trigger])
-				return;
+				continue;
 				
 			for (KBLuaAction *luaAction in [settings.actionsData actionsArray]) {				
 				NSString *regex = [NSString stringWithFormat:@"^(%@%@)(\\s+|$).*$",trigger,luaAction.name];
