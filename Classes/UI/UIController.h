@@ -14,7 +14,4 @@
 	IBOutlet NSTextField *versionField;
 }
 
-// Methods
-- (void)composeInterface;
-
 @end

@@ -10,7 +10,6 @@
 #import "RegexKitLite.h"
 
 @interface KBHostmasksData : NSObject {
-
 	int userIndex;
 	NSMutableArray *hostmaskArray;
 	
@@ -19,23 +18,21 @@
 	IBOutlet NSTextField *sheetErrorMessage;
 	IBOutlet NSButton *newHostmaskCheck;
 	IBOutlet BWSheetController *addHostmaskPane;
-	IBOutlet NSButton *removeHostmaskButton;
-	
+	IBOutlet NSButton *removeHostmaskButton;	
 }
 
 @property (nonatomic,assign) NSMutableArray *hostmaskArray;
+
 
 - (IBAction)addNewHostmask:(id)sender;
 - (IBAction)removeSelectedHostmask:(id)sender;
 
 - (void)addHostmask:(NSString *)host block:(BOOL)boolean;
 - (void)removeHostmask:(NSString *)host;
-
-- (void)hostmask:(NSString *)host isBlocked:(BOOL)boolean;
-
+- (void)hostmask:(NSString *)host setBlocked:(BOOL)boolean;
+- (BOOL)getAuthForHostmask:(NSString *)hostmask;
 
 - (void)clearData;
 
-- (BOOL)getAuthForHostmask:(NSString *)hostmask;
 
 @end

@@ -22,13 +22,12 @@
 
 - (id)init
 {
-	self = [super init];
-	if (self != nil) {
-		// Lua setup
-		luaCocoa = [[LuaCocoa alloc] init];	
-		connectionData = [[NSArray alloc] init];
-		triggers = [[NSArray alloc] init];
-	}
+	if (![super init])
+		return nil;
+	
+	luaCocoa = [[LuaCocoa alloc] init];	
+	connectionData = [[NSArray alloc] init];
+	triggers = [[NSArray alloc] init];
 	return self;
 }
 
@@ -84,31 +83,21 @@
 - (NSArray *)getActions
 {
 	NSArray *actionsArray;
-	
-	int index;
-	for (index = 0; index < [actions.actionsArray count]; index++) {
-		KBLuaAction *tempAction = [actions.actionsArray objectAtIndex:index];
-		
-		if ([tempAction restricted]) {
-			actionsArray = [actionsArray arrayByAddingObject:[NSString stringWithFormat:@"+%@",tempAction.name]];
-		} else {
-			actionsArray = [actionsArray arrayByAddingObject:[NSString stringWithFormat:@"-%@",tempAction.name]];
-		}
+	for (KBLuaAction *luaAction in [actions actionsArray]) {		
+		if ([luaAction restricted])
+			actionsArray = [actionsArray arrayByAddingObject:[NSString stringWithFormat:@"+%@",luaAction.name]];
+		else
+			actionsArray = [actionsArray arrayByAddingObject:[NSString stringWithFormat:@"-%@",luaAction.name]];
 	}
-	
 	return actionsArray;
 }
 
 - (NSArray *)getRooms
 {
-	NSArray *roomsArray;
-	
-	int index;
-	for (index = 0; index < [rooms.roomArray count]; index++) {
-		IRCRoom *tempRoom = [rooms.roomArray objectAtIndex:index];
-		roomsArray = [roomsArray arrayByAddingObject:[NSArray arrayWithObjects:tempRoom.name, tempRoom.status, nil]];
+	NSArray *roomsArray;	
+	for (IRCRoom *ircRoom in [rooms roomArray]) {
+		roomsArray = [roomsArray arrayByAddingObject:[NSArray arrayWithObjects:ircRoom.name, ircRoom.status, nil]];
 	}
-		
 	return roomsArray;
 }
 
@@ -119,14 +108,12 @@
 
 - (NSString *)getNickname
 {	
-	NSString *nick = [connectionData objectAtIndex:2];
-	return nick;
+	return [connectionData objectAtIndex:2];
 }
 
 - (NSString *)getVersion
 {
-	NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
-	return version;
+	return [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
 }
 
 
@@ -174,13 +161,13 @@
 - (void)blockHostmask:(const char *)mask
 {
 	NSString *hostmask = [NSString stringWithUTF8String:mask];
-	[hostmasks hostmask:hostmask isBlocked:YES];
+	[hostmasks hostmask:hostmask setBlocked:YES];
 }
 
 - (void)unblockHostmask:(const char *)mask
 {
 	NSString *hostmask = [NSString stringWithUTF8String:mask];
-	[hostmasks hostmask:hostmask isBlocked:NO];
+	[hostmasks hostmask:hostmask setBlocked:NO];
 }
 	
 - (boolean_t)checkAuthFor:(const char *)aUser
@@ -220,7 +207,6 @@
 		[connectionData release];
 		connectionData = [theData copy];
 	}
-	
 	if (triggers != theTriggers) {
 		[triggers release];
 		triggers = [theTriggers copy];
@@ -229,7 +215,6 @@
 
 - (void)runMainFunctionWithData:(NSArray *)data andArguments:(NSArray *)args
 {
-	// Run the main function
 	[luaCocoa pcallLuaFunction:"main" withSignature:"@@@",data,args,self];
 }
 

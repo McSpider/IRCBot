@@ -14,9 +14,12 @@
 		AE0012A312415E4F0049FD63 /* BWToolkitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE0012A212415E4F0049FD63 /* BWToolkitFramework.framework */; };
 		AE0012BB12415E6E0049FD63 /* BWToolkitFramework.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = AE0012A212415E4F0049FD63 /* BWToolkitFramework.framework */; };
 		AE0B2B51129E11AF001C789C /* Hat.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0B2B50129E11AF001C789C /* Hat.png */; };
+		AE1B6A161356B50000DA4F7D /* KBScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = AE1B6A0D1356B50000DA4F7D /* KBScroller.m */; };
+		AE1B6A171356B50000DA4F7D /* KBScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = AE1B6A0F1356B50000DA4F7D /* KBScrollView.m */; };
+		AE1B6A181356B50000DA4F7D /* KBSTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AE1B6A111356B50000DA4F7D /* KBSTextFieldCell.m */; };
+		AE1B6A191356B50000DA4F7D /* KBTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = AE1B6A131356B50000DA4F7D /* KBTextField.m */; };
+		AE1B6A1A1356B50000DA4F7D /* UIController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE1B6A151356B50000DA4F7D /* UIController.m */; };
 		AE2A3B1E124182F5004B42CB /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = AE2A3B1D124182F5004B42CB /* Credits.html */; };
-		AE5C7E5B129B82560080F146 /* KBScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = AE5C7E58129B82560080F146 /* KBScroller.m */; };
-		AE5C7E5C129B82560080F146 /* KBScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = AE5C7E5A129B82560080F146 /* KBScrollView.m */; };
 		AE5C7E7B129B83660080F146 /* KBSTextFieldCF.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5C7E75129B83660080F146 /* KBSTextFieldCF.png */; };
 		AE5C7E7C129B83660080F146 /* KBSTextFieldCF_disabled.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5C7E76129B83660080F146 /* KBSTextFieldCF_disabled.png */; };
 		AE5C7E7D129B83660080F146 /* KBSTextFieldLC.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5C7E77129B83660080F146 /* KBSTextFieldLC.png */; };
@@ -31,14 +34,10 @@
 		AE6F6F4012627FB800FCAFCB /* div.png in Resources */ = {isa = PBXBuildFile; fileRef = AE6F6F3F12627FB800FCAFCB /* div.png */; };
 		AE8EBE7E12A0571F00CA3FCE /* License.rtf in Resources */ = {isa = PBXBuildFile; fileRef = AE8EBE7D12A0571F00CA3FCE /* License.rtf */; };
 		AE9BAABE1329E2370099B4B9 /* KBLuaAction.m in Sources */ = {isa = PBXBuildFile; fileRef = AE9BAABD1329E2370099B4B9 /* KBLuaAction.m */; };
-		AEAD7282124002C80028D5A3 /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAD7280124002C80028D5A3 /* UserDefaults.m */; };
 		AEAD7286124002D20028D5A3 /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAD7285124002D20028D5A3 /* AsyncSocket.m */; };
 		AEAD728A124002F20028D5A3 /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = AEAD7288124002F20028D5A3 /* AppIcon.icns */; };
 		AEAD737912401B3D0028D5A3 /* ircbot_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = AEAD737812401B3D0028D5A3 /* ircbot_bg.png */; };
 		AEB56C5812F76AE7006FEF77 /* IRCBot Actions in Resources */ = {isa = PBXBuildFile; fileRef = AEB56C5412F76AE7006FEF77 /* IRCBot Actions */; };
-		AEBB006E123C31D100E6CC21 /* KBTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBB0069123C31D100E6CC21 /* KBTextField.m */; };
-		AEBB006F123C31D100E6CC21 /* KBSTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBB006B123C31D100E6CC21 /* KBSTextFieldCell.m */; };
-		AEBBFFF8123C044E00E6CC21 /* UIController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBBFFF5123C044E00E6CC21 /* UIController.m */; };
 		AEBD9CD11329A132004E0E6B /* LuaCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEBD9CD01329A132004E0E6B /* LuaCocoa.framework */; };
 		AEE1A311132B0BEB00CFF24F /* LuaCocoa.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = AEBD9CD01329A132004E0E6B /* LuaCocoa.framework */; };
 		AEE5E0A512408C08002D2767 /* EMKeychainItem.m in Sources */ = {isa = PBXBuildFile; fileRef = AEE5E0A412408C08002D2767 /* EMKeychainItem.m */; };
@@ -56,7 +55,7 @@
 		AEF6FCFD12A32DF300A95FA8 /* Status_Room.png in Resources */ = {isa = PBXBuildFile; fileRef = AEF6FCFA12A32DF300A95FA8 /* Status_Room.png */; };
 		AEF6FEFB12A4657400A95FA8 /* IRCConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF6FEFA12A4657400A95FA8 /* IRCConnection.m */; };
 		AEF6FF0012A4657C00A95FA8 /* MainController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF6FEFD12A4657C00A95FA8 /* MainController.m */; };
-		AEF6FF0112A4657C00A95FA8 /* PrefController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF6FEFF12A4657C00A95FA8 /* PrefController.m */; };
+		AEF6FF0112A4657C00A95FA8 /* UserSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF6FEFF12A4657C00A95FA8 /* UserSettings.m */; };
 		AEF6FF0D12A4661600A95FA8 /* IRCRoom.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF6FF0C12A4661600A95FA8 /* IRCRoom.m */; };
 /* End PBXBuildFile section */
 
@@ -88,13 +87,18 @@
 		8D1107320486CEB800E47090 /* IRCBot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IRCBot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE0012A212415E4F0049FD63 /* BWToolkitFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BWToolkitFramework.framework; path = Includes/BWToolkitFramework.framework; sourceTree = "<group>"; };
 		AE0B2B50129E11AF001C789C /* Hat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Hat.png; path = Images/Hat.png; sourceTree = "<group>"; };
+		AE1B6A0C1356B50000DA4F7D /* KBScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBScroller.h; sourceTree = "<group>"; };
+		AE1B6A0D1356B50000DA4F7D /* KBScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBScroller.m; sourceTree = "<group>"; };
+		AE1B6A0E1356B50000DA4F7D /* KBScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBScrollView.h; sourceTree = "<group>"; };
+		AE1B6A0F1356B50000DA4F7D /* KBScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBScrollView.m; sourceTree = "<group>"; };
+		AE1B6A101356B50000DA4F7D /* KBSTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBSTextFieldCell.h; sourceTree = "<group>"; };
+		AE1B6A111356B50000DA4F7D /* KBSTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBSTextFieldCell.m; sourceTree = "<group>"; };
+		AE1B6A121356B50000DA4F7D /* KBTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBTextField.h; sourceTree = "<group>"; };
+		AE1B6A131356B50000DA4F7D /* KBTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBTextField.m; sourceTree = "<group>"; };
+		AE1B6A141356B50000DA4F7D /* UIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIController.h; sourceTree = "<group>"; };
+		AE1B6A151356B50000DA4F7D /* UIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIController.m; sourceTree = "<group>"; };
 		AE2A3B1D124182F5004B42CB /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
 		AE45B16212A083E4008DD726 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		AE58546812FC8BD800B63ACD /* Todo.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Todo.rtf; sourceTree = "<group>"; };
-		AE5C7E57129B82560080F146 /* KBScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBScroller.h; path = UI/KBScroller.h; sourceTree = "<group>"; };
-		AE5C7E58129B82560080F146 /* KBScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBScroller.m; path = UI/KBScroller.m; sourceTree = "<group>"; };
-		AE5C7E59129B82560080F146 /* KBScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBScrollView.h; path = UI/KBScrollView.h; sourceTree = "<group>"; };
-		AE5C7E5A129B82560080F146 /* KBScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBScrollView.m; path = UI/KBScrollView.m; sourceTree = "<group>"; };
 		AE5C7E75129B83660080F146 /* KBSTextFieldCF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = KBSTextFieldCF.png; sourceTree = "<group>"; };
 		AE5C7E76129B83660080F146 /* KBSTextFieldCF_disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = KBSTextFieldCF_disabled.png; sourceTree = "<group>"; };
 		AE5C7E77129B83660080F146 /* KBSTextFieldLC.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = KBSTextFieldLC.png; sourceTree = "<group>"; };
@@ -109,23 +113,15 @@
 		AE6F6B971261662100FCAFCB /* Scripts.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Scripts.png; path = Images/Scripts.png; sourceTree = "<group>"; };
 		AE6F6F3F12627FB800FCAFCB /* div.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = div.png; path = Images/div.png; sourceTree = "<group>"; };
 		AE8EBE7D12A0571F00CA3FCE /* License.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = License.rtf; sourceTree = "<group>"; };
-		AE8EBE8012A0587800CA3FCE /* Notes.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Notes.rtf; sourceTree = "<group>"; };
+		AE8EBE8012A0587800CA3FCE /* Note Pad.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "Note Pad.rtf"; path = "Notes/Note Pad.rtf"; sourceTree = "<group>"; };
 		AE8EBE8112A0587800CA3FCE /* ServerOutput.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = ServerOutput.rtf; sourceTree = "<group>"; };
 		AE9BAABC1329E2370099B4B9 /* KBLuaAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBLuaAction.h; path = Classes/Data/KBLuaAction.h; sourceTree = "<group>"; };
 		AE9BAABD1329E2370099B4B9 /* KBLuaAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBLuaAction.m; path = Classes/Data/KBLuaAction.m; sourceTree = "<group>"; };
-		AEAD727F124002C80028D5A3 /* UserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserDefaults.h; path = Classes/UserDefaults.h; sourceTree = "<group>"; };
-		AEAD7280124002C80028D5A3 /* UserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserDefaults.m; path = Classes/UserDefaults.m; sourceTree = "<group>"; };
 		AEAD7284124002D20028D5A3 /* AsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncSocket.h; sourceTree = "<group>"; };
 		AEAD7285124002D20028D5A3 /* AsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncSocket.m; sourceTree = "<group>"; };
 		AEAD7288124002F20028D5A3 /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = AppIcon.icns; path = Images/AppIcon.icns; sourceTree = "<group>"; };
 		AEAD737812401B3D0028D5A3 /* ircbot_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ircbot_bg.png; path = Images/ircbot_bg.png; sourceTree = "<group>"; };
 		AEB56C5412F76AE7006FEF77 /* IRCBot Actions */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "IRCBot Actions"; sourceTree = "<group>"; };
-		AEBB0068123C31D100E6CC21 /* KBTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBTextField.h; path = UI/KBTextField.h; sourceTree = "<group>"; };
-		AEBB0069123C31D100E6CC21 /* KBTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBTextField.m; path = UI/KBTextField.m; sourceTree = "<group>"; };
-		AEBB006A123C31D100E6CC21 /* KBSTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBSTextFieldCell.h; path = UI/KBSTextFieldCell.h; sourceTree = "<group>"; };
-		AEBB006B123C31D100E6CC21 /* KBSTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBSTextFieldCell.m; path = UI/KBSTextFieldCell.m; sourceTree = "<group>"; };
-		AEBBFFF4123C044E00E6CC21 /* UIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIController.h; path = UI/UIController.h; sourceTree = "<group>"; };
-		AEBBFFF5123C044E00E6CC21 /* UIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIController.m; path = UI/UIController.m; sourceTree = "<group>"; };
 		AEBD9CD01329A132004E0E6B /* LuaCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LuaCocoa.framework; path = Includes/LuaCocoa.framework; sourceTree = "<group>"; };
 		AEC6FFBF12FB52BF007214B6 /* Backup.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Backup.rtf; sourceTree = "<group>"; };
 		AEE5E0A312408C08002D2767 /* EMKeychainItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMKeychainItem.h; sourceTree = "<group>"; };
@@ -151,8 +147,8 @@
 		AEF6FEFA12A4657400A95FA8 /* IRCConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IRCConnection.m; path = Classes/IRC/IRCConnection.m; sourceTree = "<group>"; };
 		AEF6FEFC12A4657C00A95FA8 /* MainController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainController.h; path = Classes/Controllers/MainController.h; sourceTree = "<group>"; };
 		AEF6FEFD12A4657C00A95FA8 /* MainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainController.m; path = Classes/Controllers/MainController.m; sourceTree = "<group>"; };
-		AEF6FEFE12A4657C00A95FA8 /* PrefController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PrefController.h; path = Classes/Controllers/PrefController.h; sourceTree = "<group>"; };
-		AEF6FEFF12A4657C00A95FA8 /* PrefController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PrefController.m; path = Classes/Controllers/PrefController.m; sourceTree = "<group>"; };
+		AEF6FEFE12A4657C00A95FA8 /* UserSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserSettings.h; path = Classes/Controllers/UserSettings.h; sourceTree = "<group>"; };
+		AEF6FEFF12A4657C00A95FA8 /* UserSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserSettings.m; path = Classes/Controllers/UserSettings.m; sourceTree = "<group>"; };
 		AEF6FF0B12A4661600A95FA8 /* IRCRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IRCRoom.h; path = Classes/IRC/IRCRoom.h; sourceTree = "<group>"; };
 		AEF6FF0C12A4661600A95FA8 /* IRCRoom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IRCRoom.m; path = Classes/IRC/IRCRoom.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -179,10 +175,10 @@
 				AEF6FF0312A465A900A95FA8 /* Controllers */,
 				AEF6FF0212A4659400A95FA8 /* IRC */,
 				AE6F6BF212623DEE00FCAFCB /* Data */,
-				AEAD727F124002C80028D5A3 /* UserDefaults.h */,
-				AEAD7280124002C80028D5A3 /* UserDefaults.m */,
+				AEF6FEFE12A4657C00A95FA8 /* UserSettings.h */,
+				AEF6FEFF12A4657C00A95FA8 /* UserSettings.m */,
 				AEAD7283124002D20028D5A3 /* Includes */,
-				AEBB0051123C31C400E6CC21 /* UI */,
+				AE1B6A0B1356B50000DA4F7D /* UI */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -247,6 +243,7 @@
 				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
 				AE2A3B1D124182F5004B42CB /* Credits.html */,
 				AE45B16212A083E4008DD726 /* README.md */,
+				AE8EBE8012A0587800CA3FCE /* Note Pad.rtf */,
 				AE8EBE7D12A0571F00CA3FCE /* License.rtf */,
 				AE8EBE7F12A0587800CA3FCE /* Notes */,
 			);
@@ -262,6 +259,24 @@
 				AEBD9CD01329A132004E0E6B /* LuaCocoa.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AE1B6A0B1356B50000DA4F7D /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				AE1B6A0C1356B50000DA4F7D /* KBScroller.h */,
+				AE1B6A0D1356B50000DA4F7D /* KBScroller.m */,
+				AE1B6A0E1356B50000DA4F7D /* KBScrollView.h */,
+				AE1B6A0F1356B50000DA4F7D /* KBScrollView.m */,
+				AE1B6A101356B50000DA4F7D /* KBSTextFieldCell.h */,
+				AE1B6A111356B50000DA4F7D /* KBSTextFieldCell.m */,
+				AE1B6A121356B50000DA4F7D /* KBTextField.h */,
+				AE1B6A131356B50000DA4F7D /* KBTextField.m */,
+				AE1B6A141356B50000DA4F7D /* UIController.h */,
+				AE1B6A151356B50000DA4F7D /* UIController.m */,
+			);
+			name = UI;
+			path = Classes/UI;
 			sourceTree = "<group>";
 		};
 		AE2A462F12457983004B42CB /* Images */ = {
@@ -316,8 +331,6 @@
 		AE8EBE7F12A0587800CA3FCE /* Notes */ = {
 			isa = PBXGroup;
 			children = (
-				AE8EBE8012A0587800CA3FCE /* Notes.rtf */,
-				AE58546812FC8BD800B63ACD /* Todo.rtf */,
 				AE8EBE8112A0587800CA3FCE /* ServerOutput.rtf */,
 				AEC6FFBF12FB52BF007214B6 /* Backup.rtf */,
 			);
@@ -335,23 +348,6 @@
 				AEE5E0A412408C08002D2767 /* EMKeychainItem.m */,
 			);
 			path = Includes;
-			sourceTree = "<group>";
-		};
-		AEBB0051123C31C400E6CC21 /* UI */ = {
-			isa = PBXGroup;
-			children = (
-				AEBBFFF4123C044E00E6CC21 /* UIController.h */,
-				AEBBFFF5123C044E00E6CC21 /* UIController.m */,
-				AEBB0068123C31D100E6CC21 /* KBTextField.h */,
-				AEBB0069123C31D100E6CC21 /* KBTextField.m */,
-				AEBB006A123C31D100E6CC21 /* KBSTextFieldCell.h */,
-				AEBB006B123C31D100E6CC21 /* KBSTextFieldCell.m */,
-				AE5C7E59129B82560080F146 /* KBScrollView.h */,
-				AE5C7E5A129B82560080F146 /* KBScrollView.m */,
-				AE5C7E57129B82560080F146 /* KBScroller.h */,
-				AE5C7E58129B82560080F146 /* KBScroller.m */,
-			);
-			name = UI;
 			sourceTree = "<group>";
 		};
 		AEF6FF0212A4659400A95FA8 /* IRC */ = {
@@ -372,8 +368,6 @@
 			children = (
 				AEF6FEFC12A4657C00A95FA8 /* MainController.h */,
 				AEF6FEFD12A4657C00A95FA8 /* MainController.m */,
-				AEF6FEFE12A4657C00A95FA8 /* PrefController.h */,
-				AEF6FEFF12A4657C00A95FA8 /* PrefController.m */,
 				AEEAEA5C12FD243400EA5D4A /* LuaController.h */,
 				AEEAEA5D12FD243400EA5D4A /* LuaController.m */,
 			);
@@ -459,18 +453,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
-				AEBBFFF8123C044E00E6CC21 /* UIController.m in Sources */,
-				AEBB006E123C31D100E6CC21 /* KBTextField.m in Sources */,
-				AEBB006F123C31D100E6CC21 /* KBSTextFieldCell.m in Sources */,
-				AEAD7282124002C80028D5A3 /* UserDefaults.m in Sources */,
 				AEAD7286124002D20028D5A3 /* AsyncSocket.m in Sources */,
 				AEE5E0A512408C08002D2767 /* EMKeychainItem.m in Sources */,
 				AE5CFC431268F1F700C96195 /* RegexKitLite.m in Sources */,
-				AE5C7E5B129B82560080F146 /* KBScroller.m in Sources */,
-				AE5C7E5C129B82560080F146 /* KBScrollView.m in Sources */,
 				AEF6FEFB12A4657400A95FA8 /* IRCConnection.m in Sources */,
 				AEF6FF0012A4657C00A95FA8 /* MainController.m in Sources */,
-				AEF6FF0112A4657C00A95FA8 /* PrefController.m in Sources */,
+				AEF6FF0112A4657C00A95FA8 /* UserSettings.m in Sources */,
 				AEF6FF0D12A4661600A95FA8 /* IRCRoom.m in Sources */,
 				AEF6005712A4783E00A95FA8 /* KBAutojoinData.m in Sources */,
 				AEF6032112A5DDB000A95FA8 /* KBLuaActionsData.m in Sources */,
@@ -478,6 +466,11 @@
 				AEF604F012A70A3800A95FA8 /* IRCRooms.m in Sources */,
 				AEEAEA5E12FD243400EA5D4A /* LuaController.m in Sources */,
 				AE9BAABE1329E2370099B4B9 /* KBLuaAction.m in Sources */,
+				AE1B6A161356B50000DA4F7D /* KBScroller.m in Sources */,
+				AE1B6A171356B50000DA4F7D /* KBScrollView.m in Sources */,
+				AE1B6A181356B50000DA4F7D /* KBSTextFieldCell.m in Sources */,
+				AE1B6A191356B50000DA4F7D /* KBTextField.m in Sources */,
+				AE1B6A1A1356B50000DA4F7D /* UIController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -553,6 +546,9 @@
 			buildSettings = {
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_LDFLAGS = "-licucore";
 				PREBINDING = NO;

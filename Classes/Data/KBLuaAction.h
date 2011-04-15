@@ -10,13 +10,10 @@
 
 
 @interface KBLuaAction : NSObject {
-	
 	NSString *name;
 	NSString *file;
-	
 	BOOL restricted;
 	BOOL enabled;
-
 }
 
 @property (nonatomic, copy) NSString *name;

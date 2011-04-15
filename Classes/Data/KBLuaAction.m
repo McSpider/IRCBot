@@ -19,13 +19,13 @@
 
 - (id)init
 {
-	self = [super init];
-	if (self != nil) {
-		self.name = [[NSString alloc] initWithString:@"Untitled"];
-		self.file = [[NSString alloc] initWithString:@"NULL"];
-		self.restricted = NO;
-		self.enabled = YES;
-	}
+	if (![super init])
+		return nil;
+	
+	self.name = [[NSString alloc] initWithString:@"Untitled"];
+	self.file = [[NSString alloc] initWithString:@"NULL"];
+	self.restricted = NO;
+	self.enabled = YES;
 	return self;
 }
 

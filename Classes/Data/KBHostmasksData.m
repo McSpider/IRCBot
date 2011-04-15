@@ -17,12 +17,13 @@
 
 - (id)init
 {
-	if ((self = [super init])) {
-		NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-		
-		self.hostmaskArray = [[NSMutableArray alloc] init];
-		[self.hostmaskArray addObjectsFromArray:[standardUserDefaults objectForKey:@"hostmasks"]];		
-	}
+	if (![super init])
+		return nil;
+	
+	NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+	
+	self.hostmaskArray = [[NSMutableArray alloc] init];
+	[self.hostmaskArray addObjectsFromArray:[standardUserDefaults objectForKey:@"hostmasks"]];		
 	return self;
 }
 
@@ -33,22 +34,16 @@
 - (IBAction)addNewHostmask:(id)sender
 {
 	// Check if this hostmask exists
-	BOOL exists = NO;
-	int i;
-	for (i = 0; i < [self.hostmaskArray count]; i++) {
-		NSArray *hostmaskData = [self.hostmaskArray objectAtIndex:i];
+	for (NSArray *hostmaskData in self.hostmaskArray) {
 		if ([[hostmaskData objectAtIndex:0] isEqualToString:[newHostmaskField stringValue]]){
-			exists = YES;
+			[sheetErrorMessage setStringValue:@"This hostmask already exists."];
+			return;
 		}
 	}
 	// If not add it, otherwise show a alert message
-	if (!exists) {	
-		[self addHostmask:[newHostmaskField stringValue] block:[newHostmaskCheck state]];
-		[sheetErrorMessage setStringValue:@" "];
-		[addHostmaskPane closeSheet:self];
-	} else {
-		[sheetErrorMessage setStringValue:@"This hostmask already exists."];
-	}
+	[self addHostmask:[newHostmaskField stringValue] block:[newHostmaskCheck state]];
+	[sheetErrorMessage setStringValue:@" "];
+	[addHostmaskPane closeSheet:self];
 }
 
 
@@ -93,15 +88,13 @@
 	[hostmaskView reloadData];
 }
 
-- (void)hostmask:(NSString *)hostmask isBlocked:(BOOL)boolean
+- (void)hostmask:(NSString *)hostmask setBlocked:(BOOL)boolean
 {
 	int auth;
 	if (boolean) auth = 1;
 	else auth = 0;
 	
-	int index;
-	for (index = 0; index < [self.hostmaskArray count]; index++) {
-		NSMutableArray *hostmaskData = [self.hostmaskArray objectAtIndex:index];
+	for (NSMutableArray *hostmaskData in self.hostmaskArray) {
 		if ([[hostmaskData objectAtIndex:0] isEqualToString:hostmask]) {
 			[hostmaskData replaceObjectAtIndex:1 withObject:[NSNumber numberWithInt:auth]];
 		}
@@ -124,9 +117,9 @@
 - (BOOL)getAuthForHostmask:(NSString *)hostmask
 {
 	int index;
-	for (index = 0; index < [self.hostmaskArray count]; index++) {
-		NSString *tempHostmask = [[self.hostmaskArray objectAtIndex:index] objectAtIndex:0];
-		BOOL blocked = [[[self.hostmaskArray objectAtIndex:index] objectAtIndex:1] intValue];
+	for (NSArray *hostmaskData in self.hostmaskArray) {
+		NSString *tempHostmask = [hostmaskData objectAtIndex:0];
+		BOOL blocked = [[hostmaskData objectAtIndex:1] intValue];
 		if ([tempHostmask isMatchedByRegex:hostmask] && !blocked) {
 			return YES;
 		}
@@ -145,12 +138,12 @@
 
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row
 {
-	NSArray *tempArray = [self.hostmaskArray objectAtIndex:row];
+	NSArray *hostmask = [self.hostmaskArray objectAtIndex:row];
 	
 	if ([[tableColumn identifier] intValue] == 0)
-		return [tempArray objectAtIndex:0];
+		return [hostmask objectAtIndex:0];
 	if ([[tableColumn identifier] intValue] == 1)
-		return [tempArray objectAtIndex:1];
+		return [hostmask objectAtIndex:1];
 	return @"";
 }
 
@@ -166,12 +159,12 @@
 
 - (void)tableView:(NSTableView *)tableView setObjectValue:(NSObject *)object forTableColumn:(NSTableColumn *)tableColumn row:(int)row
 {
-	NSMutableArray *tempArray = [self.hostmaskArray objectAtIndex:row];
+	NSMutableArray *hostmask = [self.hostmaskArray objectAtIndex:row];
 	if ([[tableColumn identifier] intValue] == 0)
-		tempArray = [NSMutableArray arrayWithObjects:object, [tempArray objectAtIndex:1], nil];
+		hostmask = [NSMutableArray arrayWithObjects:object, [hostmask objectAtIndex:1], nil];
 	if ([[tableColumn identifier] intValue] == 1)
-		tempArray = [NSMutableArray arrayWithObjects:[tempArray objectAtIndex:0], object, nil];
-	[self.hostmaskArray replaceObjectAtIndex:row withObject:tempArray];
+		hostmask = [NSMutableArray arrayWithObjects:[hostmask objectAtIndex:0], object, nil];
+	[self.hostmaskArray replaceObjectAtIndex:row withObject:hostmask];
 }
 
 - (void)dealloc

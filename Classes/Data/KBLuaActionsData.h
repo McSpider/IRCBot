@@ -10,12 +10,11 @@
 #import "KBLuaAction.h"
 
 @interface KBLuaActionsData : NSObject {
-
 	int actionIndex;
 	NSMutableArray *actionsArray;
 	
 	IBOutlet NSTableView *actionsView;
-	IBOutlet NSPathControl *actionPath;
+	IBOutlet NSPathControl *actionPathControl;
 	IBOutlet NSTextField *actionName;
 	IBOutlet NSTextField *sheetErrorMessage;
 	IBOutlet NSButton *restrictAction;

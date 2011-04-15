@@ -14,8 +14,6 @@
 #import "PrefController.h"
 
 @interface UserDefaults : NSObject {
-
-	// Setup
 	IBOutlet NSWindow *mainWindow;
 	
 	IBOutlet NSWindow *startWindow;
@@ -42,12 +40,9 @@
 	NSModalSession session;
 }
 
-// Setup
 - (IBAction)finishInitialSetup:(id)sender;
 - (IBAction)savePreferences:(id)sender;
 - (IBAction)resetApplication:(id)sender;
 
-- (void)setFirstStart:(BOOL)boolean;
-- (BOOL)firstStart;
 
 @end

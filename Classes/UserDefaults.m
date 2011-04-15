@@ -8,6 +8,13 @@
 
 #import "UserDefaults.h"
 
+
+@interface UserDefaults (Private)
+- (void)setFirstStart:(BOOL)boolean;
+- (BOOL)firstStart;
+@end
+
+
 @implementation UserDefaults
 
 

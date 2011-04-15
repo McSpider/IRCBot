@@ -18,51 +18,49 @@
 
 - (id)initWithCoder:(NSCoder *)decoder
 {
-	self = [super initWithCoder:decoder];
-	if (self != nil) {
-		NSRect popupRect = NSMakeRect(0, 0, 25, 22);
-		displaysMenu = NO;
-		maxPopUpItems = 10;
-		popUpMenuTitle = @"Command History";
-		
-		// Initalize the popup menu
-		popupMenu = [[NSMenu alloc] init];
-		[popupMenu setAutoenablesItems:NO];
-		
-		NSMenuItem *menuTitle = [[NSMenuItem alloc] initWithTitle:popUpMenuTitle action:NULL keyEquivalent:@""];
-		[menuTitle setEnabled:NO];
-		[popupMenu addItem:menuTitle];
-		[popupMenu setTitle:popUpMenuTitle];
-		[menuTitle release];
-		
-		
-		// Initalize popup button
-		endcapButton = [[NSPopUpButton alloc] init];
-		[endcapButton setFrame:popupRect];
-		
-		[endcapButton setAutoenablesItems:NO];
-		[endcapButton setBezelStyle:NSSmallSquareBezelStyle];
-		[endcapButton setBordered:NO];
-		[endcapButton setMenu:popupMenu];
-		
-		// Insert a blank item at first place
-		[endcapButton insertItemWithTitle:@"" atIndex:0];
-		[endcapButton setPullsDown:YES];
-		[endcapButton selectItemAtIndex:0];
-		[[endcapButton itemAtIndex:1] setState:NSOffState];
-		
-		[endcapButton setHidden:!displaysMenu];
-		[endcapButton setEnabled:displaysMenu];
-		[self addSubview:endcapButton];	
-	}
+	if (![super initWithCoder:decoder])
+		return nil;
 	
+	NSRect popupRect = NSMakeRect(0, 0, 25, 22);
+	displaysMenu = NO;
+	maxPopUpItems = 10;
+	popUpMenuTitle = @"Command History";
+	
+	// Initalize the popup menu
+	popupMenu = [[NSMenu alloc] init];
+	[popupMenu setAutoenablesItems:NO];
+	
+	NSMenuItem *menuTitle = [[NSMenuItem alloc] initWithTitle:popUpMenuTitle action:NULL keyEquivalent:@""];
+	[menuTitle setEnabled:NO];
+	[popupMenu addItem:menuTitle];
+	[popupMenu setTitle:popUpMenuTitle];
+	[menuTitle release];
+	
+	
+	// Initalize popup button
+	endcapButton = [[NSPopUpButton alloc] init];
+	[endcapButton setFrame:popupRect];
+	
+	[endcapButton setAutoenablesItems:NO];
+	[endcapButton setBezelStyle:NSSmallSquareBezelStyle];
+	[endcapButton setBordered:NO];
+	[endcapButton setMenu:popupMenu];
+	
+	// Insert a blank item at first place
+	[endcapButton insertItemWithTitle:@"" atIndex:0];
+	[endcapButton setPullsDown:YES];
+	[endcapButton selectItemAtIndex:0];
+	[[endcapButton itemAtIndex:1] setState:NSOffState];
+	
+	[endcapButton setHidden:!displaysMenu];
+	[endcapButton setEnabled:displaysMenu];
+	[self addSubview:endcapButton];	
 	return self;
 }
 
 - (void)popupItemWasSelected:(id)sender
 {
 	[self setStringValue:[sender representedObject]];
-	//[self sendAction:@selector(popupItemWasSelected:) to:delegate];
 }
 
 - (void)addPopUpItemWithTitle:(NSString *)title
@@ -71,9 +69,8 @@
 	[popUpItem setRepresentedObject:title];
 	[popUpItem setTarget:self];
 	
-	if ([popupMenu numberOfItems] > maxPopUpItems) {
+	if ([popupMenu numberOfItems] > maxPopUpItems)
 		[popupMenu removeItemAtIndex:2];
-	}
 	
 	[popupMenu addItem:popUpItem];
 	[popUpItem release];
@@ -93,11 +90,10 @@
 	NSRect popupRect = NSMakeRect(0, 0, 25, 22);
 	[endcapButton setFrame:popupRect];
 	
-	if (displaysMenu) {
+	if (displaysMenu)
 		[[self cell] setPaddingLeft:18];
-	} else {
+	else
 		[[self cell] setPaddingLeft:2];	
-	}
 		
 	[super drawRect:rect];
 }

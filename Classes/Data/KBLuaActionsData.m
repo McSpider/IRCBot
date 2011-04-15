@@ -13,13 +13,15 @@
 
 
 - (id)init{
-	if ((self = [super init])) {		
-		self.actionsArray = [[NSMutableArray alloc] init];
-	}
+	if (![super init])
+		return nil;
+	
+	self.actionsArray = [[NSMutableArray alloc] init];
 	return self;
 }
 
-- (void)awakeFromNib{	
+- (void)awakeFromNib
+{	
 	//Checks to see AppSupport folder exits if not create it.
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	NSString *folderPath = @"~/Library/Application Support/IRCBot Actions/";
@@ -33,9 +35,7 @@
 	NSString *actionsData = @"~/Library/Application Support/IRCBot Actions/data.plist";
 	[self loadActionsFromFile:actionsData];
 	
-	// Set the NSPathControl to our home folder
-	[actionPath setURL:[NSURL fileURLWithPath:[@"~/Desktop/" stringByExpandingTildeInPath]]];
-	
+	[actionPathControl setURL:[NSURL fileURLWithPath:[@"~/Desktop/" stringByExpandingTildeInPath]]];
 }
 
 - (void)loadActionsFromFile:(NSString *)file
@@ -43,10 +43,7 @@
 	file = [file stringByExpandingTildeInPath];
 	NSArray *actionsData = [NSArray arrayWithContentsOfFile:file]; 
 	
-	int index;
-	for (index = 0; index < [actionsData count]; index++) {
-		NSArray *action = [actionsData objectAtIndex:index];
-		
+	for (NSArray *action in actionsData) {
 		KBLuaAction *tempAction = [[KBLuaAction alloc] init];
 		[tempAction setName:[action objectAtIndex:0] filePath:[action objectAtIndex:1] restricted:[[action objectAtIndex:2] boolValue]];
 		[self.actionsArray addObject:tempAction];
@@ -59,11 +56,8 @@
 	file = [file stringByExpandingTildeInPath];
 	NSMutableArray *actionsData = [[NSMutableArray alloc] init]; 
 	
-	int index;
-	for (index = 0; index < [self.actionsArray count]; index++) {
-		KBLuaAction *tempAction = [self.actionsArray objectAtIndex:index];
-		
-		NSArray *action = [NSArray arrayWithObjects:tempAction.name,tempAction.file,[NSNumber numberWithBool:tempAction.restricted],nil];
+	for (KBLuaAction *luaAction in self.actionsArray) {		
+		NSArray *action = [NSArray arrayWithObjects:luaAction.name,luaAction.file,[NSNumber numberWithBool:luaAction.restricted],nil];
 		[actionsData addObject:action];
 	}
 	[actionsData writeToFile:file atomically:YES];
@@ -73,11 +67,10 @@
 
 - (void)addAction:(NSString *)action name:(NSString *)name restricted:(BOOL)boolean
 {	
-	KBLuaAction *tempAction = [[KBLuaAction alloc] init];
-	[tempAction setName:name filePath:action restricted:boolean];
-	
-	[self.actionsArray addObject:tempAction];
-	[tempAction release];
+	KBLuaAction *luaAction = [[KBLuaAction alloc] init];
+	[luaAction setName:name filePath:action restricted:boolean];
+	[self.actionsArray addObject:luaAction];
+	[luaAction release];
 	
 	[actionsView reloadData];
 }
@@ -85,19 +78,17 @@
 - (IBAction)addNewAction:(id)sender
 {	
 	// Get filename
-	NSString *url = [[actionPath URL] absoluteString];
+	NSString *url = [[actionPathControl URL] absoluteString];
 	NSArray *parts = [url componentsSeparatedByString:@"/"];
 	NSString *filename = [parts lastObject];
 	
 	// Check if a action by that name already exists
-	int i;
-	for (i = 0; i < [self.actionsArray count]; i++) {
-		KBLuaAction *tempAction = [self.actionsArray objectAtIndex:i];
-		if ([tempAction.name isEqualToString:[actionName stringValue]]){
+	for (KBLuaAction *luaAction in self.actionsArray) {
+		if ([luaAction.name isEqualToString:[actionName stringValue]]){
 			[sheetErrorMessage setStringValue:@"A action with that name already exits."];
 			return;
 		}
-		if ([tempAction.name isEqualToString:filename]) {
+		if ([luaAction.name isEqualToString:filename]) {
 			[sheetErrorMessage setStringValue:@"A action with that file name already exits."];
 			return;
 		}
@@ -108,7 +99,7 @@
 	NSString *folderPath = @"~/Library/Application Support/IRCBot/";
 	
 	if (![fileManager fileExistsAtPath:[NSString stringWithFormat:@"%@/%@",folderPath,filename]])
-		[fileManager copyItemAtPath:[[actionPath URL] absoluteString] toPath:[NSString stringWithFormat:@"%@/%@",filename] error:NULL];		
+		[fileManager copyItemAtPath:[[actionPathControl URL] absoluteString] toPath:[NSString stringWithFormat:@"%@/%@",filename] error:NULL];		
 	
 	// Add reference to data.plist
 	[self addAction:filename name:[actionName stringValue] restricted:[restrictAction state]];
@@ -133,14 +124,14 @@
 
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)rowIndex
 {
-	KBLuaAction *tempAction = [self.actionsArray objectAtIndex:rowIndex];
+	KBLuaAction *luaAction = [self.actionsArray objectAtIndex:rowIndex];
 	
 	if ([[tableColumn identifier] intValue] == 0)
-		return tempAction.name;
+		return luaAction.name;
 	if ([[tableColumn identifier] intValue] == 1)
-		return tempAction.file;
+		return luaAction.file;
 	if ([[tableColumn identifier] intValue] == 2)
-		return [NSNumber numberWithBool:tempAction.restricted];
+		return [NSNumber numberWithBool:luaAction.restricted];
 	return @"";
 }
 
@@ -156,13 +147,13 @@
 
 - (void)tableView:(NSTableView *)tableView setObjectValue:(NSObject *)object forTableColumn:(NSTableColumn *)tableColumn row:(int)rowIndex
 {
-	KBLuaAction *tempAction = [self.actionsArray objectAtIndex:rowIndex];
+	KBLuaAction *luaAction = [self.actionsArray objectAtIndex:rowIndex];
 	if ([[tableColumn identifier] intValue] == 0)
-		[tempAction setName:(NSString *)object];
+		[luaAction setName:(NSString *)object];
 	if ([[tableColumn identifier] intValue] == 1)
-		[tempAction setFile:(NSString *)object];
+		[luaAction setFile:(NSString *)object];
 	if ([[tableColumn identifier] intValue] == 2)
-		[tempAction setRestricted:[(NSNumber *)object boolValue]];
+		[luaAction setRestricted:[(NSNumber *)object boolValue]];
 }
 
 - (void)dealloc

@@ -14,14 +14,14 @@
 
 - (id)initWithCoder:(NSCoder *)decoder
 {
-	if ((self = [super initWithCoder:decoder])) {
-		[self setArrowsPosition:NSScrollerArrowsNone];	
-		if ([self bounds].size.width / [self bounds].size.height < 1) {
-			isVertical = YES;
-		} else {
-			isVertical = NO;
-		}
-	}
+	if (![super initWithCoder:decoder])
+		return nil;
+	
+	[self setArrowsPosition:NSScrollerArrowsNone];	
+	if ([self bounds].size.width / [self bounds].size.height < 1)
+		isVertical = YES;
+	else
+		isVertical = NO;
 	return self;
 }
 
@@ -29,11 +29,9 @@
 {		
 	NSGraphicsContext *ctx = [NSGraphicsContext currentContext];
 	
-	
 	// Background
 	if (usesAlternateStyle) {
 		[ctx saveGraphicsState];
-		
 		NSGradient *outerGradient = [[NSGradient alloc] initWithColorsAndLocations:
 																 [NSColor colorWithDeviceWhite:0.96f alpha:1.0f], 0.0f, 
 																 [NSColor colorWithDeviceWhite:0.92f alpha:1.0f], 1.0f, 
@@ -49,7 +47,6 @@
 		[[NSColor colorWithDeviceWhite:0.6f alpha:1.0f] set];
 		[line stroke];
 		[line release];
-		
 		[ctx restoreGraphicsState];
 	}
 	else {
@@ -59,20 +56,16 @@
 	
 	// Slot
   [ctx saveGraphicsState];
-	
 	NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:NSInsetRect([self bounds], 4, 4) xRadius:4 yRadius:4];
 	[path addClip];
 	[[NSColor colorWithCalibratedWhite:0.8 alpha:1.0] set];
 	NSRectFill([self bounds]);
-	
 	[ctx restoreGraphicsState];
 	
 	
 	// Knob
 	[ctx saveGraphicsState];
-	
 	[self drawKnob];
-	
 	[ctx restoreGraphicsState];
 }
 
@@ -80,26 +73,20 @@
 {	
 	if (isVertical) {
 		NSRect knobRect = [self rectForPart:NSScrollerKnob];
-		
 		knobRect = NSInsetRect(knobRect, 4, 0);
 		
 		NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:knobRect xRadius:4 yRadius:4];
 		[path addClip];
-		
 		[[NSColor colorWithCalibratedWhite:0.5 alpha:1.0] set];
-		
 		NSRectFill(knobRect);
 	}
 	else {
 		NSRect knobRect = [self rectForPart:NSScrollerKnob];
-		
 		knobRect = NSInsetRect(knobRect, 0, 4);
 		
 		NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:knobRect xRadius:4 yRadius:4];
 		[path addClip];
-		
 		[[NSColor colorWithCalibratedWhite:0.5 alpha:1.0] set];
-		
 		NSRectFill(knobRect);
 	}
 }

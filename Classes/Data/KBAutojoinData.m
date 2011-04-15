@@ -15,12 +15,11 @@
 
 - (id)init
 {
-	if ((self = [super init])) {
-		NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-		
-		self.autojoinArray = [[NSMutableArray alloc] init];
-		[self.autojoinArray addObjectsFromArray:[standardUserDefaults objectForKey:@"autojoin"]];		
-	}
+	if (![super init])
+		return nil;
+	
+	self.autojoinArray = [[NSMutableArray alloc] init];
+	[self.autojoinArray addObjectsFromArray:[[NSUserDefaults standardUserDefaults] objectForKey:@"autojoin"]];		
 	return self;
 }
 

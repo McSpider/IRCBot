@@ -8,17 +8,25 @@
 
 #import "UIController.h"
 
+
+@interface UIController (Private)
+- (void)composeInterface;
+@end
+
+
 @implementation UIController
 
-#pragma mark Initializers
+
+#pragma mark Initialization
+
 - (void)awakeFromNib
 {
 	[self composeInterface];
-	
-	// ... other awakeFromNib stuff
 }
 
+
 #pragma mark Methods
+
 - (void)composeInterface
 {
 	// compose our UI out of views
@@ -36,5 +44,6 @@
 	[themeFrame addSubview:accessoryView];	
 	[versionField setStringValue:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]];
 }
+
 
 @end

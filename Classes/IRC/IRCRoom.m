@@ -15,11 +15,11 @@
 
 - (id)init
 {
-	self = [super init];
-	if (self != nil) {
-		self.name = [[NSString alloc] initWithString:@"#null"];
-		self.status = [[NSString alloc] initWithString:@"None"];
-	}
+	if (![super init])
+		return nil;
+	
+	self.name = [[NSString alloc] initWithString:@"#null"];
+	self.status = [[NSString alloc] initWithString:@"None"];
 	return self;
 }
 
@@ -30,11 +30,13 @@
 	self.status = aStatus;
 }
 
-- (NSString*)description{    
+- (NSString *)description
+{    
 	return [NSString stringWithFormat:@"IRC Room:%@ status:%@", self.name, self.status];
 }
 
-- (void)dealloc{
+- (void)dealloc
+{
 	self.name = nil;
 	self.status = nil;
 	[super dealloc];

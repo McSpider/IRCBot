@@ -8,19 +8,26 @@
 
 #import "IRCRooms.h"
 
+
+@interface IRCRooms (Private)
+- (int)indexOfRoom:(NSString *)room;
+- (NSString *)roomAtIndex:(int)index;
+@end
+
+
 @implementation IRCRooms
+
 @synthesize roomArray;
 
 
 - (id)init
 {
-	if ((self = [super init])) {
-		// Correct or is self needed? (as in self.roomArray)
-		roomArray = [[NSMutableArray alloc] init];
-	}
+	if (![super init])
+		return nil;
+	
+	roomArray = [[NSMutableArray alloc] init];
 	return self;
 }
-
 
 - (void)addRoom:(NSString *)room
 {

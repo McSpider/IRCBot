@@ -9,10 +9,8 @@
 #import "IRCConnection.h"
 
 
-@interface IRCConnection (InternalMethods)
-
--(NSString*)getMessageType:(NSString*)input;
-
+@interface IRCConnection (Private)
+- (NSString*)getMessageType:(NSString*)input;
 @end
 
 

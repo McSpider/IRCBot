@@ -10,15 +10,12 @@
 #import "IRCRoom.h"
 
 @interface IRCRooms : NSObject {
-	
 	int roomIndex;
 	NSMutableArray *roomArray;
 	IBOutlet NSTableView *roomView;
-	
 }
 
 @property (nonatomic,assign) NSMutableArray *roomArray;
-
 
 - (void)addRoom:(NSString *)room;
 - (void)removeRoom:(NSString *)room;
@@ -26,8 +23,6 @@
 - (void)setStatus:(NSString *)status forRoom:(NSString *)room;
 
 - (BOOL)connectedToRoom:(NSString *)room;
-- (int)indexOfRoom:(NSString *)room;
-- (NSString *)roomAtIndex:(int)index;
 
 
 @end

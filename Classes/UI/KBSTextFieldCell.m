@@ -8,9 +8,10 @@
 
 #import "KBSTextFieldCell.h"
 
-static NSImage *leftCap, *centerFill, *rightCap, *leftCapD, *centerFillD, *rightCapD;
 
 @implementation KBSTextFieldCell
+
+static NSImage *leftCap, *centerFill, *rightCap, *leftCapD, *centerFillD, *rightCapD;
 
 
 #pragma mark -
@@ -18,17 +19,17 @@ static NSImage *leftCap, *centerFill, *rightCap, *leftCapD, *centerFillD, *right
 
 - (id)initWithCoder:(NSCoder *)decoder
 {
-	self = [super initWithCoder:decoder];
-	if (self != nil) {
-		NSBundle *bundle = [NSBundle bundleForClass:[KBSTextFieldCell class]];
-		leftCap = [[NSImage alloc] initWithContentsOfFile:[bundle pathForImageResource:@"KBSTextFieldLC.png"]];
-		centerFill = [[NSImage alloc] initWithContentsOfFile:[bundle pathForImageResource:@"KBSTextFieldCF.png"]];
-		rightCap = [[NSImage alloc] initWithContentsOfFile:[bundle pathForImageResource:@"KBSTextFieldRC.png"]];
-		
-		leftCapD = [[NSImage alloc] initWithContentsOfFile:[bundle pathForImageResource:@"KBSTextFieldLC_disabled.png"]];
-		centerFillD = [[NSImage alloc] initWithContentsOfFile:[bundle pathForImageResource:@"KBSTextFieldCF_disabled.png"]];
-		rightCapD = [[NSImage alloc] initWithContentsOfFile:[bundle pathForImageResource:@"KBSTextFieldRC_disabled.png"]];
-	}
+	if (![super initWithCoder:decoder])
+		return nil;
+	
+	NSBundle *bundle = [NSBundle bundleForClass:[KBSTextFieldCell class]];
+	leftCap = [[NSImage alloc] initWithContentsOfFile:[bundle pathForImageResource:@"KBSTextFieldLC.png"]];
+	centerFill = [[NSImage alloc] initWithContentsOfFile:[bundle pathForImageResource:@"KBSTextFieldCF.png"]];
+	rightCap = [[NSImage alloc] initWithContentsOfFile:[bundle pathForImageResource:@"KBSTextFieldRC.png"]];
+	
+	leftCapD = [[NSImage alloc] initWithContentsOfFile:[bundle pathForImageResource:@"KBSTextFieldLC_disabled.png"]];
+	centerFillD = [[NSImage alloc] initWithContentsOfFile:[bundle pathForImageResource:@"KBSTextFieldCF_disabled.png"]];
+	rightCapD = [[NSImage alloc] initWithContentsOfFile:[bundle pathForImageResource:@"KBSTextFieldRC_disabled.png"]];
 	return self;
 }
 

@@ -10,16 +10,15 @@
 
 
 @interface KBAutojoinData : NSObject {
-
 	int roomIndex;
 	NSMutableArray *autojoinArray;
 	
 	IBOutlet NSTableView *autojoinView;
 	IBOutlet NSButton *removeRoomButton;
-	
 }
 
 @property (nonatomic,assign) NSMutableArray *autojoinArray;
+
 
 - (IBAction)addNewRoom:(id)sender;
 - (IBAction)removeSelectedRoom:(id)sender;
