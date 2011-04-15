@@ -19,6 +19,7 @@
 		AE1B6A181356B50000DA4F7D /* KBSTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AE1B6A111356B50000DA4F7D /* KBSTextFieldCell.m */; };
 		AE1B6A191356B50000DA4F7D /* KBTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = AE1B6A131356B50000DA4F7D /* KBTextField.m */; };
 		AE1B6A1A1356B50000DA4F7D /* UIController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE1B6A151356B50000DA4F7D /* UIController.m */; };
+		AE1B6CFD1357EE3B00DA4F7D /* Note Pad.rtf in Resources */ = {isa = PBXBuildFile; fileRef = AE1B6CFC1357EE3B00DA4F7D /* Note Pad.rtf */; };
 		AE2A3B1E124182F5004B42CB /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = AE2A3B1D124182F5004B42CB /* Credits.html */; };
 		AE5C7E7B129B83660080F146 /* KBSTextFieldCF.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5C7E75129B83660080F146 /* KBSTextFieldCF.png */; };
 		AE5C7E7C129B83660080F146 /* KBSTextFieldCF_disabled.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5C7E76129B83660080F146 /* KBSTextFieldCF_disabled.png */; };
@@ -97,6 +98,7 @@
 		AE1B6A131356B50000DA4F7D /* KBTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBTextField.m; sourceTree = "<group>"; };
 		AE1B6A141356B50000DA4F7D /* UIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIController.h; sourceTree = "<group>"; };
 		AE1B6A151356B50000DA4F7D /* UIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIController.m; sourceTree = "<group>"; };
+		AE1B6CFC1357EE3B00DA4F7D /* Note Pad.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = "Note Pad.rtf"; sourceTree = "<group>"; };
 		AE2A3B1D124182F5004B42CB /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
 		AE45B16212A083E4008DD726 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		AE5C7E75129B83660080F146 /* KBSTextFieldCF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = KBSTextFieldCF.png; sourceTree = "<group>"; };
@@ -113,8 +115,6 @@
 		AE6F6B971261662100FCAFCB /* Scripts.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Scripts.png; path = Images/Scripts.png; sourceTree = "<group>"; };
 		AE6F6F3F12627FB800FCAFCB /* div.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = div.png; path = Images/div.png; sourceTree = "<group>"; };
 		AE8EBE7D12A0571F00CA3FCE /* License.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = License.rtf; sourceTree = "<group>"; };
-		AE8EBE8012A0587800CA3FCE /* Note Pad.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "Note Pad.rtf"; path = "Notes/Note Pad.rtf"; sourceTree = "<group>"; };
-		AE8EBE8112A0587800CA3FCE /* ServerOutput.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = ServerOutput.rtf; sourceTree = "<group>"; };
 		AE9BAABC1329E2370099B4B9 /* KBLuaAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBLuaAction.h; path = Classes/Data/KBLuaAction.h; sourceTree = "<group>"; };
 		AE9BAABD1329E2370099B4B9 /* KBLuaAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBLuaAction.m; path = Classes/Data/KBLuaAction.m; sourceTree = "<group>"; };
 		AEAD7284124002D20028D5A3 /* AsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncSocket.h; sourceTree = "<group>"; };
@@ -123,7 +123,6 @@
 		AEAD737812401B3D0028D5A3 /* ircbot_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ircbot_bg.png; path = Images/ircbot_bg.png; sourceTree = "<group>"; };
 		AEB56C5412F76AE7006FEF77 /* IRCBot Actions */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "IRCBot Actions"; sourceTree = "<group>"; };
 		AEBD9CD01329A132004E0E6B /* LuaCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LuaCocoa.framework; path = Includes/LuaCocoa.framework; sourceTree = "<group>"; };
-		AEC6FFBF12FB52BF007214B6 /* Backup.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Backup.rtf; sourceTree = "<group>"; };
 		AEE5E0A312408C08002D2767 /* EMKeychainItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMKeychainItem.h; sourceTree = "<group>"; };
 		AEE5E0A412408C08002D2767 /* EMKeychainItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMKeychainItem.m; sourceTree = "<group>"; };
 		AEE5E0AD12408D7A002D2767 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
@@ -243,9 +242,8 @@
 				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
 				AE2A3B1D124182F5004B42CB /* Credits.html */,
 				AE45B16212A083E4008DD726 /* README.md */,
-				AE8EBE8012A0587800CA3FCE /* Note Pad.rtf */,
+				AE1B6CFC1357EE3B00DA4F7D /* Note Pad.rtf */,
 				AE8EBE7D12A0571F00CA3FCE /* License.rtf */,
-				AE8EBE7F12A0587800CA3FCE /* Notes */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -326,15 +324,6 @@
 				AEF6005612A4783E00A95FA8 /* KBAutojoinData.m */,
 			);
 			name = Data;
-			sourceTree = "<group>";
-		};
-		AE8EBE7F12A0587800CA3FCE /* Notes */ = {
-			isa = PBXGroup;
-			children = (
-				AE8EBE8112A0587800CA3FCE /* ServerOutput.rtf */,
-				AEC6FFBF12FB52BF007214B6 /* Backup.rtf */,
-			);
-			path = Notes;
 			sourceTree = "<group>";
 		};
 		AEAD7283124002D20028D5A3 /* Includes */ = {
@@ -442,6 +431,7 @@
 				AEF6FCFD12A32DF300A95FA8 /* Status_Room.png in Resources */,
 				AEF6021212A5B9B000A95FA8 /* Design.png in Resources */,
 				AEB56C5812F76AE7006FEF77 /* IRCBot Actions in Resources */,
+				AE1B6CFD1357EE3B00DA4F7D /* Note Pad.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
