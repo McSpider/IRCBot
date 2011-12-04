@@ -29,7 +29,13 @@
 // Connect to or disconnect IRC connection
 - (IBAction)toggleIrcConnection:(id)sender
 {
-	if (![ircConnection isConnected]) {
+	if (![ircConnection isConnected]) {		
+		// Check if for valid irc login, create a random one if needed
+		if ([settings.username length] == 0) {
+			NSString *randomUser = [NSString stringWithFormat:@"Serty%i%i%i",arc4random() % 10,arc4random() % 10,arc4random() % 10];
+			[settings setUsername:randomUser];
+		}
+		
 		// Get connection data
 		NSArray *connectionArray = [[serverAddress stringValue] componentsSeparatedByString:@":"];
 		NSString *ircServer;
@@ -62,6 +68,7 @@
 		[serverAddress setEnabled:NO];
 		[mainView selectTabViewItemAtIndex:1];
 		[ircConnection connectToIRC:[connectionData objectAtIndex:4]  port:[[connectionData objectAtIndex:5] intValue]];
+		[self logMessage:@"Establishing connection to server" type:1];
 	}
 	else {
 		[activityIndicator startAnimation:self];
@@ -84,7 +91,7 @@
 		return;
 	}
 	if (![ircConnection isConnected]) {
-		[self logMessage:@"IRCBot - No IRC Connection\n› Type help for help\n" type:1];
+		[self logMessage:@"No IRC Connection\n› Type help for help\n" type:1];
 		[commandField setStringValue:@""];
 		return;
 	}
@@ -114,7 +121,7 @@
 		}
 	}
 	else {
-		[self logMessage:@"IRCBot - Invalid Command\n› Type help for help" type:4];
+		[self logMessage:@"Invalid Command\n› Type help for help" type:4];
 	}			
 	
 	[commandField addPopUpItemWithTitle:commandString];
@@ -165,7 +172,7 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
 	if (!(ircConnection = [[IRCConnection alloc] initWithDelegate:self]))
-		[self logMessage:@"IRCBot - IRCConnection Allocation Error" type:1];
+		[self logMessage:@"IRCConnection Allocation Error" type:1];
 	
 	lua = [[LuaController alloc] init];
 	[lua setParentClass:self];
@@ -176,7 +183,7 @@
 	[commandField setDisplaysMenu:YES];
 	
 	[self refreshConnectionData];
-	[self logMessage:@"Welcome to IRCBot\n› For help type help.\n" type:4];
+	[self logMessage:@"Welcome to IRCBot -- For help type help.\n" type:4];
 }
 
 // Application should quit but server is still connected
@@ -256,7 +263,7 @@
 - (void)joinRoom:(NSString *)aRoom
 {
 	if ([aRoom hasPrefix:@"#"]) {
-		[self logMessage:@"IRCBot - Joining Room" type:1];
+		[self logMessage:@"Joining Room" type:1];
 		NSString* joinMessage = [NSString stringWithFormat:@"JOIN %@ \r\n", aRoom];
 		[ircConnection sendRawString:joinMessage logAs:2];
 		[rooms addRoom:aRoom];
@@ -266,7 +273,7 @@
 - (void)partRoom:(NSString *)aRoom
 {
 	if ([aRoom hasPrefix:@"#"]) {
-		[self logMessage:@"IRCBot - Parting Room" type:1];
+		[self logMessage:@"Parting Room" type:1];
 		NSString* partMessage = [NSString stringWithFormat:@"PART %@ \r\n", aRoom];
 		[ircConnection sendRawString:partMessage logAs:2];
 		[rooms setStatus:@"None" forRoom:aRoom];
@@ -276,7 +283,7 @@
 - (void)authUser:(NSString *)aUsername pass:(NSString *)aPassword nick:(NSString *)aNick realName:(NSString *)aName
 {
 	// Create auth messages
-	[self logMessage:@"IRCBot - Authenticating User" type:1];
+	[self logMessage:@"Authenticating User" type:1];
 	NSString *userMessage, *passMessage, *nickMessage, *nickServMessage;
 	
 	userMessage = [NSString stringWithFormat:@"USER %@ %@ %@ \r\n", aUsername, @" 0 * :", aName];
@@ -294,7 +301,7 @@
 		[ircConnection sendMessage:nickServMessage To:@"NickServ" logAs:2];
 	}
 	else {
-		[self logMessage:@"IRCBot - No password specified!" type:1];
+		[self logMessage:@"No password specified!" type:1];
 	}
 }
 
@@ -305,7 +312,7 @@
 		NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
 		[formatter setDateFormat:@"hh:mm"];
 		NSString *time = [formatter stringFromDate:[NSDate date]];
-		[self logMessage:[NSString stringWithFormat:@"%@ %@ %@",time,type,input] type:0];
+		[self logMessage:[NSString stringWithFormat:@"%@ [%@] %@",time,type,input] type:0];
 	}
 	else
 		[self logMessage:[NSString stringWithFormat:@"%@",input] type:0];
@@ -356,7 +363,7 @@
 			NSRange tempRange = [[tempArray objectAtIndex:1] rangeOfString:[connectionData objectAtIndex:2]];
 			NSString *room = [[tempArray objectAtIndex:1] substringWithRange:NSMakeRange(0,tempRange.location-1)];
 			NSString *reason = [[tempArray objectAtIndex:1] substringFromIndex:tempRange.location+tempRange.length+2];
-			[self logMessage:[NSString stringWithFormat:@"IRCBot - You have just been kicked from:%@ reason:%@",room,reason] type:1];
+			[self logMessage:[NSString stringWithFormat:@"You have just been kicked from:%@ reason:%@",room,reason] type:1];
 			[rooms setStatus:@"Warning" forRoom:room];
 			
 			if ([rejoinKickedRooms state]) {
@@ -426,31 +433,31 @@
 				[secureMessage replaceCharactersInRange:[secureMessage rangeOfString:[connectionData objectAtIndex:1]] withString:@"******"];
 	
 	// Get the length of the textview contents
-	NSRange theEnd=NSMakeRange([[serverOutput string] length],0);
+	NSRange theEnd = NSMakeRange([[serverOutput string] length],0);
 	
 	NSMutableString *formatedMessage;
-	NSColor *textColor;		
+	NSColor *textColor;
 	NSFont *textFont = [NSFont fontWithName:@"Menlo" size:12.0];
 	
 	// Setup color of string depending on type
 	if (type == 1) {
-		textColor = [NSColor colorWithCalibratedRed:0.35 green:0.00 blue:0.00 alpha:1.00];
+		textColor = [NSColor colorWithCalibratedRed:0.35 green:0.00 blue:0.00 alpha:1.00]; // Red -- Notice
 		formatedMessage = [NSString stringWithFormat:@"› %@\n",secureMessage];
 	}
 	else if (type == 2) {
-		textColor = [NSColor colorWithCalibratedRed:0.00 green:0.00 blue:0.35 alpha:1.00];
+		textColor = [NSColor colorWithCalibratedRed:0.00 green:0.00 blue:0.35 alpha:1.00]; // Blue -- Status
 		formatedMessage = [NSString stringWithFormat:@"› %@",secureMessage];
 	}
 	else if (type == 3) {
-		textColor = [NSColor colorWithCalibratedRed:0.15 green:0.30 blue:0.00 alpha:1.00];
+		textColor = [NSColor colorWithCalibratedRed:0.15 green:0.30 blue:0.00 alpha:1.00]; // Green -- Activity
 		formatedMessage = [NSString stringWithFormat:@"› %@",secureMessage];
 	}
 	else if (type == 4) {
-		textColor = [NSColor colorWithCalibratedRed:0.24 green:0.00 blue:0.30 alpha:1.00];
+		textColor = [NSColor colorWithCalibratedRed:0.24 green:0.00 blue:0.30 alpha:1.00]; // Purple -- Info
 		formatedMessage = [NSString stringWithFormat:@"› %@\n",secureMessage];
 	}
 	else {
-		textColor = [NSColor blackColor];
+		textColor = [NSColor blackColor]; // Black
 		formatedMessage = [NSString stringWithFormat:@"%@\n",secureMessage];
 	}
 		
@@ -496,7 +503,7 @@
 
 - (void)didDissconect
 {
-	[self logMessage:@"IRCBot - Socket disconnected\n" type:1];
+	[self logMessage:@"Socket disconnected\n" type:1];
 	
 	// Stop activity indicator and disable and enable all relevant controls
 	[activityIndicator stopAnimation:self];
@@ -505,7 +512,6 @@
 	[connectionButton setEnabled:YES];
 	[connectionButton setTitle:@"Connect"];
 	[mainView selectTabViewItemAtIndex:0];
-	[self clearLog:nil];
 }
 
 

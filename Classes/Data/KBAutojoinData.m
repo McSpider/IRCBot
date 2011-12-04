@@ -44,7 +44,14 @@
 
 - (void)removeRoom:(NSString *)room
 {
-	
+	// Untested
+	int index;
+	for (index = 0; [self.autojoinArray count] > index; index++) {
+		if ([[[self.autojoinArray objectAtIndex:index] objectAtIndex:0] isEqualToString:room]) {
+			[self.autojoinArray removeObjectAtIndex:index];
+			return;
+		}
+	}
 }
 
 - (void)clearData

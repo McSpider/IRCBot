@@ -15,7 +15,7 @@
 #import "KBHostmasksData.h"
 #import	"KBLuaActionsData.h"
 #import	"KBAutojoinData.h"
-#import "KBTextField.h"
+#import "KBSTextField.h"
 
 
 @interface MainController : NSObject {
@@ -27,7 +27,7 @@
 	IBOutlet NSButton *nicknameAsTrigger;
 	IBOutlet NSButton *rejoinKickedRooms;
 	IBOutlet NSMenuItem *debugMenuItem;
-	IBOutlet KBTextField *commandField;
+	IBOutlet KBSTextField *commandField;
 
 	IBOutlet NSTextView *serverOutput;
 	IBOutlet NSProgressIndicator *activityIndicator;

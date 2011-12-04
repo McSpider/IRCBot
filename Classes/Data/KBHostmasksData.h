@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "RegexKitLite.h"
+#import "BWSheetController.h"
 
 @interface KBHostmasksData : NSObject {
 	int userIndex;

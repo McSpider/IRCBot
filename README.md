@@ -1,7 +1,6 @@
 ## IRCBot
 
 ### A Objective C IRCBot for Mac OS X
-
 ![IRCBot Screenshot](http://mcspider.bzextreme.com/files/IRCBot.png)
 
 An IRC Bot written mainly in Objective C.
@@ -17,3 +16,6 @@ Features include:
 [RegexKitLite](http://regexkit.sourceforge.net/), to parse the irc messages.  
 [LuaCocoa](http://playcontrol.net/opensource/LuaCocoa/), to execute the lua actions.  
 [BWToolkitFramework](http://www.brandonwalkin.com/bwtoolkit/), for several UI elements.  
+
+### System Requirements
+Mac OS X 10.6 Snow Leopard.

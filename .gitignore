@@ -1,8 +1,39 @@
-build/
+# Mac OS X Finder and whatnot
 .DS_Store
 *.psd
-*.pages
-**/*.pbxuser
-*.mode2v3
+
+# Sparkle distribution Private Key (Don't check me in!)
+dsa_priv.pem
+
+# XCode (and ancestors) per-user config (very noisy, and not relevant)
+*.mode1
 *.mode1v3
-**/*.perspectivev*
+*.mode2v3
+*.perspective
+*.perspectivev3
+*.pbxuser
+Documentation/Generated
+doxygenWarnings.txt
+*.xcodeproj/xcuserdata/*.xcuserdatad
+*.xcodeproj/project.xcworkspace/xcuserdata/*.xcuserdatad
+
+# Generated files
+VersionX-revision.h
+
+# build products
+build/
+*.[oa]
+
+# Other source repository archive directories (protects when importing)
+.hg
+.svn
+CVS
+
+# automatic backup files
+*~.nib
+*.swp
+*~
+*(Autosaved).rtfd/
+Backup[ ]of[ ]*.pages/
+Backup[ ]of[ ]*.key/
+Backup[ ]of[ ]*.numbers/

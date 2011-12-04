@@ -193,20 +193,20 @@
 // Socket will discconect with error
 - (void)onSocket:(AsyncSocket *)sock willDisconnectWithError:(NSError *)error
 {
-	[ircDelegate logMessage:[NSString stringWithFormat:@"IRCBot - Socket will disconnect with error: %@", error] type:1];
+	//[ircDelegate logMessage:[NSString stringWithFormat:@"Socket will disconnect with error: %@", error] type:1];
 }
 
 // Socket write timed out
 - (NSTimeInterval)onSocket:(AsyncSocket *)sock shouldTimeoutWriteWithTag:(long)tag elapsed:(NSTimeInterval)elapsed bytesDone:(CFIndex)length
 {
-	[ircDelegate logMessage:@"IRCBot - Socket write timed out" type:1];
+	[ircDelegate logMessage:@"Socket write timed out" type:1];
 	return -1;
 }
 
 // Socket read timed out
 - (NSTimeInterval)onSocket:(AsyncSocket *)sock shouldTimeoutReadWithTag:(long)tag elapsed:(NSTimeInterval)elapsed bytesDone:(CFIndex)length
 {
-	[ircDelegate logMessage:@"IRCBot - Socket read timed out" type:1];
+	[ircDelegate logMessage:@"Socket read timed out" type:1];
 	return -1;
 }
 

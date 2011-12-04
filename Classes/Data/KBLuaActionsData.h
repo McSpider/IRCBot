@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "KBLuaAction.h"
+#import "BWSheetController.h"
 
 @interface KBLuaActionsData : NSObject {
 	int actionIndex;

@@ -116,11 +116,10 @@
 
 - (BOOL)getAuthForHostmask:(NSString *)hostmask
 {
-	int index;
 	for (NSArray *hostmaskData in self.hostmaskArray) {
 		NSString *tempHostmask = [hostmaskData objectAtIndex:0];
 		BOOL blocked = [[hostmaskData objectAtIndex:1] intValue];
-		if ([tempHostmask isMatchedByRegex:hostmask] && !blocked) {
+		if ([hostmask isMatchedByRegex:tempHostmask] && !blocked) {
 			return YES;
 		}
 	}
@@ -149,7 +148,7 @@
 
 - (void)tableViewSelectionDidChange:(NSNotification *)notification
 {
-	if ([hostmaskView selectedRow] == -1 || [hostmaskView selectedRow] == 0)
+	if ([hostmaskView selectedRow] == -1)
 		[removeHostmaskButton setEnabled:NO];
 	else
 		[removeHostmaskButton setEnabled:YES];
