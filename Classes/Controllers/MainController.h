@@ -23,9 +23,6 @@
 	
 	IBOutlet NSTextField *serverAddress;
 	IBOutlet NSButton *connectionButton;
-	IBOutlet NSTextField *triggerField;
-	IBOutlet NSButton *nicknameAsTrigger;
-	IBOutlet NSButton *rejoinKickedRooms;
 	IBOutlet NSMenuItem *debugMenuItem;
 	IBOutlet KBSTextField *commandField;
 

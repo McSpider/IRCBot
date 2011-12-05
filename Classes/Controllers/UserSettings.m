@@ -22,6 +22,9 @@
 @synthesize realname;
 @synthesize nickname;
 @synthesize passwordInPlist;
+@synthesize triggers;
+@synthesize nicknameAsTrigger;
+@synthesize rejoinKickedRooms;
 
 @synthesize hostmasksData;
 @synthesize actionsData;
@@ -31,11 +34,18 @@
 #pragma mark -
 #pragma mark Initialization
 
+- (id) init {
+  if ((self = [super initWithWindowNibName:@"Preferences"])) {
+
+  }
+  return self;
+}
+
 - (void)awakeFromNib
 {
 	[mainWindow setShowsResizeIndicator:NO];
-	[prefWindow setShowsResizeIndicator:NO];
-	[prefWindow center];
+	[self.window setShowsResizeIndicator:NO];
+	[self.window center];
 	[toolBar setSelectedItemIdentifier:@"Default"];
 	
 	if (![self isSetup]) {
@@ -52,7 +62,11 @@
 	self.username = [[NSUserDefaults standardUserDefaults] objectForKey:@"username"];		
 	self.nickname = [[NSUserDefaults standardUserDefaults] objectForKey:@"nickname"];
 	self.realname = [[NSUserDefaults standardUserDefaults] objectForKey:@"realname"];	
-	self.passwordInPlist = [[[NSUserDefaults standardUserDefaults] objectForKey:@"pass_in_plist"] boolValue];
+	self.passwordInPlist = [[NSUserDefaults standardUserDefaults] boolForKey:@"pass_in_plist"];
+  self.triggers = [[NSUserDefaults standardUserDefaults] stringForKey:@"triggers"];
+  self.nicknameAsTrigger = [[NSUserDefaults standardUserDefaults] boolForKey:@"nick_primary_trigger"];
+  self.rejoinKickedRooms = [[NSUserDefaults standardUserDefaults] boolForKey:@"auto_rejoin_kicked"];
+
 	
 	// Check where the password is stored
 	if (!self.passwordInPlist) {
@@ -74,7 +88,7 @@
 	if (answer == NSAlertDefaultReturn)
 		return;
 	
-	[prefWindow orderOut:self];
+	[self.window orderOut:self];
 	
 	[[NSUserDefaults standardUserDefaults] removePersistentDomainForName:@"com.mcspider.ircbot"];
 	[[NSUserDefaults standardUserDefaults] synchronize];
@@ -122,12 +136,17 @@
 
 - (IBAction)savePreferences:(id)sender
 {
-	[[NSUserDefaults standardUserDefaults] setObject:[hostmasksData hostmaskArray] forKey:@"hostmasks"];
-	[[NSUserDefaults standardUserDefaults] setObject:[autojoinData autojoinArray] forKey:@"autojoin"];
-	[[NSUserDefaults standardUserDefaults] setObject:self.username forKey:@"username"];
-	[[NSUserDefaults standardUserDefaults] setObject:self.nickname forKey:@"nickname"];
-	[[NSUserDefaults standardUserDefaults] setObject:self.realname forKey:@"realname"];
-	[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:self.passwordInPlist] forKey:@"pass_in_plist"];	
+  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	[defaults setObject:[hostmasksData hostmaskArray] forKey:@"hostmasks"];
+	[defaults setObject:[autojoinData autojoinArray] forKey:@"autojoin"];
+	[defaults setObject:self.username forKey:@"username"];
+	[defaults setObject:self.nickname forKey:@"nickname"];
+	[defaults setObject:self.realname forKey:@"realname"];
+	[defaults setBool:self.passwordInPlist forKey:@"pass_in_plist"];
+  [defaults setObject:self.triggers forKey:@"triggers"];
+  [defaults setBool:self.nicknameAsTrigger forKey:@"nick_primary_trigger"];
+  [defaults setBool:self.rejoinKickedRooms forKey:@"auto_rejoin_kicked"];
+
 	
 	NSString *actionsPath = @"~/Library/Application Support/IRCBot Actions/data.plist";
 	[actionsData saveActionsToFile:actionsPath];
@@ -161,7 +180,7 @@
 
 - (void)windowDidResignKey:(NSNotification *)notification
 {
-	if ([notification object] == prefWindow)
+	if ([notification object] == self.window)
 		[self savePreferences:nil];
 }
 
@@ -173,53 +192,53 @@
 	
 	switch ([sender tag]) {
 		case 1:
-			if ([[prefWindow title] isEqualToString:@"General"])
+			if ([[self.window title] isEqualToString:@"General"])
 				changePane = NO;
-			[prefWindow setTitle:@"General"];
+			[self.window setTitle:@"General"];
 			view = generalView;
 			break;
 		case 2:
-			if ([[prefWindow title] isEqualToString:@"Hostmasks"])
+			if ([[self.window title] isEqualToString:@"Hostmasks"])
 				changePane = NO;
-			[prefWindow setTitle:@"Hostmasks"];
+			[self.window setTitle:@"Hostmasks"];
 			view = hostmasksView;
 			break;
 		case 3:
-			if ([[prefWindow title] isEqualToString:@"Actions"])
+			if ([[self.window title] isEqualToString:@"Actions"])
 				changePane = NO;
-			[prefWindow setTitle:@"Actions"];
+			[self.window setTitle:@"Actions"];
 			view = actionsView;
 			break;
 		case 4:
-			if ([[prefWindow title] isEqualToString:@"Rooms"])
+			if ([[self.window title] isEqualToString:@"Rooms"])
 				changePane = NO;
-			[prefWindow setTitle:@"Rooms"];
+			[self.window setTitle:@"Rooms"];
 			view = roomsView;
 			break;
 		default:
-			[prefWindow setTitle:@"General"];
+			[self.window setTitle:@"General"];
 			view = generalView;
 			break;
 	}
 	
 	// Don't replace the contents of a pane if they're the same
 	if (changePane) {
-		NSRect windowFrame = [prefWindow frame];
-		windowFrame.origin.y = NSMaxY([prefWindow frame]) - ([view frame].size.height + WINDOW_TOOLBAR_HEIGHT);
+		NSRect windowFrame = [self.window frame];
+		windowFrame.origin.y = NSMaxY([self.window frame]) - ([view frame].size.height + WINDOW_TOOLBAR_HEIGHT);
 		windowFrame.origin.x = windowFrame.origin.x + (windowFrame.size.width-[view frame].size.width)/2;
 		windowFrame.size.height = [view frame].size.height + WINDOW_TOOLBAR_HEIGHT;
 		windowFrame.size.width = [view frame].size.width;
 		
-		if ([[[prefWindow contentView] subviews] count] != 0) {
-			[[[[prefWindow contentView] subviews] objectAtIndex:0] removeFromSuperview];
+		if ([[[self.window contentView] subviews] count] != 0) {
+			[[[[self.window contentView] subviews] objectAtIndex:0] removeFromSuperview];
 		}
 		
-		[prefWindow setFrame:windowFrame display:YES animate:YES];
-		[[prefWindow contentView] setFrame:[view frame]];
-		[[prefWindow contentView] addSubview:view];
+		[self.window setFrame:windowFrame display:YES animate:YES];
+		[[self.window contentView] setFrame:[view frame]];
+		[[self.window contentView] addSubview:view];
 		[view setAlphaValue:0.0];
 		[[view animator] setAlphaValue:1.0]; // fade in
-		[prefWindow recalculateKeyViewLoop];
+		[self.window recalculateKeyViewLoop];
 	}
 }
 
@@ -229,40 +248,41 @@
 	
 	switch (index) {
 		case 1:
-			[prefWindow setTitle:@"General"];
+			[self.window setTitle:@"General"];
 			view = generalView;
 			break;
 		case 2:
-			[prefWindow setTitle:@"Hostmasks"];
+			[self.window setTitle:@"Hostmasks"];
 			view = hostmasksView;
 			break;
 		case 3:
-			[prefWindow setTitle:@"Actions"];
+			[self.window setTitle:@"Actions"];
 			view = actionsView;
 			break;
 		case 4:
-			[prefWindow setTitle:@"Rooms"];
+			[self.window setTitle:@"Rooms"];
 			view = roomsView;
 			break;
 		default:
-			[prefWindow setTitle:@"General"];
+			[self.window setTitle:@"General"];
 			view = generalView;
 			break;
 	}
 	
-	NSRect windowFrame = [prefWindow frame];
+	NSRect windowFrame = [self.window frame];
 	windowFrame.size.height = [view frame].size.height + WINDOW_TOOLBAR_HEIGHT;
 	windowFrame.size.width = [view frame].size.width;
-	windowFrame.origin.y = NSMaxY([prefWindow frame]) - ([view frame].size.height + WINDOW_TOOLBAR_HEIGHT);
+	windowFrame.origin.y = NSMaxY([self.window frame]) - ([view frame].size.height + WINDOW_TOOLBAR_HEIGHT);
 	
-	if ([[[prefWindow contentView] subviews] count] != 0) {
-		[[[[prefWindow contentView] subviews] objectAtIndex:0] removeFromSuperview];
+	if ([[[self.window contentView] subviews] count] != 0) {
+		[[[[self.window contentView] subviews] objectAtIndex:0] removeFromSuperview];
 	}
 	
-	[prefWindow setFrame:windowFrame display:YES animate:YES];
-	[[prefWindow contentView] setFrame:[view frame]];
-	[[prefWindow contentView] addSubview:view];
-	[prefWindow recalculateKeyViewLoop];
+	[self.window setFrame:windowFrame display:YES animate:YES];
+	[[self.window contentView] setFrame:[view frame]];
+	[[self.window contentView] addSubview:view];
+	[self.window recalculateKeyViewLoop];
 }
+
 
 @end

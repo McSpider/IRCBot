@@ -330,8 +330,8 @@
 		BOOL auth = [settings.hostmasksData getAuthForHostmask:[messageData objectAtIndex:2]]; 
 		
 		// Get triggers
-		NSMutableArray *triggers = [NSMutableArray arrayWithArray:[[triggerField stringValue] componentsSeparatedByString:@","]];
-		if ([nicknameAsTrigger state])
+		NSMutableArray *triggers = [NSMutableArray arrayWithArray:[settings.triggers componentsSeparatedByString:@","]];
+		if (settings.nicknameAsTrigger)
 			[triggers insertObject:[NSString stringWithFormat:@"%@: ",[connectionData objectForKey:@"Nickname"]] atIndex:0];
 		
 		// Actions
@@ -368,7 +368,7 @@
 			[self logMessage:[NSString stringWithFormat:@"You have just been kicked from:%@ reason:%@",room,reason] type:1];
 			[rooms setStatus:@"Warning" forRoom:room];
 			
-			if ([rejoinKickedRooms state]) {
+			if (settings.rejoinKickedRooms) {
 				[self performSelector:@selector(joinRoom:) withObject:room afterDelay:1.0f];
 			}
 		}

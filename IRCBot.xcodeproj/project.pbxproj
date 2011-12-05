@@ -22,6 +22,7 @@
 		AE3D1CED148B1171003EB763 /* KBLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = AE3D1CEC148B1171003EB763 /* KBLabel.m */; };
 		AE3D1CF3148B13D5003EB763 /* BWSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE3D1CF2148B13D5003EB763 /* BWSheetController.m */; };
 		AE3D1CF5148B14E1003EB763 /* header.png in Resources */ = {isa = PBXBuildFile; fileRef = AE3D1CF4148B14E1003EB763 /* header.png */; };
+		AE3D1CF8148B1F01003EB763 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE3D1CF6148B1F01003EB763 /* Preferences.xib */; };
 		AE5C7E7B129B83660080F146 /* KBSTextFieldCF.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5C7E75129B83660080F146 /* KBSTextFieldCF.png */; };
 		AE5C7E7C129B83660080F146 /* KBSTextFieldCF_disabled.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5C7E76129B83660080F146 /* KBSTextFieldCF_disabled.png */; };
 		AE5C7E7D129B83660080F146 /* KBSTextFieldLC.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5C7E77129B83660080F146 /* KBSTextFieldLC.png */; };
@@ -87,6 +88,15 @@
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* IRCBot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IRCBot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE0B2B50129E11AF001C789C /* Hat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Hat.png; path = Images/Hat.png; sourceTree = "<group>"; };
+		AE1783EF148C05BF00B9DC2D /* actions.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = actions.lua; sourceTree = "<group>"; };
+		AE1783F0148C05BF00B9DC2D /* data.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = data.plist; sourceTree = "<group>"; };
+		AE1783F1148C05BF00B9DC2D /* hello.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = hello.lua; sourceTree = "<group>"; };
+		AE1783F2148C05BF00B9DC2D /* Lua Doc.pages */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lua Doc.pages"; sourceTree = "<group>"; };
+		AE1783F3148C05BF00B9DC2D /* Lua Doc.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "Lua Doc.pdf"; sourceTree = "<group>"; };
+		AE1783F4148C05BF00B9DC2D /* ping.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ping.lua; sourceTree = "<group>"; };
+		AE1783F5148C05BF00B9DC2D /* shutdown.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shutdown.lua; sourceTree = "<group>"; };
+		AE1783F6148C05BF00B9DC2D /* test.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.lua; sourceTree = "<group>"; };
+		AE1783F7148C05BF00B9DC2D /* version.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = version.lua; sourceTree = "<group>"; };
 		AE1B6A0C1356B50000DA4F7D /* KBScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBScroller.h; sourceTree = "<group>"; };
 		AE1B6A0D1356B50000DA4F7D /* KBScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBScroller.m; sourceTree = "<group>"; };
 		AE1B6A0E1356B50000DA4F7D /* KBScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBScrollView.h; sourceTree = "<group>"; };
@@ -104,6 +114,7 @@
 		AE3D1CF1148B13D5003EB763 /* BWSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BWSheetController.h; path = Classes/Controllers/BWSheetController.h; sourceTree = "<group>"; };
 		AE3D1CF2148B13D5003EB763 /* BWSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BWSheetController.m; path = Classes/Controllers/BWSheetController.m; sourceTree = "<group>"; };
 		AE3D1CF4148B14E1003EB763 /* header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = header.png; path = Images/header.png; sourceTree = "<group>"; };
+		AE3D1CF7148B1F01003EB763 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Preferences.xib; sourceTree = "<group>"; };
 		AE45B16212A083E4008DD726 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		AE5C7E75129B83660080F146 /* KBSTextFieldCF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = KBSTextFieldCF.png; sourceTree = "<group>"; };
 		AE5C7E76129B83660080F146 /* KBSTextFieldCF_disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = KBSTextFieldCF_disabled.png; sourceTree = "<group>"; };
@@ -241,10 +252,12 @@
 			children = (
 				AE2A462F12457983004B42CB /* Images */,
 				AEB56C5412F76AE7006FEF77 /* IRCBot Actions */,
+				AE1783EE148C05BF00B9DC2D /* IRCBot Actions */,
 				AEAD7288124002F20028D5A3 /* AppIcon.icns */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
+				AE3D1CF6148B1F01003EB763 /* Preferences.xib */,
 				AE2A3B1D124182F5004B42CB /* Credits.html */,
 				AE45B16212A083E4008DD726 /* README.md */,
 				AE1B6CFC1357EE3B00DA4F7D /* Note Pad.rtf */,
@@ -261,6 +274,23 @@
 				AEBD9CD01329A132004E0E6B /* LuaCocoa.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AE1783EE148C05BF00B9DC2D /* IRCBot Actions */ = {
+			isa = PBXGroup;
+			children = (
+				AE1783EF148C05BF00B9DC2D /* actions.lua */,
+				AE1783F0148C05BF00B9DC2D /* data.plist */,
+				AE1783F1148C05BF00B9DC2D /* hello.lua */,
+				AE1783F2148C05BF00B9DC2D /* Lua Doc.pages */,
+				AE1783F3148C05BF00B9DC2D /* Lua Doc.pdf */,
+				AE1783F4148C05BF00B9DC2D /* ping.lua */,
+				AE1783F5148C05BF00B9DC2D /* shutdown.lua */,
+				AE1783F6148C05BF00B9DC2D /* test.lua */,
+				AE1783F7148C05BF00B9DC2D /* version.lua */,
+			);
+			name = "IRCBot Actions";
+			path = "../../../Library/Application Support/IRCBot Actions";
 			sourceTree = "<group>";
 		};
 		AE1B6A0B1356B50000DA4F7D /* UI */ = {
@@ -406,6 +436,7 @@
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				en,
+				English,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* iDroid */;
 			projectDirPath = "";
@@ -447,6 +478,7 @@
 				AEB56C5812F76AE7006FEF77 /* IRCBot Actions in Resources */,
 				AE1B6CFD1357EE3B00DA4F7D /* Note Pad.rtf in Resources */,
 				AE3D1CF5148B14E1003EB763 /* header.png in Resources */,
+				AE3D1CF8148B1F01003EB763 /* Preferences.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -498,6 +530,14 @@
 				29B97319FDCFA39411CA2CEA /* English */,
 			);
 			name = MainMenu.nib;
+			sourceTree = "<group>";
+		};
+		AE3D1CF6148B1F01003EB763 /* Preferences.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AE3D1CF7148B1F01003EB763 /* English */,
+			);
+			name = Preferences.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

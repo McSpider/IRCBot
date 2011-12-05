@@ -12,14 +12,13 @@
 #import "KBLuaActionsData.h"
 #import "KBAutojoinData.h"
 
-@interface UserSettings : NSObject {
+@interface UserSettings : NSWindowController {
 	IBOutlet NSView *generalView;
 	IBOutlet NSView *hostmasksView;
 	IBOutlet NSView *actionsView;
 	IBOutlet NSView *roomsView;
 	
 	IBOutlet NSWindow *mainWindow;
-	IBOutlet NSWindow *prefWindow;
 	
 	IBOutlet NSToolbar *toolBar;
 	
@@ -30,6 +29,11 @@
 	NSString *nickname;
 	
 	BOOL passwordInPlist;
+  
+  NSString *triggers;
+	BOOL nicknameAsTrigger;
+	BOOL rejoinKickedRooms;
+
 	
 	IBOutlet KBHostmasksData *hostmasksData;
 	IBOutlet KBLuaActionsData *actionsData;
@@ -42,6 +46,10 @@
 @property (nonatomic, assign) NSString *realname;
 @property (nonatomic, assign) NSString *nickname;
 @property BOOL passwordInPlist;
+@property (nonatomic, assign) NSString *triggers;
+@property BOOL nicknameAsTrigger;
+@property BOOL rejoinKickedRooms;
+
 
 @property (nonatomic, retain) KBHostmasksData *hostmasksData;
 @property (nonatomic, retain) KBLuaActionsData *actionsData;
