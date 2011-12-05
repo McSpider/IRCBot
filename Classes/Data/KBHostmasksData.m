@@ -33,6 +33,12 @@
 
 - (IBAction)addNewHostmask:(id)sender
 {
+  // Check that the hostmask isn't blank
+  if ([newHostmaskField stringValue].length < 1) {
+    [sheetErrorMessage setStringValue:@"Invalid hostmask."];
+    return;
+  }
+  
 	// Check if this hostmask exists
 	for (NSArray *hostmaskData in self.hostmaskArray) {
 		if ([[hostmaskData objectAtIndex:0] isEqualToString:[newHostmaskField stringValue]]){

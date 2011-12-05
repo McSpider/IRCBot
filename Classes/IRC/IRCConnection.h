@@ -22,19 +22,20 @@
 @end
 
 @interface IRCConnection : NSObject {
-	id ircDelegate;	
+	id ircDelegate;
+  BOOL isConnected;
 	
 	AsyncSocket *ircSocket;
 }
+
+@property (readonly) BOOL isConnected;
 
 - (id)initWithDelegate:(id)delegate;
 - (id)delegate;
 - (void)setDelegate:(id)delegate;
 
-- (BOOL)isConnected;
-
 // Connect and disconnect from IRC server functions
-- (void)connectToIRC:(NSString *)server port:(int)port;
+- (void)connectToIRC:(NSString *)server port:(NSNumber *)port;
 - (void)disconnectWithMessage:(NSString *)message;
 
 // Messaging

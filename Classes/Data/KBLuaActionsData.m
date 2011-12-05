@@ -81,6 +81,17 @@
 	NSString *url = [[actionPathControl URL] absoluteString];
 	NSArray *parts = [url componentsSeparatedByString:@"/"];
 	NSString *filename = [parts lastObject];
+  
+  
+  // Check that the hostmask isn't blank
+  if ([actionName stringValue].length < 1) {
+    [sheetErrorMessage setStringValue:@"No name specified."];
+    return;
+  }
+  if (![[url pathExtension] isEqualToString:@".lua"]) {
+    [sheetErrorMessage setStringValue:@"Specified path is not a lua file."];
+    return;
+  }
 	
 	// Check if a action by that name already exists
 	for (KBLuaAction *luaAction in self.actionsArray) {

@@ -26,7 +26,7 @@
 		return nil;
 	
 	luaCocoa = [[LuaCocoa alloc] init];	
-	connectionData = [[NSArray alloc] init];
+	connectionData = [[NSDictionary alloc] init];
 	triggers = [[NSArray alloc] init];
 	return self;
 }
@@ -103,7 +103,7 @@
 
 - (NSString *)getNickname
 {	
-	return [connectionData objectAtIndex:2];
+	return [connectionData objectForKey:@"Nickname"];
 }
 
 - (NSString *)getVersion
@@ -196,7 +196,7 @@
 	}	
 }
 
-- (void)setConnectionData:(NSArray *)theData andTriggers:(NSArray *)theTriggers
+- (void)setConnectionData:(NSDictionary *)theData andTriggers:(NSArray *)theTriggers
 {
 	if (connectionData != theData) {
 		[connectionData release];

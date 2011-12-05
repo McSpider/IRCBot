@@ -22,7 +22,6 @@
 	IBOutlet NSWindow *prefWindow;
 	
 	IBOutlet NSToolbar *toolBar;
-	IBOutlet NSTextField *triggersField;
 	
 	
 	NSString *username;

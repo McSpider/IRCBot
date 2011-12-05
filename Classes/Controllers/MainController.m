@@ -20,7 +20,7 @@
 
 
 @implementation MainController
-@synthesize settings;
+@synthesize ircConnection, settings;
 
 
 #pragma mark -
@@ -59,15 +59,17 @@
 		NSString *nickname = settings.nickname;
 		NSString *realname = settings.realname;
 		
-		// Set the connectionData array.
-		NSArray *tempArray = [NSArray arrayWithObjects:username,password,nickname,realname,ircServer,[NSNumber numberWithInteger:ircPort],nil];
-		[connectionData setArray:tempArray];		
+		// Set the connectionData .
+    [connectionData release];
+		connectionData = [[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:username, password, nickname, realname,
+                                                           ircServer, [NSNumber numberWithInteger:ircPort], nil]
+                                   forKeys:[NSArray arrayWithObjects:@"Username", @"Password", @"Nickname", @"Realname",
+                                            @"ircServer", @"ircPort",nil]] retain];
 		
 		[activityIndicator startAnimation:self];
 		[connectionButton setEnabled:NO];
 		[serverAddress setEnabled:NO];
-		[mainView selectTabViewItemAtIndex:1];
-		[ircConnection connectToIRC:[connectionData objectAtIndex:4]  port:[[connectionData objectAtIndex:5] intValue]];
+		[ircConnection connectToIRC:[connectionData objectForKey:@"ircServer"] port:[connectionData objectForKey:@"ircPort"]];
 		[self logMessage:@"Establishing connection to server" type:1];
 	}
 	else {
@@ -330,7 +332,7 @@
 		// Get triggers
 		NSMutableArray *triggers = [NSMutableArray arrayWithArray:[[triggerField stringValue] componentsSeparatedByString:@","]];
 		if ([nicknameAsTrigger state])
-			[triggers insertObject:[NSString stringWithFormat:@"%@: ",[connectionData objectAtIndex:2]] atIndex:0];
+			[triggers insertObject:[NSString stringWithFormat:@"%@: ",[connectionData objectForKey:@"Nickname"]] atIndex:0];
 		
 		// Actions
 		for (NSString *trigger in triggers) {
@@ -358,9 +360,9 @@
 	}
 	
 	if ([type isEqualToString:@"IRC_KICK_NOTICE"]) {
-		if ([input rangeOfString:[connectionData objectAtIndex:2] options:NSLiteralSearch].location != NSNotFound){
+		if ([input rangeOfString:[connectionData objectForKey:@"Nickname"] options:NSLiteralSearch].location != NSNotFound){
 			NSArray *tempArray = [input componentsSeparatedByString:@"KICK "];
-			NSRange tempRange = [[tempArray objectAtIndex:1] rangeOfString:[connectionData objectAtIndex:2]];
+			NSRange tempRange = [[tempArray objectAtIndex:1] rangeOfString:[connectionData objectForKey:@"Nickname"]];
 			NSString *room = [[tempArray objectAtIndex:1] substringWithRange:NSMakeRange(0,tempRange.location-1)];
 			NSString *reason = [[tempArray objectAtIndex:1] substringFromIndex:tempRange.location+tempRange.length+2];
 			[self logMessage:[NSString stringWithFormat:@"You have just been kicked from:%@ reason:%@",room,reason] type:1];
@@ -378,7 +380,7 @@
 		NSArray *messageData;
 		messageData = [input arrayOfCaptureComponentsMatchedByRegex:@":(\\S+)\\s+([0-9]*?)(\\S+)\\s+(\\S+)\\s+:?+(\\S+)\\s*(?:[:+-]+(.*+))?$"];
 				
-		if ([input isMatchedByRegex:[NSString stringWithFormat:@"^.*\\s366\\s%@\\s.*:End of /NAMES.*$",[connectionData objectAtIndex:2]]]) {
+		if ([input isMatchedByRegex:[NSString stringWithFormat:@"^.*\\s366\\s%@\\s.*:End of /NAMES.*$",[connectionData objectForKey:@"Nickname"]]]) {
 			[rooms setStatus:@"Normal" forRoom:[[messageData objectAtIndex:0] objectAtIndex:5]];
 		}
 	}
@@ -419,8 +421,10 @@
 	NSString *realname = settings.realname;
 	
 	// Set the connectionData array, see Notes.rtf for more info
-	NSArray *tempArray = [NSArray arrayWithObjects:username,password,nickname,realname,nil];
-	[connectionData setArray:tempArray];
+  [connectionData release];
+  connectionData = [[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:username,password,nickname,realname,nil]
+                                                             forKeys:[NSArray arrayWithObjects:@"Username",@"Password",@"Nickname",@"Realname",nil]] retain];
+
 }
 
 // Log message to text view
@@ -428,9 +432,9 @@
 {	
 	NSMutableString *secureMessage = [NSMutableString stringWithString:message];
 	// Block out the password in the log
-	if ([[connectionData objectAtIndex:1] length] > 0)
-			if ([secureMessage rangeOfString:[connectionData objectAtIndex:1]].location != NSNotFound)
-				[secureMessage replaceCharactersInRange:[secureMessage rangeOfString:[connectionData objectAtIndex:1]] withString:@"******"];
+	if ([[connectionData objectForKey:@"Password"] length] > 0)
+			if ([secureMessage rangeOfString:[connectionData objectForKey:@"Password"]].location != NSNotFound)
+				[secureMessage replaceCharactersInRange:[secureMessage rangeOfString:[connectionData objectForKey:@"Password"]] withString:@"••••••"];
 	
 	// Get the length of the textview contents
 	NSRange theEnd = NSMakeRange([[serverOutput string] length],0);
@@ -453,7 +457,7 @@
 		formatedMessage = [NSString stringWithFormat:@"› %@",secureMessage];
 	}
 	else if (type == 4) {
-		textColor = [NSColor colorWithCalibratedRed:0.24 green:0.00 blue:0.30 alpha:1.00]; // Purple -- Info
+		textColor = [NSColor colorWithCalibratedRed:0.24 green:0.00 blue:0.30 alpha:1.00]; // Purple -- Info;
 		formatedMessage = [NSString stringWithFormat:@"› %@\n",secureMessage];
 	}
 	else {
@@ -461,7 +465,9 @@
 		formatedMessage = [NSString stringWithFormat:@"%@\n",secureMessage];
 	}
 		
-	NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:textColor,NSForegroundColorAttributeName,textFont,NSFontAttributeName,nil];
+	NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                              textColor,NSForegroundColorAttributeName,
+                              textFont,NSFontAttributeName,nil];
 	NSAttributedString *attributedString = [[[NSAttributedString alloc] initWithString:formatedMessage attributes:attributes] autorelease];
 		
 	// Smart Scrolling
@@ -492,11 +498,14 @@
 	[connectionButton setTitle:@"Disconect"];
 		
 	// Authenticate user and join the default room
-	[self authUser:[connectionData objectAtIndex:0] pass:[connectionData objectAtIndex:1] nick:[connectionData objectAtIndex:2] realName:[connectionData objectAtIndex:3]];
+	[self authUser:[connectionData objectForKey:@"Username"]
+            pass:[connectionData objectForKey:@"Password"]
+            nick:[connectionData objectForKey:@"Nickname"]
+        realName:[connectionData objectForKey:@"Realname"]];
 	
 	// Join rooms in the autojoin list
 	for (NSArray *autojoinRoom in [settings.autojoinData autojoinArray]) {
-		if ([[autojoinRoom objectAtIndex:1] intValue] != 0)
+		if ([[autojoinRoom objectAtIndex:1] boolValue] == YES)
 			[self joinRoom:[autojoinRoom objectAtIndex:0]];
 	}
 }
@@ -511,7 +520,6 @@
 	[rooms removeAllRooms];
 	[connectionButton setEnabled:YES];
 	[connectionButton setTitle:@"Connect"];
-	[mainView selectTabViewItemAtIndex:0];
 }
 
 

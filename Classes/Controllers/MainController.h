@@ -37,12 +37,14 @@
 	IBOutlet UserSettings *settings;
 	
 	BOOL Debugging;
-	NSMutableArray* connectionData;
+	NSMutableDictionary* connectionData;
 	IRCConnection *ircConnection;
 	LuaController *lua;
 }
 
 @property (nonatomic, retain) UserSettings *settings;
+@property (readonly) IRCConnection *ircConnection;
+
 
 // Connect to or disconnect IRC connection
 - (IBAction)toggleIrcConnection:(id)sender;

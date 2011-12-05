@@ -15,6 +15,7 @@
 
 
 @implementation IRCConnection
+@synthesize isConnected;
 
 
 #pragma mark -
@@ -125,15 +126,16 @@
 #pragma mark IRC Connection
 
 // Connect and disconnect from IRC server functions //
-- (void)connectToIRC:(NSString *)server port:(int)port
+- (void)connectToIRC:(NSString *)aServer port:(NSNumber *)aPort
 {	
+  int port = [aPort intValue];
 	// Check port validity
 	if (port < 0 || port > 65535)
 		port = 6667;
 	
 	// Connect to host and report any errors that occured
 	NSError *error = nil;
-	if (![ircSocket connectToHost:server onPort:port withTimeout:1200 error:&error]){
+	if (![ircSocket connectToHost:aServer onPort:port withTimeout:1200 error:&error]){
 		[ircDelegate logMessage:[NSString stringWithFormat:@"Error Connecting to IRC: %@", error] type:1];
 		return;
 	}

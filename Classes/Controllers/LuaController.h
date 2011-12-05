@@ -21,7 +21,7 @@
 	UserSettings *settings;
 	
 	LuaCocoa* luaCocoa;
-	NSArray* connectionData;
+	NSDictionary* connectionData;
 	NSArray* triggers;
 }
 
@@ -31,7 +31,7 @@
 - (void)setSettingsClass:(id)theSettings;
 
 - (void)loadFile:(NSString *)fileName;
-- (void)setConnectionData:(NSArray *)theData andTriggers:(NSArray *)theTriggers;
+- (void)setConnectionData:(NSDictionary *)theData andTriggers:(NSArray *)theTriggers;
 - (void)runMainFunctionWithData:(NSArray *)data andArguments:(NSArray *)args;
 
 @end

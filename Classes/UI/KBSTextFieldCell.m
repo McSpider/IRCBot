@@ -52,7 +52,7 @@ static NSImage *leftCap, *centerFill, *rightCap, *leftCapD, *centerFillD, *right
 	
 	//Background
 	[ctx saveGraphicsState];
-	if([[[self controlView] window] isKeyWindow]) {
+	if([[[self controlView] window] isMainWindow] && [self isEnabled]) {
 		NSDrawThreePartImage(frame,leftCap,centerFill,rightCap,NO,NSCompositeSourceOver,1.0,YES);
 	} else {
 		NSDrawThreePartImage(frame,leftCapD,centerFillD,rightCapD,NO,NSCompositeSourceOver,1.0,YES);

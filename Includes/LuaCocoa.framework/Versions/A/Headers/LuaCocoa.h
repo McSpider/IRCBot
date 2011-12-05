@@ -70,20 +70,24 @@
 #include <stdarg.h> /* va_list */
 #include <stdbool.h>
 
-/* Since I compiled Lua with C-linkage for LuaCocoa, C++ users need the header guards since Lua doesn't
- * specify them in their main headers.
- */
-#ifdef __cplusplus
-extern "C" {
-#endif
-#include <LuaCocoa/lua.h>
-#include <LuaCocoa/lualib.h>
-#include <LuaCocoa/lauxlib.h>
-
-#ifdef __cplusplus
-}
-#endif
-
+#ifdef LUACOCOA_DONT_USE_BUNDLED_LUA_HEADERS
+	#include "lua.h"
+	#include "lualib.h"
+	#include "lauxlib.h"
+#else
+	/* Since I compiled Lua with C-linkage for LuaCocoa, C++ users need the header guards since Lua doesn't
+	 * specify them in their main headers.
+	 */
+	#ifdef __cplusplus
+	extern "C" {
+	#endif
+		#include <LuaCocoa/lua.h>
+		#include <LuaCocoa/lualib.h>
+		#include <LuaCocoa/lauxlib.h>
+	#ifdef __cplusplus
+	}
+	#endif
+#endif /* end LUACOCOA_DONT_USE_BUNDLED_LUA_HEADERS */
 /* Hide Obj-C stuff for people writing pure C (or C++) programs that just want access to the LuaCocoa C APIs */
 #ifdef __OBJC__ 
 #import <Foundation/Foundation.h>
@@ -657,13 +661,44 @@ LUACOCOA_EXTERN LUACOCOA_EXPORT NSString* LuaCocoa_PcallLuaFunctionv(lua_State* 
 #endif /* __OBJC__ */
 
 /**
+ * Prepends a new path the Lua package search path.
+ * Modifies the package.path to append the specified string. Should be in proper lua format:
+ * e.g. /Users/ewing/Source/HG/LuaCocoa/Xcode/build/Debug/LuaCocoa.framework/Resources/?.lua
+ * This means you must explicitly include the ?.lua (or whatever file extensions you use.)
+ * @param lua_state The lua_State to operate on.
+ * @param search_path The path to prepend.
+ */
+LUACOCOA_EXTERN LUACOCOA_EXPORT void LuaCocoa_PrependToLuaSearchPath(struct lua_State* lua_state, const char* search_path);
+
+/**
  * Appends a new path the Lua package search path.
  * Modifies the package.path to append the specified string. Should be in proper lua format:
  * e.g. /Users/ewing/Source/HG/LuaCocoa/Xcode/build/Debug/LuaCocoa.framework/Resources/?.lua
+ * This means you must explicitly include the ?.lua (or whatever file extensions you use.)
  * @param lua_state The lua_State to operate on.
  * @param search_path The path to append.
  */
 LUACOCOA_EXTERN LUACOCOA_EXPORT void LuaCocoa_AppendToLuaSearchPath(struct lua_State* lua_state, const char* search_path);
+
+/**
+ * Prepends a new path the Lua/C package search path.
+ * Modifies the package.cpath to append the specified string. Should be in proper lua format:
+ * e.g. /Users/ewing/Library/Application Support/LuaCocoa/PlugIns/?.so
+ * This means you must explicitly include the ?.so (or whatever file extensions you use.)
+ * @param lua_state The lua_State to operate on.
+ * @param search_path The path to prepend.
+ */
+LUACOCOA_EXTERN LUACOCOA_EXPORT void LuaCocoa_PrependToCSearchPath(struct lua_State* lua_state, const char* search_path);
+
+/**
+ * Appends a new path the Lua/C package search path.
+ * Modifies the package.cpath to append the specified string. Should be in proper lua format:
+ * e.g. /Users/ewing/Library/Application Support/LuaCocoa/PlugIns/?.so
+ * This means you must explicitly include the ?.so (or whatever file extensions you use.)
+ * @param lua_state The lua_State to operate on.
+ * @param search_path The path to append.
+ */
+LUACOCOA_EXTERN LUACOCOA_EXPORT void LuaCocoa_AppendToCSearchPath(struct lua_State* lua_state, const char* search_path);
 
 
 // These struct APIs may be subject to change. I'm unhappy with the keyname vs. structname issues.
