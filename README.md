@@ -1,7 +1,9 @@
 ## IRCBot
 
+#### Lua actions are currently broken
+
 ### A Objective C IRCBot for Mac OS X
-![IRCBot Screenshot](http://mcspider.bzextreme.com/files/IRCBot.png)
+![IRCBot Screenshot](http://mcspider.oc.tc/files/IRCBot.png)
 
 An IRC Bot written mainly in Objective C.
 It still needs lots of changes to make it fully functional.

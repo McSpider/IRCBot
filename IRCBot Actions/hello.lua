@@ -4,7 +4,7 @@
 
 --: The main	function :--
 function main(data, args, irc)
-	print('Running main function');
+	print('Running main function')
 	
 	--: Get the sender so that we can send the reply to the correct place :--
 	sentTo = data[5]

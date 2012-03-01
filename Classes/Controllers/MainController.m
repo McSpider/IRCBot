@@ -87,47 +87,70 @@
 	if ([commandString isEqualToString:@""])
 		return;
 	
-	if ([commandString isMatchedByRegex:@"^help(\\s.*$|$)"]) {
-		[self logMessage:@"Valid commands are:\n› join (room)\n› part (room)\n› msg (recipient) (.me|.ntc) (message)\n" type:4];
+  if ([[commandArray objectAtIndex:0] isEqualToString:@"help"]) {
+    [self logMessage:@"Valid commands are:\n› join (room)\n› part (room)\n› msg (recipient) (.me|.ntc) (message)\n" type:4];
 		[commandField setStringValue:@""];
 		return;
-	}
-	if (![ircConnection isConnected]) {
+  }
+  if (![ircConnection isConnected]) {
 		[self logMessage:@"No IRC Connection\n› Type help for help\n" type:1];
 		[commandField setStringValue:@""];
 		return;
 	}
-	
-	if ([commandString isMatchedByRegex:@"^join\\s.*$"]) {
-		if (![rooms connectedToRoom:[commandArray objectAtIndex:1]] && [ircConnection isConnected]) {
+  
+  
+  if ([[commandArray objectAtIndex:0] isEqualToString:@"join"]) {
+    if (![commandArray count] > 1 || ![[commandArray objectAtIndex:1] hasPrefix:@"#"]) {
+      [self logMessage:@"Invalid or no room specified." type:4];
+      return;
+    }
+    
+		if (![rooms connectedToRoom:[commandArray objectAtIndex:1]]) {
 			[self joinRoom:[commandArray objectAtIndex:1]];
 		} else {
 			[self logMessage:@"You are already in that room." type:4];
+      [commandField setStringValue:@""];
+      return;
 		}
 	}
-	else if ([commandString isMatchedByRegex:@"^part\\s.*$"] && [ircConnection isConnected]) {
+	else if ([[commandArray objectAtIndex:0] isEqualToString:@"part"]) {
+    if (![commandArray count] > 1 || ![[commandArray objectAtIndex:1] hasPrefix:@"#"]) {
+      [self logMessage:@"Invalid or no room specified." type:4];
+      return;
+    }
+    
 		if ([rooms connectedToRoom:[commandArray objectAtIndex:1]]) {
 			[self partRoom:[commandArray objectAtIndex:1]];
 		}else {
 			[self logMessage:@"You are not connected to that room." type:4];
+      [commandField setStringValue:@""];
+      return;
 		}
 	}
-	else if ([commandString isMatchedByRegex:@"^msg\\s.*\\s.*$"] && [ircConnection isConnected]) {
+	else if ([[commandArray objectAtIndex:0] isEqualToString:@"msg"]) {
+    if (![commandArray count] > 2) {
+      [self logMessage:@"Invalid msg command format, proper format is:\n› msg (recipient) (.me|.ntc) (message)\n" type:4];
+      return;
+    }
+    
 		NSString * tempString = commandString;
 		if ([[commandArray objectAtIndex:2] isEqualToString:@".me"]) {
+      tempString = [[commandArray subarrayWithRange:NSMakeRange(3, commandArray.count - 3)] componentsJoinedByString:@" "];
 			[ircConnection sendAction:tempString To:[commandArray objectAtIndex:1] logAs:2];
 		} else if ([[commandArray objectAtIndex:2] isEqualToString:@".ntc"]) {
+      tempString = [[commandArray subarrayWithRange:NSMakeRange(3, commandArray.count - 3)] componentsJoinedByString:@" "];
 			[ircConnection sendNotice:tempString To:[commandArray objectAtIndex:1] logAs:2];
 		} else {
+      tempString = [[commandArray subarrayWithRange:NSMakeRange(2, commandArray.count - 2)] componentsJoinedByString:@" "];
 			[ircConnection sendMessage:tempString To:[commandArray objectAtIndex:1] logAs:2];
 		}
 	}
 	else {
 		[self logMessage:@"Invalid Command\n› Type help for help" type:4];
-	}			
+	}
 	
 	[commandField addPopUpItemWithTitle:commandString];
-	[commandField setStringValue:@""];
+	[commandField setStringValue:@""];		
 }
 
 - (IBAction)saveLog:(id)sender

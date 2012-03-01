@@ -4,7 +4,7 @@
 
 --: The main	function :--
 function main(data, args, irc)
-	print('Running main function');
+	print('Running main function')
 	
 	version = irc:getVersion()
 	
